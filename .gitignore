@@ -1,0 +1,21 @@
+# Ignorar las carpetas generadas por compilaciones y construcciones
+bin/
+obj/
+
+# Ignorar archivos y carpetas del sistema
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+System Volume Information/
+
+# Ignorar archivos y carpetas específicos de Code::Blocks
+*.layout
+*.depend
+*.layout
+*.depend
+*.layout
+*.layout
+*.layout
+*.layout
