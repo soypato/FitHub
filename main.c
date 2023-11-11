@@ -6,7 +6,6 @@
 #include "ducktime.h"
 
 const char ARCHIVO_PLANES[] = "planesClientes.dat";
-const char ARCHIVO_CONFIG_CLIENTES[] = "configClientes.dat";
 
 typedef struct
 {
@@ -63,13 +62,11 @@ typedef struct nodoLista
 } nodoLista;
 
 /// Prototipados
-int configLeerArchi(char nombre[]);
-void configGuardarArchi(char nombre[], int estado);
-
 int archi2ADA(stCeldaPlanes ADA[], int dimension, char archi[]);
 int altaCliente(stCeldaPlanes ADA[], int validos, stCliente clienteTmp, int idPlan, char nombrePlan[], int diasDelPlan);
 int agregarEnArregloClientes(stCeldaPlanes ADA[], int validos, stCeldaPlanes planTmp);
 int buscarPosicionEnElArreglo(stCeldaPlanes ADA[], int validos, stCeldaPlanes planTmp);
+int buscarPosicionEnElArregloConID(stCeldaPlanes ADA[], int validos, int id);
 stCeldaPlanes convertirAPlanes(char plan[25], int diasDelPlan, int idDelPlan);
 stCliente convertirACliente(stArchivo archi);
 void ADA2Archi(stCeldaPlanes ADA[], int validos, char archi[]);
@@ -81,6 +78,7 @@ stArchivo buscarPorDNIretornarTodaLaInformacion(int dni);
 void bajaCliente(stCeldaPlanes ADA[], int validos, int dni);
 void restaurarCliente(stCeldaPlanes ADA[], int validos, int dni);
 void modificarCliente(stCeldaPlanes ADA[], int validos, int dni);
+float calcularIMC(float peso, float estatura);
 
 void listadoClientes();
 void mostrarPlan(stCeldaPlanes plan);
@@ -113,10 +111,8 @@ void imprimirMenu()
     printf("3- Modificacion de cliente\n");
     printf("4- Listado de planes + clientes\n");
     printf("5- Buscar cliente\n");
-    printf("6- Guardar...\n");
-    printf("7- Modificar autoguardado\n");
-    printf("8- Mostrar archivo\n");
-
+    printf("6- Mostrar clientes de un plan\n");
+    printf("7- Calcular IMC (indice de masa corporal)\n");
     printf("0- Ir a atras\n");
     mostrarLinea(40);
 
@@ -124,31 +120,28 @@ void imprimirMenu()
 
 int main()
 {
-    int autoguardado = configLeerArchi(ARCHIVO_CONFIG_CLIENTES); /// 0 para no, 1 para si
     stCeldaPlanes ADAPlanes[10];
     int valADAPlanes = 0;
     int dniTmp;
     int opcion;
+    float IMC;
+    float peso;
+    float estatura;
+    int posTmp;
+    stCeldaPlanes idTmp;
     nodoArbol * nodoTmp1;
     char decisionTmpEstado2;
+    char planTmp[50];
     char decision = 's';
     while (tolower(decision) == 's' || tolower(decision) == 'y')
     {
         // Cada vez que se ejecute el menú refrescamos los datos de archivos
         imprimirEncabezado();
         imprimirMenu();
-        if(autoguardado == 0)
-        {
-            printf("* El autoguardado esta desactivado\n");
-        }
-        else
-        {
-            printf("* El autoguardado esta activado\n");
-        }
         printf("\nIngrese una opcion: ");
         scanf("%d", &opcion);
         valADAPlanes = archi2ADA(ADAPlanes, 10, ARCHIVO_PLANES);
-        reset:
+reset:
         switch(opcion)
         {
         case 1:
@@ -158,8 +151,11 @@ int main()
             if(!nodoTmp1)
             {
                 valADAPlanes = cargarADA(ADAPlanes, valADAPlanes, dniTmp);
+
+                /// REFRESCAMOS LA BUSQUEDA
+                nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
                 printf("Datos cargados satisfactoriamente\n");
-                mostrarADA(ADAPlanes, valADAPlanes);
+                mostrarClienteIndividual(nodoTmp1->cliente);
             }
             else
             {
@@ -239,32 +235,49 @@ int main()
             }
             else
             {
-                printf("El cliente existe en el sistema");
+                printf("El cliente no existe en el sistema");
             }
             break;
         case 6:
-            marcoEsteticoSwitch("GUARDAR...");
-            ADA2Archi(ADAPlanes, valADAPlanes, ARCHIVO_PLANES);
-            printf("Datos guardados");
-            break;
+            marcoEsteticoSwitch("MOSTRAR USUARIOS DE UN PLAN");
+            printf("* Se muestran los planes ya cargados con clientes\n");
+            mostrarPlanes(ADAPlanes, valADAPlanes);
+            printf("Introduzca el ID del plan que quiere mostrar: ");
+            scanf("%i", &posTmp);
+            posTmp = buscarPosicionEnElArregloConID(ADAPlanes, valADAPlanes, posTmp);
+            marcoEsteticoSwitch("MOSTRAR USUARIOS DE UN PLAN > MOSTRAR CLIENTES");
+            mostrarArbol(ADAPlanes[posTmp].arbol);
         case 7:
-            marcoEsteticoSwitch("CONFIGURACION DEL AUTOGUARDADO");
-            if(autoguardado == 0)
+            marcoEsteticoSwitch("CALCULO DE IMC");
+            printf("El IMC es un calculo hecho por la OMS para determinar si una persona\ntiene sobrepeso, bajo peso, obesidad o si esta en su peso normal,\npara calcularlo necesitamos el peso y la estatura de la persona\n");
+            mostrarLinea(50);
+
+            printf("Introduzca el peso: ");
+            scanf("%f", &peso);
+
+            printf("Ahora, la altura: ");
+            scanf("%f", &estatura);
+
+            IMC = calcularIMC(peso, estatura);
+
+            printf("Tu IMC es: %f, eso quiere decir: ", IMC);
+
+            if(IMC < 18.5)
             {
-                autoguardado = 1;
-                printf("Acabas de activar el autoguardado\n");
+                printf("Bajo peso\n");
             }
-            else
+            else if(IMC >= 18.5 && IMC <= 24.9)
             {
-                autoguardado = 0;
-                printf("Acabas de desactivar el autoguardado\n");
+                printf("Normal\n");
             }
-            configGuardarArchi(ARCHIVO_CONFIG_CLIENTES, autoguardado);
-            break;
-        case 8:
-            marcoEsteticoSwitch("MOSTRAR ARCHIVO (dev mode)");
-            mostrarArchivoClientes();
-            break;
+            else if(IMC >= 25 && IMC <= 29.9)
+            {
+                printf("Sobrepeso\n");
+            }
+            else if(IMC >= 30)
+            {
+                printf("Obesidad\n");
+            }
         case 0:
             decision = 'n';
             break;
@@ -277,39 +290,10 @@ int main()
         printf("\nDesea continuar? S/N: ");
         fflush(stdin);
         scanf("%c", &decision);
-        if(autoguardado == 1) /// AUTOGUARDADO RECURRENTE
-        {
-            ADA2Archi(ADAPlanes, valADAPlanes, ARCHIVO_PLANES);
-        }
+        ADA2Archi(ADAPlanes, valADAPlanes, ARCHIVO_PLANES);
         system("cls");
     }
     return 0;
-}
-
-int configLeerArchi(char nombre[])
-{
-    FILE * file = fopen(nombre, "rb");
-    int seekTmp;
-    int estadoLectura;
-    if(file)
-    {
-        while(fread(&seekTmp, sizeof(int), 1, file) > 0)
-        {
-            estadoLectura = seekTmp;
-        }
-        fclose(file);
-    }
-    return estadoLectura;
-}
-
-void configGuardarArchi(char nombre[], int estado)
-{
-    FILE * file = fopen(nombre, "wb");
-    if(file)
-    {
-        fwrite(&estado, sizeof(int), 1, file);
-        fclose(file);
-    }
 }
 
 stArchivo buscarPorDNIretornarTodaLaInformacion(int dni)
@@ -517,6 +501,22 @@ int buscarPosicionEnElArreglo(stCeldaPlanes ADA[], int validos, stCeldaPlanes pl
     return pos;
 }
 
+int buscarPosicionEnElArregloConID(stCeldaPlanes ADA[], int validos, int id)
+{
+    int pos = -1;
+    int i = 0;
+    while(i < validos && pos == -1)
+    {
+        if(id == ADA[i].idPlan)
+        {
+            pos = i;
+        }
+        i++;
+    }
+    return pos;
+}
+
+
 stCeldaPlanes convertirAPlanes(char plan[25], int diasDelPlan, int idDelPlan)
 {
     stCeldaPlanes planTmp;
@@ -588,6 +588,15 @@ void mostrarADA(stCeldaPlanes ADA[], int validos)
     }
 }
 
+void mostrarPlanes(stCeldaPlanes ADA[], int validos)
+{
+    for(int i = 0; i <validos; i++)
+    {
+        mostrarLinea(40);
+        mostrarPlan(ADA[i]);
+        mostrarLinea(40);
+    }
+}
 void mostrarPlan(stCeldaPlanes plan)
 {
     printf("ID del Plan................. %i\n", plan.idPlan);
@@ -724,6 +733,12 @@ void modificarCliente(stCeldaPlanes ADA[], int validos, int dni)
     mostrarLinea(50);
     mostrarClienteIndividual(nodoTmp->cliente);
     mostrarLinea(50);
+}
+
+float calcularIMC(float peso, float estatura)
+{
+    float imc = peso / (estatura * estatura);
+    return imc;
 }
 
 /// TDA ARBOLES
