@@ -6,6 +6,7 @@
 #include "ducktime.h"
 
 const char ARCHIVO_PLANES[] = "planesClientes.dat";
+const char ARCHIVO_CONFIG_CLIENTES[] = "configClientes.dat";
 
 typedef struct
 {
@@ -62,6 +63,9 @@ typedef struct nodoLista
 } nodoLista;
 
 /// Prototipados
+int configLeerArchi(char nombre[]);
+void configGuardarArchi(char nombre[], int estado);
+
 int archi2ADA(stCeldaPlanes ADA[], int dimension, char archi[]);
 int altaCliente(stCeldaPlanes ADA[], int validos, stCliente clienteTmp, int idPlan, char nombrePlan[], int diasDelPlan);
 int agregarEnArregloClientes(stCeldaPlanes ADA[], int validos, stCeldaPlanes planTmp);
@@ -69,7 +73,7 @@ int buscarPosicionEnElArreglo(stCeldaPlanes ADA[], int validos, stCeldaPlanes pl
 stCeldaPlanes convertirAPlanes(char plan[25], int diasDelPlan, int idDelPlan);
 stCliente convertirACliente(stArchivo archi);
 void ADA2Archi(stCeldaPlanes ADA[], int validos, char archi[]);
-void pasarPlanesAArchivo(FILE * file, nodoArbol * arbol, int diasDelPlan, char plan[25]);
+void pasarPlanesAArchivo(FILE * file, nodoArbol * arbol, int diasDelPlan, char plan[25], int idDelPlan);
 nodoArbol* buscarDNIEnADA(stCeldaPlanes ADA[], int validos, int dni);
 int cargarADA(stCeldaPlanes ADA[], int validos, int dniEntrada);
 int preguntarDNI();
@@ -89,35 +93,52 @@ nodoArbol * buscarArbolCliente(nodoArbol * arbol, int dni);
 
 /// usaremos la librería de pilas para manejar pesas o discos del inventario.
 
-void imprimirEncabezado() {
+void imprimirEncabezado()
+{
     printf("\nBienvenido al sector de clientes\n");
-    printf("--------------------------------\n");
+    mostrarLinea(40);
 }
 
-void imprimirMenu() {
+void imprimirMenu()
+{
     printf("1- Alta de cliente\n");
     printf("2- Baja de cliente\n");
     printf("3- Modificacion de cliente\n");
     printf("4- Listado de clientes\n");
     printf("5- Buscar cliente\n");
-    printf("6- Guardar modificaciones\n");
-    printf("0- Ir a atrá\n");
-    printf("\nIngrese una opcion: ");
+    printf("6- Guardar...\n");
+    printf("7- Modificar autoguardado\n");
+    printf("8- Mostrar ADA\n");
+    printf("9- Mostrar archivo\n");
+
+    printf("0- Ir a atras\n");
+    mostrarLinea(40);
+
 }
 
 int main()
 {
+    int autoguardado = configLeerArchi(ARCHIVO_CONFIG_CLIENTES); /// 0 para no, 1 para si
     stCeldaPlanes ADAPlanes[10];
     int valADAPlanes = 0;
     int dniTmp;
     int opcion;
     nodoArbol * nodoTmp1;
-    char decision = 'S';
+    char decision = 's';
     while (tolower(decision) == 's' || tolower(decision) == 'y')
     {
         // Cada vez que se ejecute el menú refrescamos los datos de archivos
         imprimirEncabezado();
         imprimirMenu();
+        if(autoguardado == 0)
+        {
+            printf("* El autoguardado esta desactivado\n");
+        }
+        else
+        {
+            printf("* El autoguardado esta activado\n");
+        }
+        printf("\nIngrese una opcion: ");
         scanf("%d", &opcion);
         valADAPlanes = archi2ADA(ADAPlanes, 10, ARCHIVO_PLANES);
         reset:
@@ -151,6 +172,26 @@ int main()
             break;
         case 6:
             ADA2Archi(ADAPlanes, valADAPlanes, ARCHIVO_PLANES);
+            printf("Datos guardados");
+            break;
+        case 7:
+            if(autoguardado == 0)
+            {
+                autoguardado = 1;
+                printf("Acabas de activar el autoguardado\n");
+            }
+            else
+            {
+                autoguardado = 0;
+                printf("Acabas de desactivar el autoguardado\n");
+            }
+            configGuardarArchi(ARCHIVO_CONFIG_CLIENTES, autoguardado);
+            break;
+        case 8:
+            mostrarADA(ADAPlanes, valADAPlanes);
+            break;
+        case 9:
+            mostrarArchivoClientes();
             break;
         case 0:
             decision = 'n';
@@ -164,7 +205,10 @@ int main()
         printf("\nDesea continuar? S/N: ");
         fflush(stdin);
         scanf("%c", &decision);
-        ADA2Archi(ADAPlanes, valADAPlanes, ARCHIVO_PLANES);
+        if(autoguardado == 1) /// AUTOGUARDADO RECURRENTE
+        {
+            ADA2Archi(ADAPlanes, valADAPlanes, ARCHIVO_PLANES);
+        }
         system("cls");
     }
     return 0;
@@ -185,6 +229,32 @@ void listadoClientes()
     printf("0- Ir a atrás\n");
     printf("\nIngrese una opcion: ");
 } */
+
+int configLeerArchi(char nombre[])
+{
+    FILE * file = fopen(nombre, "rb");
+    int seekTmp;
+    int estadoLectura;
+    if(file)
+    {
+        while(fread(&seekTmp, sizeof(int), 1, file) > 0)
+        {
+            estadoLectura = seekTmp;
+        }
+        fclose(file);
+    }
+    return estadoLectura;
+}
+
+void configGuardarArchi(char nombre[], int estado)
+{
+    FILE * file = fopen(nombre, "wb");
+    if(file)
+    {
+        fwrite(&estado, sizeof(int), 1, file);
+        fclose(file);
+    }
+}
 
 int preguntarDNI()
 {
@@ -250,19 +320,22 @@ int cargarADA(stCeldaPlanes ADA[], int validos, int dniEntrada)
 }
 
 
-nodoArbol* buscarDNIEnADA(stCeldaPlanes ADA[], int validos, int dni) {
+nodoArbol* buscarDNIEnADA(stCeldaPlanes ADA[], int validos, int dni)
+{
     nodoArbol * rta = inicArbol();
     nodoArbol * encontrado = inicArbol();
-    for (int i = 0; i < validos; i++) {
+    for (int i = 0; i < validos; i++)
+    {
         encontrado = buscarArbolCliente(ADA[i].arbol, dni);
-        if (encontrado != NULL) {
+        if (encontrado != NULL)
+        {
             rta = encontrado;
         }
     }
     return encontrado;
 }
 
-void pasarPlanesAArchivo(FILE * file, nodoArbol * arbol, int diasDelPlan, char plan[25])
+void pasarPlanesAArchivo(FILE * file, nodoArbol * arbol, int diasDelPlan, char plan[25], int idDelPlan)
 {
     if (arbol != NULL)
     {
@@ -279,15 +352,11 @@ void pasarPlanesAArchivo(FILE * file, nodoArbol * arbol, int diasDelPlan, char p
         strcpy(archi.apellido, arbol->cliente.apellido);
         archi.DNI = arbol->cliente.DNI;
         archi.edad = arbol->cliente.edad;
-
+        archi.idDePlan = idDelPlan;
         fwrite(&archi, sizeof(stArchivo), 1, file);
-
-        pasarPlanesAArchivo(file, arbol->izq, diasDelPlan, plan);
-        pasarPlanesAArchivo(file, arbol->der, diasDelPlan, plan);
-    }
-    else
-    {
-        printf("No hay clientes que pasar al archivo");
+        printf("\n %s %s pasada\n", archi.nombre, archi.apellido);
+        pasarPlanesAArchivo(file, arbol->izq, diasDelPlan, plan, idDelPlan);
+        pasarPlanesAArchivo(file, arbol->der, diasDelPlan, plan, idDelPlan);
     }
 }
 
@@ -299,10 +368,10 @@ void ADA2Archi(stCeldaPlanes ADA[], int validos, char archi[])
         int i=0;
         while(i < validos)
         {
-            pasarPlanesAArchivo(file, ADA[i].arbol, ADA[i].diasDelPlan, ADA[i].plan); // le pasa todos los datos del plan
+            pasarPlanesAArchivo(file, ADA[i].arbol, ADA[i].diasDelPlan, ADA[i].plan, ADA[i].idPlan); // le pasa todos los datos del plan
             i++;
         }
-    fclose(file);
+        fclose(file);
     }
     else
     {
@@ -452,8 +521,53 @@ void mostrarClienteIndividual(stCliente cliente)
     {
         printf("Este cliente esta activo\n");
     }
+    else
+    {
+        printf("Este cliente esta ausente\n");
+    }
     printf("Dias concurridos esta semana: %d\n", cliente.diasConcurridosEstaSemana);
+    mostrarLinea(20);
 }
+
+void mostrarArchivoClientes()
+{
+    FILE * file = fopen(ARCHIVO_PLANES, "rb");
+    stArchivo archi;
+    if(file)
+    {
+        while(fread(&archi, sizeof(stArchivo), 1, file) > 0)
+        {
+            mostrarLinea(50);
+            printf("Nombre: %s\n", archi.nombre);
+            printf("Apellido: %s\n", archi.apellido);
+            printf("DNI: %d\n", archi.DNI);
+            printf("Edad: %d\n", archi.edad);
+            printf("Peso: %.2f\n", archi.peso);
+            printf("Estatura: %.2f\n", archi.estatura);
+            if(archi.bajaPasiva == 1)
+            {
+                printf("Este cliente esta activo\n");
+            }
+            else
+            {
+                printf("Este cliente esta ausente\n");
+            }
+            printf("Dias concurridos esta semana: %d\n", archi.diasConcurridosEstaSemana);
+            mostrarLinea(8);
+            printf("ID del plan: %d\n", archi.idDePlan);
+            printf("Plan: %s\n", archi.plan);
+            printf("Dias del plan: %d\n", archi.diasDelPlan);
+            printf("\n");
+        }
+        fclose(file);
+    }
+    else
+    {
+        printf("El archivo no existe");
+    }
+}
+
+
 /// TDA ARBOLES
 
 nodoArbol * inicArbol()
