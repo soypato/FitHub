@@ -79,12 +79,15 @@ int cargarADA(stCeldaPlanes ADA[], int validos, int dniEntrada);
 int preguntarDNI();
 stArchivo buscarPorDNIretornarTodaLaInformacion(int dni);
 void bajaCliente(stCeldaPlanes ADA[], int validos, int dni);
+void restaurarCliente(stCeldaPlanes ADA[], int validos, int dni);
+void modificarCliente(stCeldaPlanes ADA[], int validos, int dni);
 
 void listadoClientes();
 void mostrarPlan(stCeldaPlanes plan);
 void mostrarArbol(nodoArbol * arbol);
 void mostrarClienteIndividual(stCliente cliente);
 void mostrarLinea(int cantidad); /// ESTA VA AL MAIN ASI LA USAN TODOS
+void marcoEsteticoSwitch(char texto[]); /// ESTA TAMBIEN
 void imprimirEncabezado();
 void imprimirMenu();
 void mostrarUnStArchivo(stArchivo archi);
@@ -106,7 +109,7 @@ void imprimirEncabezado()
 void imprimirMenu()
 {
     printf("1- Alta de cliente\n");
-    printf("2- Baja de cliente\n");
+    printf("2- Baja y restauracion de cliente\n");
     printf("3- Modificacion de cliente\n");
     printf("4- Listado de planes + clientes\n");
     printf("5- Buscar cliente\n");
@@ -127,6 +130,7 @@ int main()
     int dniTmp;
     int opcion;
     nodoArbol * nodoTmp1;
+    char decisionTmpEstado2;
     char decision = 's';
     while (tolower(decision) == 's' || tolower(decision) == 'y')
     {
@@ -148,6 +152,7 @@ int main()
         switch(opcion)
         {
         case 1:
+            marcoEsteticoSwitch("NUEVO CLIENTE");
             dniTmp = preguntarDNI();
             nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
             if(!nodoTmp1)
@@ -162,25 +167,70 @@ int main()
             }
             break;
         case 2:
+            marcoEsteticoSwitch("BAJA Y RESTAURACION DE CLIENTES");
             dniTmp = preguntarDNI();
             nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
             if(nodoTmp1)
             {
-                bajaCliente(ADAPlanes, valADAPlanes, dniTmp);
-                printf("Cliente dado de baja de forma exitosa\n");
+                mostrarLinea(20);
+                mostrarClienteIndividual(nodoTmp1->cliente);
+                printf("El estado del cliente en este momento es: ");
+                if(nodoTmp1->cliente.bajaPasiva == 0)
+                {
+                    printf("ausente\n");
+                }
+                else
+                {
+                    printf("activo\n");
+                }
+                mostrarLinea(20);
+                printf("Cambiar estado? (s/n): ");
+                fflush(stdin);
+                scanf("%c", &decisionTmpEstado2);
+                if(tolower(decisionTmpEstado2) == 's')
+                {
+                    if(nodoTmp1->cliente.bajaPasiva == 0)
+                    {
+                        restarurarCliente(ADAPlanes, valADAPlanes, dniTmp);
+                        printf("Cliente dado de alta de forma exitosa\n");
+                    }
+                    else
+                    {
+                        bajaCliente(ADAPlanes, valADAPlanes, dniTmp);
+                        printf("Cliente dado de baja de forma exitosa\n");
+                    }
+                }
+                else
+                {
+                    printf("Operacion cancelada por el usuario.\n");
+                }
             }
             else
             {
-                printf("El cliente existe en el sistema");
+                printf("El cliente no existe en el sistema.");
             }
             break;
         case 3:
-            // modificacionCliente();
+            marcoEsteticoSwitch("MODIFICAR CLIENTE");
+            dniTmp = preguntarDNI();
+            nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
+            if(nodoTmp1)
+            {
+                modificarCliente(ADAPlanes, valADAPlanes, dniTmp);
+                printf("Cliente modificado de forma exitosa\n");
+            }
+            else
+            {
+                printf("El cliente no existe en el sistema.");
+            }
+
             break;
         case 4:
-              mostrarADA(ADAPlanes, valADAPlanes);
-              break;
+            marcoEsteticoSwitch("LISTADO DE PLANES + CLIENTES");
+            mostrarADA(ADAPlanes, valADAPlanes);
+            break;
         case 5:
+            marcoEsteticoSwitch("BUSCAR CLIENTE");
             dniTmp = preguntarDNI();
             nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
             if(nodoTmp1)
@@ -193,10 +243,12 @@ int main()
             }
             break;
         case 6:
+            marcoEsteticoSwitch("GUARDAR...");
             ADA2Archi(ADAPlanes, valADAPlanes, ARCHIVO_PLANES);
             printf("Datos guardados");
             break;
         case 7:
+            marcoEsteticoSwitch("CONFIGURACION DEL AUTOGUARDADO");
             if(autoguardado == 0)
             {
                 autoguardado = 1;
@@ -210,6 +262,7 @@ int main()
             configGuardarArchi(ARCHIVO_CONFIG_CLIENTES, autoguardado);
             break;
         case 8:
+            marcoEsteticoSwitch("MOSTRAR ARCHIVO (dev mode)");
             mostrarArchivoClientes();
             break;
         case 0:
@@ -232,22 +285,6 @@ int main()
     }
     return 0;
 }
-/*
-void listadoClientes()
-{
-    printf("Listado de clientes\n");
-    printf("-------------------\n");
-    printf("1- Listado de clientes por plan\n");
-    printf("2- Listado de clientes por edad\n");
-    printf("3- Listado de clientes por peso\n");
-    printf("4- Listado de clientes por altura\n");
-    printf("5- Listado de clientes por nombre\n");
-    printf("6- Listado de clientes por apellido\n");
-    printf("7- Listado de clientes por DNI\n");
-    printf("8- Listado de clientes por dias de la semana\n");
-    printf("0- Ir a atrás\n");
-    printf("\nIngrese una opcion: ");
-} */
 
 int configLeerArchi(char nombre[])
 {
@@ -416,10 +453,6 @@ void ADA2Archi(stCeldaPlanes ADA[], int validos, char archi[])
         }
         fclose(file);
     }
-    else
-    {
-        printf("No se pudo crear el archivo");
-    }
 }
 
 int archi2ADA(stCeldaPlanes ADA[], int dimension, char archi[])
@@ -514,6 +547,11 @@ void bajaCliente(stCeldaPlanes ADA[], int validos, int dni)
     nodoTmp->cliente.bajaPasiva = 0;
 }
 
+void restarurarCliente(stCeldaPlanes ADA[], int validos, int dni)
+{
+    nodoArbol * nodoTmp = buscarDNIEnADA(ADA, validos, dni);
+    nodoTmp->cliente.bajaPasiva = 1;
+}
 
 /// FUNCIONES DE MUESTREO
 void mostrarLinea(int cantidad) /// ESTA VA AL MAIN ASI LA USAN TODOS
@@ -523,6 +561,14 @@ void mostrarLinea(int cantidad) /// ESTA VA AL MAIN ASI LA USAN TODOS
         printf("-");
     }
     printf("\n");
+}
+
+void marcoEsteticoSwitch(char texto[])
+{
+    system("cls");
+    mostrarLinea(50);
+    printf("%s\n", texto);
+    mostrarLinea(50);
 }
 
 
@@ -544,9 +590,9 @@ void mostrarADA(stCeldaPlanes ADA[], int validos)
 
 void mostrarPlan(stCeldaPlanes plan)
 {
-    printf("ID del Plan.................%i\n", plan.idPlan);
-    printf("Nombre .....................%s\n", plan.plan);
-    printf("Dias........................%i\n", plan.diasDelPlan);
+    printf("ID del Plan................. %i\n", plan.idPlan);
+    printf("Nombre ..................... %s\n", plan.plan);
+    printf("Dias........................ %i\n", plan.diasDelPlan);
 }
 
 void mostrarArbol(nodoArbol * arbol)
@@ -617,12 +663,68 @@ void mostrarArchivoClientes()
         }
         fclose(file);
     }
-    else
-    {
-        printf("El archivo no existe");
-    }
 }
 
+void modificarCliente(stCeldaPlanes ADA[], int validos, int dni)
+{
+    marcoEsteticoSwitch("MODIFICAR CLIENTE > MENU MODIFICACION");
+    nodoArbol * nodoTmp = buscarDNIEnADA(ADA, validos, dni);
+    int opcion;
+    printf("Que desea modificar?\n");
+    printf("1- Nombre\n");
+    printf("2- Apellido\n");
+    printf("3- Edad\n");
+    printf("4- Peso\n");
+    printf("5- Estatura\n");
+    printf("6- Estado\n");
+    printf("7- Dias concurridos esta semana\n");
+    printf("0- Cancelar\n");
+    printf("Ingrese una opcion: ");
+    scanf("%d", &opcion);
+    switch(opcion)
+    {
+    case 1:
+        printf("Ingrese el nuevo nombre: ");
+        fflush(stdin);
+        gets(nodoTmp->cliente.nombre);
+        break;
+    case 2:
+        printf("Ingrese el nuevo apellido: ");
+        fflush(stdin);
+        gets(nodoTmp->cliente.apellido);
+        break;
+    case 3:
+        printf("Ingrese la nueva edad: ");
+        scanf("%d", &nodoTmp->cliente.edad);
+        break;
+    case 4:
+        printf("Ingrese el nuevo peso: ");
+        scanf("%f", &nodoTmp->cliente.peso);
+        break;
+    case 5:
+        printf("Ingrese la nueva estatura: ");
+        scanf("%f", &nodoTmp->cliente.estatura);
+        break;
+    case 6:
+        printf("Ingrese el nuevo estado: ");
+        scanf("%d", &nodoTmp->cliente.bajaPasiva);
+        break;
+    case 7:
+        printf("Ingrese los nuevos dias concurridos esta semana: ");
+        scanf("%d", &nodoTmp->cliente.diasConcurridosEstaSemana);
+        break;
+    case 0:
+        printf("Operacion cancelada por el usuario.\n");
+        break;
+    default:
+        printf("Opcion invalida, introduzca de nuevo la opcion");
+        scanf("%d", &opcion);
+        break;
+    }
+    mostrarLinea(50);
+    mostrarClienteIndividual(nodoTmp->cliente);
+    mostrarLinea(50);
+}
 
 /// TDA ARBOLES
 
