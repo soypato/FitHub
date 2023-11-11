@@ -11,6 +11,7 @@ typedef struct
 {
     char plan[25];
     int diasDelPlan;
+    int idDePlan;
     char nombre[20];
     char apellido[20];
     int DNI;
@@ -62,10 +63,10 @@ typedef struct nodoLista
 
 /// Prototipados
 int archi2ADA(stCeldaPlanes ADA[], int dimension, char archi[]);
-int altaCliente(stCeldaPlanes ADA[], int validos, stCliente clienteTmp, stCeldaPlanes planTmp);
+int altaCliente(stCeldaPlanes ADA[], int validos, stCliente clienteTmp, int idPlan, char nombrePlan[], int diasDelPlan);
 int agregarEnArregloClientes(stCeldaPlanes ADA[], int validos, stCeldaPlanes planTmp);
 int buscarPosicionEnElArreglo(stCeldaPlanes ADA[], int validos, stCeldaPlanes planTmp);
-stCeldaPlanes convertirAPlanes(char plan[25], int diasDelPlan);
+stCeldaPlanes convertirAPlanes(char plan[25], int diasDelPlan, int idDelPlan);
 stCliente convertirACliente(stArchivo archi);
 void ADA2Archi(stCeldaPlanes ADA[], int validos, char archi[]);
 void pasarPlanesAArchivo(FILE * file, nodoArbol * arbol, int diasDelPlan, char plan[25]);
@@ -73,9 +74,12 @@ nodoArbol* buscarDNIEnADA(stCeldaPlanes ADA[], int validos, int dni);
 int cargarADA(stCeldaPlanes ADA[], int validos, int dniEntrada);
 int preguntarDNI();
 void listadoClientes();
-void imprimirMenu();
+void mostrarPlan(stCeldaPlanes plan);
+void mostrarArbol(nodoArbol * arbol);
+void mostrarClienteIndividual(stCliente cliente);
+void mostrarLinea(int cantidad); /// ESTA VA AL MAIN ASI LA USAN TODOS
 void imprimirEncabezado();
-
+void imprimirMenu();
 
 /// TDA arbolCliente
 nodoArbol * inicArbol();
@@ -115,8 +119,8 @@ int main()
         imprimirEncabezado();
         imprimirMenu();
         scanf("%d", &opcion);
-        reset:
         valADAPlanes = archi2ADA(ADAPlanes, 10, ARCHIVO_PLANES);
+        reset:
         switch(opcion)
         {
         case 1:
@@ -125,6 +129,8 @@ int main()
             if(!nodoTmp1)
             {
                 valADAPlanes = cargarADA(ADAPlanes, valADAPlanes, dniTmp);
+                printf("Datos cargados satisfactoriamente\n");
+                mostrarADA(ADAPlanes, valADAPlanes);
             }
             else
             {
@@ -184,7 +190,7 @@ int preguntarDNI()
 {
     int dni;
     printf("Ingrese el DNI del cliente: ");
-    scanf("%d", dni);
+    scanf("%d", &dni);
     return dni;
 }
 
@@ -214,27 +220,31 @@ int cargarADA(stCeldaPlanes ADA[], int validos, int dniEntrada)
         strcpy(plan.plan, "Experto");
         plan.diasDelPlan = 7;
         break;
+    default:
+        strcpy(plan.plan, "Desconocido");
+        plan.diasDelPlan = -1;
+        break;
     }
 
+    printf("Ingrese el apellido del cliente: ");
+    fflush(stdin);
+    gets(cliente.apellido);
 
     printf("Ingrese el nombre del cliente: ");
     fflush(stdin);
     gets(cliente.nombre);
-    printf("Ingrese el apellido del cliente: ");
-    fflush(stdin);
-    gets(cliente.apellido);
+
     printf("Ingrese la edad del cliente: ");
     scanf("%d", &cliente.edad);
     printf("Ingrese el peso del cliente: ");
     scanf("%f", &cliente.peso);
-    printf("Ingrese la estatura del cliente: ");
+    printf("Ingrese la estatura del cliente (en centimetros): ");
     scanf("%f", &cliente.estatura);
 
     cliente.DNI = dniEntrada;
     cliente.diasConcurridosEstaSemana = 0;
     cliente.bajaPasiva = 1;
-
-    validos = altaCliente(ADA, validos, cliente, plan);
+    validos = altaCliente(ADA, validos, cliente, plan.idPlan, plan.plan, plan.diasDelPlan);
 
     return validos;
 }
@@ -305,18 +315,14 @@ int archi2ADA(stCeldaPlanes ADA[], int dimension, char archi[])
     FILE * file = fopen(archi, "rb");
 
     stArchivo archiTmp;
-    stCeldaPlanes planTmp;
     stCliente clienteTmp;
-    int validos;
-
+    int validos = 0;
     if(file)
     {
-
-        while(fread(&archiTmp, sizeof(stArchivo), 1, archi) > 0 && validos < dimension)
+        while((fread(&archiTmp, sizeof(stArchivo), 1, file) > 0) && (validos < dimension))
         {
             clienteTmp = convertirACliente(archiTmp);
-            planTmp = convertirAPlanes(archiTmp.plan, archiTmp.diasDelPlan);
-            validos = altaCliente(ADA, validos, clienteTmp, planTmp);
+            validos = altaCliente(ADA, validos, clienteTmp, archiTmp.idDePlan, archiTmp.plan, archiTmp.diasDelPlan);
         }
         fclose(file);
     }
@@ -327,8 +333,10 @@ int archi2ADA(stCeldaPlanes ADA[], int dimension, char archi[])
     return validos;
 }
 
-int altaCliente(stCeldaPlanes ADA[], int validos, stCliente clienteTmp, stCeldaPlanes planTmp)
+int altaCliente(stCeldaPlanes ADA[], int validos, stCliente clienteTmp, int idDelPlan, char nombrePlan[], int diasDelPlan)
 {
+
+    stCeldaPlanes planTmp = convertirAPlanes(nombrePlan, diasDelPlan, idDelPlan);
     nodoArbol * nuevo = cargarNodoArbolClientes(clienteTmp); // creo la est. secundaria
     int posBuscado = buscarPosicionEnElArreglo(ADA, validos, planTmp); // busco la posicion del cliente en el arreglo
     if(posBuscado == -1) // si falla
@@ -364,11 +372,12 @@ int buscarPosicionEnElArreglo(stCeldaPlanes ADA[], int validos, stCeldaPlanes pl
     return pos;
 }
 
-stCeldaPlanes convertirAPlanes(char plan[25], int diasDelPlan)
+stCeldaPlanes convertirAPlanes(char plan[25], int diasDelPlan, int idDelPlan)
 {
     stCeldaPlanes planTmp;
     strcpy(planTmp.plan, plan);
     planTmp.diasDelPlan = diasDelPlan;
+    planTmp.idPlan = idDelPlan;
     planTmp.arbol = inicArbol();
     return planTmp;
 }
@@ -387,7 +396,64 @@ stCliente convertirACliente(stArchivo archi)
     return cliente;
 }
 
+/// FUNCIONES DE MUESTREO
+void mostrarLinea(int cantidad) /// ESTA VA AL MAIN ASI LA USAN TODOS
+{
+    for(int i = 0; i < cantidad; i++)
+    {
+        printf("-");
+    }
+    printf("\n");
+}
 
+
+void mostrarADA(stCeldaPlanes ADA[], int validos)
+{
+    for(int i = 0; i < validos; i++)
+    {
+        printf("\n");
+        mostrarLinea(40);
+        printf("Plan:\n");
+        mostrarLinea(40);
+        mostrarPlan(ADA[i]);
+        mostrarLinea(20);
+        printf("Clientes:\n");
+        mostrarLinea(20);
+        mostrarArbol(ADA[i].arbol);
+    }
+}
+
+void mostrarPlan(stCeldaPlanes plan)
+{
+    printf("ID del Plan.................%i\n", plan.idPlan);
+    printf("Nombre .....................%s\n", plan.plan);
+    printf("Dias........................%i\n", plan.diasDelPlan);
+}
+
+void mostrarArbol(nodoArbol * arbol)
+{
+    if(arbol)
+    {
+        mostrarArbol(arbol->izq);
+        mostrarClienteIndividual(arbol->cliente);
+        mostrarArbol(arbol->der);
+    }
+}
+
+void mostrarClienteIndividual(stCliente cliente)
+{
+    printf("Nombre: %s\n", cliente.nombre);
+    printf("Apellido: %s\n", cliente.apellido);
+    printf("DNI: %d\n", cliente.DNI);
+    printf("Edad: %d\n", cliente.edad);
+    printf("Peso: %.2f\n", cliente.peso);
+    printf("Estatura: %.2f\n", cliente.estatura);
+    if(cliente.bajaPasiva == 1)
+    {
+        printf("Este cliente esta activo\n");
+    }
+    printf("Dias concurridos esta semana: %d\n", cliente.diasConcurridosEstaSemana);
+}
 /// TDA ARBOLES
 
 nodoArbol * inicArbol()
@@ -404,26 +470,25 @@ nodoArbol * cargarNodoArbolClientes(stCliente cliente)
     return nuevo;
 }
 
-nodoArbol * insertar(nodoArbol * arbol, nodoArbol * nuevo)
+nodoArbol * insertar(nodoArbol * arbol, nodoArbol * nuevoNodo)
 {
     if(arbol == NULL)
     {
-        arbol = nuevo;
+        arbol = nuevoNodo;
     }
     else
     {
-        if(nuevo->cliente.DNI < arbol->cliente.DNI)
+        if(nuevoNodo->cliente.DNI > arbol->cliente.DNI)
         {
-            arbol->izq = insertar(arbol->izq, nuevo);
+            arbol->der = insertar(arbol->der, nuevoNodo);
         }
         else
         {
-            arbol->der = insertar(arbol->der, nuevo);
+            arbol->izq = insertar(arbol->izq, nuevoNodo);
         }
     }
     return arbol;
 }
-
 nodoArbol * buscarArbolCliente(nodoArbol * arbol, int dni)
 {
     nodoArbol * rta = NULL;
