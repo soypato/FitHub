@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "clientes.h"
+#include "manejoDeClientes.h"
 
 
 typedef struct
@@ -72,8 +72,6 @@ void listadoClientes();
 void mostrarPlan(stCeldaPlanes plan);
 void mostrarArbol(nodoArbol * arbol);
 void mostrarClienteIndividual(stCliente cliente);
-void mostrarLinea(int cantidad); /// ESTA VA AL MAIN ASI LA USAN TODOS
-void marcoEsteticoSwitch(char texto[]); /// ESTA TAMBIEN
 void imprimirEncabezado();
 void imprimirMenu();
 void mostrarUnStArchivo(stArchivo archi);
