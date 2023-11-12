@@ -4,17 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ducktime.h"
-#include "clientes.h"
+#include "manejoDeClientes.h"
 #include "const.h"
 #include "tipoUsuario.h"
 
 const char ARCHIVO_PLANES[] = "planesClientes.dat";
-
-void imprimirEncabezado()
-{
-    printf("\nBienvenido al sector de empleados\n");
-    mostrarLinea(40);
-}
 
 void imprimirMenu()
 {
@@ -49,7 +43,7 @@ int mainClientes()
     while (tolower(decision) == 's' || tolower(decision) == 'y')
     {
         // Cada vez que se ejecute el menú refrescamos los datos de archivos
-        imprimirEncabezado();
+        marcoEsteticoSwitch("MANEJO DE CLIENTES");
         imprimirMenu();
         printf("\nIngrese una opcion: ");
         scanf("%d", &opcion);
@@ -58,7 +52,7 @@ reset:
         switch(opcion)
         {
         case 1:
-            marcoEsteticoSwitch("NUEVO CLIENTE");
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > NUEVO CLIENTE");
             dniTmp = preguntarDNI();
             nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
             if(!nodoTmp1)
@@ -76,7 +70,7 @@ reset:
             }
             break;
         case 2:
-            marcoEsteticoSwitch("BAJA Y RESTAURACION DE CLIENTES");
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > BAJA Y RESTAURACION DE CLIENTES");
             dniTmp = preguntarDNI();
             nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
             if(nodoTmp1)
@@ -120,7 +114,7 @@ reset:
             }
             break;
         case 3:
-            marcoEsteticoSwitch("MODIFICAR CLIENTE");
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > MODIFICAR CLIENTE");
             dniTmp = preguntarDNI();
             nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
             if(nodoTmp1)
@@ -135,11 +129,11 @@ reset:
 
             break;
         case 4:
-            marcoEsteticoSwitch("LISTADO DE PLANES + CLIENTES");
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > LISTADO DE PLANES + CLIENTES");
             mostrarADA(ADAPlanes, valADAPlanes);
             break;
         case 5:
-            marcoEsteticoSwitch("BUSCAR CLIENTE");
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > BUSCAR CLIENTE");
             dniTmp = preguntarDNI();
             nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
             if(nodoTmp1)
@@ -152,16 +146,17 @@ reset:
             }
             break;
         case 6:
-            marcoEsteticoSwitch("MOSTRAR USUARIOS DE UN PLAN");
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > MOSTRAR USUARIOS DE UN PLAN");
             printf("* Se muestran los planes ya cargados con clientes\n");
             mostrarPlanes(ADAPlanes, valADAPlanes);
             printf("Introduzca el ID del plan que quiere mostrar: ");
             scanf("%i", &posTmp);
             posTmp = buscarPosicionEnElArregloConID(ADAPlanes, valADAPlanes, posTmp);
-            marcoEsteticoSwitch("MOSTRAR USUARIOS DE UN PLAN > MOSTRAR CLIENTES");
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > MOSTRAR USUARIOS DE UN PLAN > MOSTRAR CLIENTES");
             mostrarArbol(ADAPlanes[posTmp].arbol);
+            break;
         case 7:
-            marcoEsteticoSwitch("CALCULO DE IMC");
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > CALCULO DE IMC");
             printf("El IMC es un calculo hecho por la OMS para determinar si una persona\ntiene sobrepeso, bajo peso, obesidad o si esta en su peso normal,\npara calcularlo necesitamos el peso y la estatura de la persona\n");
             mostrarLinea(50);
 
@@ -191,6 +186,7 @@ reset:
             {
                 printf("Obesidad\n");
             }
+            break;
         case 0:
             volverDependiendoTipoUsuario(tipoUsuario);
             break;
@@ -467,24 +463,6 @@ void restarurarCliente(stCeldaPlanes ADA[], int validos, int dni)
 }
 
 /// FUNCIONES DE MUESTREO
-void mostrarLinea(int cantidad) /// ESTA VA AL MAIN ASI LA USAN TODOS
-{
-    for(int i = 0; i < cantidad; i++)
-    {
-        printf("-");
-    }
-    printf("\n");
-}
-
-void marcoEsteticoSwitch(char texto[])
-{
-    limpiarPantalla();
-    mostrarLinea(50);
-    printf("%s\n", texto);
-    mostrarLinea(50);
-}
-
-
 void mostrarADA(stCeldaPlanes ADA[], int validos)
 {
     for(int i = 0; i < validos; i++)

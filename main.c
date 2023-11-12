@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "const.h"
-#include "clientes.h"
+#include "manejoDeClientes.h"
+#include "controlEmpleado.h"
 #include "ducktime.h"
 #include "tipoUsuario.h"
 
@@ -12,7 +13,8 @@ void limpiarPantalla();
 void controlInicio();
 void inicioSesion();
 void controlEmpleado();
-
+void marcoEsteticoSwitch(char texto[]);
+void mostrarLinea(int cantidad);
 
 int main()
 {
@@ -27,6 +29,23 @@ void limpiarPantalla()
 #else
     system("clear");
 #endif
+}
+
+void marcoEsteticoSwitch(char texto[])
+{
+    limpiarPantalla();
+    mostrarLinea(20);
+    printf("%s\n", texto);
+    mostrarLinea(20);
+}
+
+void mostrarLinea(int cantidad)
+{
+    for(int i = 0; i < cantidad; i++)
+    {
+        printf("-");
+    }
+    printf("\n");
 }
 
 void controlInicio()
@@ -48,7 +67,7 @@ void inicioSesion()
     int tmpClave = 0;
     int loginExitoso = 0;
     limpiarPantalla();
-    printf("\n\nIntroduzca la contrasena: ");
+    printf("\n\n>> Introduzca la contrasena: ");
     scanf("%d", &tmpClave);
     limpiarPantalla();
 
@@ -56,8 +75,7 @@ void inicioSesion()
     switch (tmpClave)
     {
     case claveEmpleado:
-        printf("=== SECCION EMPLEADO ===\n" );
-        tipoUsuario = 1;  // Mozo
+        tipoUsuario = 1;
         controlEmpleado();
         break;
     default:
@@ -69,38 +87,3 @@ void inicioSesion()
     }
 }
 
-void controlEmpleado()
-{
-    int decision;
-    do
-    {
-        reset:
-        mostrarLinea(40);
-        printf("1- Menu de Empleado\n");
-        printf("2- Menu de Clientes\n");
-        printf("0- Salir\n");
-        mostrarLinea(40);
-
-
-        printf("Su decision: ");
-        fflush(stdin);
-        scanf(" %d", &decision);
-
-        switch (decision)
-        {
-        case 1:
-            mainClientes();
-            limpiarPantalla();
-            break;
-        case 0:
-            controlInicio();
-            break;
-        default:
-            limpiarPantalla();
-            printf("Opcion invalida\n");
-            goto reset;
-            break;
-        }
-    }
-    while (decision != 0);
-}
