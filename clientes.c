@@ -5,11 +5,14 @@
 #include <string.h>
 #include "ducktime.h"
 #include "clientes.h"
+#include "const.h"
+#include "tipoUsuario.h"
+
 const char ARCHIVO_PLANES[] = "planesClientes.dat";
 
 void imprimirEncabezado()
 {
-    printf("\nBienvenido al sector de clientes\n");
+    printf("\nBienvenido al sector de empleados\n");
     mostrarLinea(40);
 }
 
@@ -29,6 +32,7 @@ void imprimirMenu()
 
 int mainClientes()
 {
+    limpiarPantalla();
     stCeldaPlanes ADAPlanes[10];
     int valADAPlanes = 0;
     int dniTmp;
@@ -188,7 +192,7 @@ reset:
                 printf("Obesidad\n");
             }
         case 0:
-            decision = 'n';
+            volverDependiendoTipoUsuario(tipoUsuario);
             break;
         default:
             printf("Opcion invalida, introduzca de nuevo la opcion");
@@ -200,7 +204,7 @@ reset:
         fflush(stdin);
         scanf("%c", &decision);
         ADA2Archi(ADAPlanes, valADAPlanes, ARCHIVO_PLANES);
-        system("cls");
+        limpiarPantalla();
     }
     return 0;
 }
@@ -474,7 +478,7 @@ void mostrarLinea(int cantidad) /// ESTA VA AL MAIN ASI LA USAN TODOS
 
 void marcoEsteticoSwitch(char texto[])
 {
-    system("cls");
+    limpiarPantalla();
     mostrarLinea(50);
     printf("%s\n", texto);
     mostrarLinea(50);
