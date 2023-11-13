@@ -72,8 +72,8 @@ void inicioSesion()
     limpiarPantalla();
 
     // Dependiendo lo que pusimos en la clave, nos mostrará un menú u otro
-    switch (tmpClave)
     {
+ni    switch (tmpClave)
     case claveEmpleado:
         tipoUsuario = 1;
         controlEmpleado();

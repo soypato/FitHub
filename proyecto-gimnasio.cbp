@@ -32,14 +32,14 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="const.h" />
+		<Unit filename="controlEmpleado.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="controlEmpleado.h" />
 		<Unit filename="ducktime.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="ducktime.h" />
-		<Unit filename="interfazEmpleado.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="interfazEmpleado.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
