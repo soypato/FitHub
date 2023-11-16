@@ -6,6 +6,7 @@
 #include "controlEmpleado.h"
 #include "ducktime.h"
 #include "tipoUsuario.h"
+#include <conio.h>
 
 /// PROTOTIPADOS
 void menuPrincipal();
@@ -18,6 +19,7 @@ void mostrarLinea(int cantidad);
 
 int main()
 {
+    system("color 3F"); // 3 es el color de fondo turquesa y F es el color de primer plano blanco
     controlInicio();
     return 0;
 }
@@ -72,8 +74,9 @@ void inicioSesion()
     limpiarPantalla();
 
     // Dependiendo lo que pusimos en la clave, nos mostrará un menú u otro
+
+    switch (tmpClave)
     {
-ni    switch (tmpClave)
     case claveEmpleado:
         tipoUsuario = 1;
         controlEmpleado();

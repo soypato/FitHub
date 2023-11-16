@@ -42,3 +42,7 @@ void controlEmpleado()
     }
     while (decision != 0);
 }
+
+
+
+
