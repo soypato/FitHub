@@ -126,7 +126,7 @@ reset:
             nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
             if(nodoTmp1)
             {
-                modificarCliente(ADAPlanes, valADAPlanes, dniTmp);
+                modificarClienteEnElADAyEnElArchivo(ADAPlanes, valADAPlanes, dniTmp);
                 printf("Cliente modificado de forma exitosa\n");
             }
             else
@@ -737,17 +737,19 @@ void modificarClienteEnElADAyEnElArchivo(stCeldaPlanes ADA[], int validos, int d
         break;
     }
 
-    archiTmp = stClienteYstCeldaPlanes2stArchi()
+    archiTmp = formatoADA2Archi(ADA[posTmp].idPlan, ADA[posTmp].plan, ADA[posTmp].diasDelPlan, nodoTmp->cliente);
+    mostrarUnStArchivo(archiTmp);
     modificarClienteEnElArchivo(archiTmp);
 
 
 }
-stClienteYstCeldaPlanes2stArchi(stCeldaPlanes plan, stCliente cliente)
+
+stArchivo formatoADA2Archi(int idPlan, char nombrePlan[], int diasDelPlan, stCliente cliente)
 {
     stArchivo archi;
-    archi.idDePlan = plan.idPlan;
-    strcpy(archi.plan, plan.plan);
-    archi.diasDelPlan = plan.diasDelPlan;
+    archi.idDePlan = idPlan;
+    strcpy(archi.plan, nombrePlan);
+    archi.diasDelPlan = diasDelPlan;
 
     archi.peso = cliente.peso;
     archi.estatura = cliente.estatura;
@@ -763,25 +765,37 @@ stClienteYstCeldaPlanes2stArchi(stCeldaPlanes plan, stCliente cliente)
 }
 
 
+
 void modificarClienteEnElArchivo(stArchivo archi)
 {
-    FILE * file = fopen(ARCHIVO_PLANES, "rb+");
-    stArchivo archiAux;
-    if(file)
+    FILE *file = fopen(ARCHIVO_PLANES, "rb+");
+
+    if (file != NULL)
     {
-        while(fread(&archiAux, sizeof(stArchivo), 1, file) > 0)
+        stArchivo archiAux;
+        int encontrado = 0;  // Variable para indicar si se encontró el cliente
+
+        while (fread(&archiAux, sizeof(stArchivo), 1, file) > 0)
         {
-            if(archiAux.DNI == archi.DNI)
+            if (archiAux.DNI == archi.DNI)
             {
-                fseek(file, sizeof(stArchivo)*-1, SEEK_CUR);
+                fseek(file, -sizeof(stArchivo), SEEK_CUR);
                 fwrite(&archi, sizeof(stArchivo), 1, file);
+                encontrado = 1;  // Se ha encontrado el cliente
+                break;  // Salir del bucle, ya que se encontró y modificó el cliente
             }
         }
+
+        if (!encontrado)
+        {
+            printf("Cliente no encontrado en el archivo\n");
+        }
+
         fclose(file);
     }
     else
     {
-        printf("El archivo no existe");
+        printf("El archivo no pudo abrirse\n");
     }
 }
 

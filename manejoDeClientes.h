@@ -69,11 +69,9 @@ stArchivo buscarPorDNIretornarTodaLaInformacion(int dni);
 void bajaCliente(stCeldaPlanes ADA[], int validos, int dni);
 void restaurarCliente(stCeldaPlanes ADA[], int validos, int dni);
 float calcularIMC(float peso, float estatura);
-stClienteYstCeldaPlanes2stArchi(stCeldaPlanes plan, stCliente cliente);
-void modificarClienteEnElArchivo(stCliente cliente);
 void modificarClienteEnElADAyEnElArchivo(stCeldaPlanes ADA[], int validos, int dni);
 nodoArbol * modificarClienteIndividual(nodoArbol * cliente);
-
+stArchivo formatoADA2Archi(int idPlan, char nombrePlan[], int diasDelPlan, stCliente cliente);
 void listadoClientes();
 void mostrarPlan(stCeldaPlanes plan);
 void mostrarArbol(nodoArbol * arbol);
@@ -82,7 +80,7 @@ void imprimirEncabezado();
 void imprimirMenu();
 void mostrarUnStArchivo(stArchivo archi);
 void mostraArchivoCompleto();
-
+void modificarClienteEnElArchivo(stArchivo archi);
 /// TDA arbolCliente
 nodoArbol * inicArbol();
 nodoArbol * cargarNodoArbolClientes(stCliente cliente);
