@@ -126,7 +126,9 @@ int mainClientes()
             nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
             if(nodoTmp1)
             {
+
                 modificarCliente(ADAPlanes, valADAPlanes, dniTmp);
+
                 printf("Cliente modificado de forma exitosa\n");
             }
             else
@@ -271,34 +273,6 @@ int cargarADA(const char ARCHIVO_PLANES[],stCeldaPlanes ADA[], int validos, int 
         plan.idPlan = idTmp;
         plan.arbol = inicArbol();
     }
-
-
-    /*
-    switch(plan.idPlan)
-    {
-    case 1:
-        strcpy(plan.plan, "Starter");
-        plan.diasDelPlan = 3;
-        break;
-    case 2:
-        strcpy(plan.plan, "Intermedio");
-        plan.diasDelPlan = 4;
-        break;
-    case 3:
-        strcpy(plan.plan, "Avanzado");
-        plan.diasDelPlan = 5;
-        break;
-    case 4:
-        strcpy(plan.plan, "Experto");
-        plan.diasDelPlan = 7;
-        break;
-    default:
-        strcpy(plan.plan, "Desconocido");
-        plan.diasDelPlan = -1;
-        break;
-    }
-
-    */
 
     /** Ya para esta altura de la func, "plan" tiene que tener una pos. valida,
     sea porque la creamos o porque ya estaba y la pasamos **/
@@ -667,7 +641,7 @@ void mostrarArchivoClientes()
 void modificarCliente(stCeldaPlanes ADA[], int validos, int dni)
 {
     marcoEsteticoSwitch("MODIFICAR CLIENTE > MENU MODIFICACION");
-    nodoArbol * nodoTmp = buscarDNIEnADA(ADA, validos, dni);
+    nodoArbol* nodoTmp = buscarDNIEnADA(ADA,validos,dni);
     int opcion;
     printf("Que desea modificar?\n");
     printf("1- Nombre\n");
@@ -734,6 +708,8 @@ void modificarCliente(stCeldaPlanes ADA[], int validos, int dni)
     mostrarLinea(50);
     mostrarClienteIndividual(nodoTmp->cliente);
     mostrarLinea(50);
+
+
 }
 
 void mostraArchivoCompleto()
@@ -821,4 +797,17 @@ nodoArbol * buscarArbolCliente(nodoArbol * arbol, int dni)
         }
     }
     return rta;
+}
+
+
+
+
+
+void funcion_X(stCeldaPlanes ADA[],int validos, nodoArbol* nodoTemp)
+{
+    for(int i=0;i < validos ;i++)
+    {
+
+
+    }
 }
