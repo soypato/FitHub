@@ -9,6 +9,7 @@
 
 typedef struct
 {
+    int idCliente;
     char plan[25];
     int diasDelPlan;
     int idDePlan;
@@ -16,6 +17,7 @@ typedef struct
     char apellido[20];
     int DNI;
     int edad;
+    char domicilio[25];
     float peso;
     float estatura;
     int bajaPasiva;
@@ -24,10 +26,12 @@ typedef struct
 
 typedef struct
 {
+    int idCliente; /// CAMPO UNICO ///
     char nombre[20];
     char apellido[20];
-    int DNI; /// CAMPO UNICO ///
+    int DNI;
     int edad;
+    char domicilio[25];
     float peso;
     float estatura;
     int bajaPasiva; /// 1 para alta, 0 para baja
@@ -50,17 +54,16 @@ typedef struct
 } stCeldaPlanes;
 
 /// Prototipados
-int archi2ADA(stCeldaPlanes ADA[], int dimension, char archi[]);
-int altaCliente(stCeldaPlanes ADA[], int validos, stCliente clienteTmp, int idPlan, char nombrePlan[], int diasDelPlan);
+int archi2ADA(stCeldaPlanes ADA[], int dimension, const char ARCHIVO_PLANES[]);
+int altaCliente(const char ARCHIVO_PLANES[], stCeldaPlanes ADA[], int validos, stCliente clienteTmp, int idDelPlan, char nombrePlan[], int diasDelPlan);
 int agregarEnArregloClientes(stCeldaPlanes ADA[], int validos, stCeldaPlanes planTmp);
 int buscarPosicionEnElArreglo(stCeldaPlanes ADA[], int validos, stCeldaPlanes planTmp);
 int buscarPosicionEnElArregloConID(stCeldaPlanes ADA[], int validos, int id);
 stCeldaPlanes convertirAPlanes(char plan[25], int diasDelPlan, int idDelPlan);
 stCliente convertirACliente(stArchivo archi);
-void ADA2Archi(stCeldaPlanes ADA[], int validos, char archi[]);
-void pasarPlanesAArchivo(FILE * file, nodoArbol * arbol, int diasDelPlan, char plan[25], int idDelPlan);
+void pasarNuevoClienteAlArchivo(const char ARCHIVO_PLANES[], stCliente clienteTmp, int idDelPlan, char nombrePlan[], int diasdelPlan);
 nodoArbol* buscarDNIEnADA(stCeldaPlanes ADA[], int validos, int dni);
-int cargarADA(stCeldaPlanes ADA[], int validos, int dniEntrada);
+int cargarADA(const char ARCHIVO_PLANES[],stCeldaPlanes ADA[], int validos, int dniEntrada);
 int preguntarDNI();
 stArchivo buscarPorDNIretornarTodaLaInformacion(int dni);
 void bajaCliente(stCeldaPlanes ADA[], int validos, int dni);

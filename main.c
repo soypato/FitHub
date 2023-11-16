@@ -6,6 +6,7 @@
 #include "controlEmpleado.h"
 #include "ducktime.h"
 #include "tipoUsuario.h"
+#include <conio.h>
 
 /// PROTOTIPADOS
 void menuPrincipal();
@@ -71,9 +72,10 @@ void inicioSesion()
     scanf("%d", &tmpClave);
     limpiarPantalla();
 
-    // Dependiendo lo que pusimos en la clave, nos mostrará un menú u otro
+    // Dependiendo lo que pusimos en la clave, nos mostrarÃ¡ un menÃº u otro
+
+    switch (tmpClave)
     {
-ni    switch (tmpClave)
     case claveEmpleado:
         tipoUsuario = 1;
         controlEmpleado();
@@ -86,4 +88,3 @@ ni    switch (tmpClave)
         break;
     }
 }
-
