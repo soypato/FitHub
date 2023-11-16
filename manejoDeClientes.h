@@ -70,6 +70,7 @@ void bajaCliente(stCeldaPlanes ADA[], int validos, int dni);
 void restaurarCliente(stCeldaPlanes ADA[], int validos, int dni);
 void modificarCliente(stCeldaPlanes ADA[], int validos, int dni);
 float calcularIMC(float peso, float estatura);
+void modificarPlan(stCeldaPlanes ADA[], int validos, int id, int posTmp);
 
 void listadoClientes();
 void mostrarPlan(stCeldaPlanes plan);

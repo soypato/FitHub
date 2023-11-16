@@ -19,6 +19,8 @@ void imprimirMenu()
     printf("5- Buscar cliente\n");
     printf("6- Mostrar clientes de un plan\n");
     printf("7- Calcular IMC (indice de masa corporal)\n");
+    printf("8- Modificar Plan\n");
+    printf("9- Agregar Planes\n");
     printf("0- Ir a atras\n");
     mostrarLinea(40);
 
@@ -35,6 +37,10 @@ int mainClientes()
     float peso;
     float estatura;
     int posTmp;
+    int idBuscar;
+    char nombrePlanMod[50];
+    int diasMod=0;
+    char controlMod='s';
     stCeldaPlanes idTmp;
     nodoArbol * nodoTmp1;
     char decisionTmpEstado2;
@@ -50,7 +56,7 @@ int mainClientes()
 
         valADAPlanes = archi2ADA(ADAPlanes, 10, ARCHIVO_PLANES);
         printf("validos: %i",valADAPlanes);
-        reset:
+reset:
         switch(opcion)
         {
         case 1:
@@ -194,6 +200,28 @@ int mainClientes()
                 printf("Obesidad\n");
             }
             break;
+
+        case 8: ///Modificar plan en arreglo
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > MODIFICAR PLAN");
+            mostrarLinea(40);
+            mostrarADA(ADAPlanes, valADAPlanes);
+            mostrarLinea(40);
+            printf("Ingrese el id del plan que desea modificar\n");
+            scanf("%d", &idBuscar);
+            posTmp = buscarPosicionEnElArregloConID(ADAPlanes, valADAPlanes, idBuscar );
+            if(posTmp != -1)
+            {
+                modificarPlan(ADAPlanes, valADAPlanes, idBuscar, posTmp);
+            }
+            else
+            {
+                printf("No existe el plan. Por favor ingrese un id correcto\n");
+            }
+            break;
+
+        case 9: ///Agregar plan al arreglo
+
+            break;
         case 0:
             volverDependiendoTipoUsuario(tipoUsuario);
             break;
@@ -203,10 +231,10 @@ int mainClientes()
             goto reset;
             break;
         }
-    printf("\nDesea continuar? S/N: ");
-    fflush(stdin);
-    scanf("%c", &decision);
-    limpiarPantalla();
+        printf("\nDesea continuar? S/N: ");
+        fflush(stdin);
+        scanf("%c", &decision);
+        limpiarPantalla();
     }
     return 0;
 }
@@ -821,4 +849,56 @@ nodoArbol * buscarArbolCliente(nodoArbol * arbol, int dni)
         }
     }
     return rta;
+}
+
+
+void modificarPlan(stCeldaPlanes ADA[], int validos, int id, int posTmp)
+{
+    FILE* buffer = fopen(ARCHIVO_PLANES, "r+b");
+
+    if(buffer)
+    {
+      int decisionModPlan;
+        char nombrePlanMod[50];
+        int diasMod;
+        stArchivo datosTmp;
+
+        printf("\n\n");
+        mostrarLinea(40);
+        printf("1- Cambiar nombre del plan\n");
+        printf("2- Cambiar dias del plan\n");
+        mostrarLinea(40);
+
+
+        printf("Que desea modificar?");
+        scanf("%d", &decisionModPlan);
+        switch(decisionModPlan)
+        {
+        case 1:
+            printf("Ingrese el nuevo nombre del plan\n");
+            fflush(stdin);
+            gets(nombrePlanMod);
+            strcpy(ADA[posTmp].plan, nombrePlanMod);
+            break;
+
+        case 2:
+            printf("Ingrese los dias del plan a cambiar\n");
+            scanf("%d", &diasMod);
+            ADA[posTmp].diasDelPlan = diasMod;
+            break;
+        }
+        ///Se actualiza el archivo con la info modificada
+        fseek(buffer, posTmp* sizeof(stArchivo), SEEK_SET);
+        strcpy(datosTmp.plan, ADA[posTmp].plan);
+        datosTmp.diasDelPlan = ADA[posTmp].diasDelPlan;
+        fwrite(&datosTmp, sizeof(stArchivo),1, buffer);
+
+        fclose(buffer);
+    }
+    else
+    {
+
+    printf("Error al abrir el archivo\n");
+    }
+
 }
