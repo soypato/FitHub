@@ -47,6 +47,7 @@ int mainClientes()
         imprimirMenu();
         printf("\nIngrese una opcion: ");
         scanf("%d", &opcion);
+
         //valADAPlanes = archi2ADA(ADAPlanes, 10, ARCHIVO_PLANES); /// no se cargan los datos
         //printf("validos: %d",valADAPlanes);
         reset:
@@ -55,6 +56,7 @@ int mainClientes()
         case 1:
 
             marcoEsteticoSwitch("MANEJO DE CLIENTES > NUEVO CLIENTE");
+            mostraArchivoCompleto();
             dniTmp = preguntarDNI();
             nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
             if(!nodoTmp1)
@@ -337,21 +339,6 @@ stArchivo convertirAEstrcuturaArchivo(stCeldaPlanes plan, stCliente cliente)
 }
 
 
-void mostar_stArchivo(stArchivo a)
-{
-    printf("id plan: %d\n",a.idDePlan);
-    printf("nombreplan: %s\n",a.plan);
-    printf("dias del plan: %d\n",a.diasDelPlan);
-    printf("name: %s\n",a.nombre);
-    printf("surname: %s\n",a.apellido);
-    printf("dni: %d\n",a.DNI);
-    printf("edad: %d\n",a.edad);
-    printf("domicilio: %s\n",a.domicilio);
-    printf("peso: %d\n",a.peso);
-    printf("estatura: %d\n",a.estatura);
-}
-
-
 int archi2ADA(stCeldaPlanes ADA[], int dimension, const char ARCHIVO_PLANES[])
 {
     FILE * file = fopen(ARCHIVO_PLANES, "rb");
@@ -365,9 +352,6 @@ int archi2ADA(stCeldaPlanes ADA[], int dimension, const char ARCHIVO_PLANES[])
 
         while(  ( (fread(&archiTmp, sizeof(stArchivo), 1, file)) > 1) && (validos < dimension))   /// ES EL PROBLEMA
         {
-
-            mostar_stArchivo(archiTmp);
-            system("pause");
             clienteTmp = convertirACliente(archiTmp);
             validos = altaCliente(ARCHIVO_PLANES, ADA, validos, clienteTmp, archiTmp.idDePlan, archiTmp.plan, archiTmp.diasDelPlan);
         }
@@ -400,20 +384,25 @@ void pasarNuevoClienteAlArchivo(const char ARCHIVO_PLANES[], stCliente clienteTm
             nuevoDato.idCliente = auxiliar.idCliente+1;
 
             fclose(buffer);
+
             buffer = fopen(ARCHIVO_PLANES,"ab");
             if(buffer)
             {
                 fwrite(&nuevoDato,sizeof(stArchivo),1,buffer);
+                fclose(buffer);
             }
         }
         else//no tiene datos
         {
             fclose(buffer);
+
             buffer  = fopen(ARCHIVO_PLANES,"ab");
+
             if(buffer)
             {
                 nuevoDato.idCliente = 1;
                 fwrite(&nuevoDato,sizeof(stArchivo),1,buffer);
+                fclose(buffer);
             }
         }
     }
@@ -425,46 +414,20 @@ void pasarNuevoClienteAlArchivo(const char ARCHIVO_PLANES[], stCliente clienteTm
         {
             nuevoDato.idCliente = 1;
             fwrite(&nuevoDato,sizeof(stArchivo),1,buffer);
+            fclose(buffer);
         }
-    }
-    fclose(buffer);
 
-
-
-
-
-
-
-/*
-    if (buffer == NULL) // el archivo  no existe
-    {
-        // Manejo de error al abrir el archivo
-        perror("Error al abrir el archivo"); // no deberia pasar casi nunca por usar a+b
-        return;
     }
 
-    if ((ftell(buffer)) == 0) // no tiene datos
-    {
-        nuevoDato.idCliente = 1;
-        ///fwrite(&nuevoDato, sizeof(stArchivo), 1, buffer);
-    }
-    else // si tiene datos
-    {
-        fseek(buffer, sizeof(stArchivo) * -1, SEEK_END);
-        fread(&auxiliar, sizeof(stArchivo), 1, buffer);
-        nuevoDato.idCliente = auxiliar.idCliente + 1;
-    }
+    //fclose(buffer);
 
-    // Escribir el nuevo dato
-    if ( (fwrite(&nuevoDato, sizeof(stArchivo), 1, buffer)) != 1)
-    {
-        // Manejo de error al escribir en el archivo
-        perror("Error al escribir en el archivo");
-    }
 
-    fclose(buffer);
-    */
-
+    //mostrarUnStArchivo(nuevoDato);
+    printf("-------------------------MOSTRANDO ARCHIVO RECIEN CARGADO--------------------------\n");
+    mostrarUnStArchivo(nuevoDato);
+    printf("\n\n");
+    printf("-------------------------MOSTRANDO ARCHIVO COMPLETO--------------------------\n");
+    mostraArchivoCompleto();
 }
 
 
@@ -569,7 +532,8 @@ void restarurarCliente(stCeldaPlanes ADA[], int validos, int dni)
 }
 
 
-/// FUNCIONES DE MUESTREO
+/// FUNCIONES DE MUESTREO INICIO
+
 void mostrarADA(stCeldaPlanes ADA[], int validos)
 {
     printf("validos %d", validos);
@@ -767,7 +731,23 @@ void mostrarMenuPlanes()
 }
 
 
-/// FUNCIONES DE MUESTREO
+void mostraArchivoCompleto()
+{
+    FILE* buffer = fopen(ARCHIVO_PLANES,"rb");
+
+    stArchivo archi;
+
+    while( (fread(&archi,sizeof(stArchivo),1,buffer)) > 0 )
+    {
+        mostrarUnStArchivo(archi);
+    }
+
+    fclose(buffer);
+}
+
+
+/// FUNCIONES DE MUESTREO FIN
+
 
 float calcularIMC(float peso, float estatura)
 {

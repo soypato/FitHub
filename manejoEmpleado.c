@@ -9,21 +9,8 @@
 #include "const.h"
 #include "tipoUsuario.h"
 
-void imprimirMenu()
-{
-    printf("1- Alta de cliente\n");
-    printf("2- Baja y restauracion de cliente\n");
-    printf("3- Modificacion de cliente\n");
-    printf("4- Listado de planes + clientes\n");
-    printf("5- Buscar cliente\n");
-    printf("6- Mostrar clientes de un plan\n");
-    printf("7- Calcular IMC (indice de masa corporal)\n");
-    printf("0- Ir a atras\n");
-    mostrarLinea(40);
-
-}
-
-int mainClientes()
+int mainEmpleados
+()
 {
     limpiarPantalla();
     int op=0;
