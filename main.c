@@ -19,7 +19,6 @@ void mostrarLinea(int cantidad);
 
 int main()
 {
-    system("color 3F"); // 3 es el color de fondo turquesa y F es el color de primer plano blanco
     controlInicio();
     return 0;
 }

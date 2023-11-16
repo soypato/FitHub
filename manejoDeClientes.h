@@ -26,10 +26,10 @@ typedef struct
 
 typedef struct
 {
-    int idCliente;
+    int idCliente; /// CAMPO UNICO ///
     char nombre[20];
     char apellido[20];
-    int DNI; /// CAMPO UNICO ///
+    int DNI;
     int edad;
     char domicilio[25];
     float peso;
@@ -54,14 +54,14 @@ typedef struct
 } stCeldaPlanes;
 
 /// Prototipados
-int archi2ADA(stCeldaPlanes ADA[], int dimension, char archi[]);
+int archi2ADA(stCeldaPlanes ADA[], int dimension, const char ARCHIVO_PLANES[]);
 int altaCliente(const char ARCHIVO_PLANES[], stCeldaPlanes ADA[], int validos, stCliente clienteTmp, int idDelPlan, char nombrePlan[], int diasDelPlan);
 int agregarEnArregloClientes(stCeldaPlanes ADA[], int validos, stCeldaPlanes planTmp);
 int buscarPosicionEnElArreglo(stCeldaPlanes ADA[], int validos, stCeldaPlanes planTmp);
 int buscarPosicionEnElArregloConID(stCeldaPlanes ADA[], int validos, int id);
 stCeldaPlanes convertirAPlanes(char plan[25], int diasDelPlan, int idDelPlan);
 stCliente convertirACliente(stArchivo archi);
-void pasarNuevoRegistoAArchivo (const char ARCHIVO_PLANES[], stCliente clienteTmp, int idDelPlan, char nombrePlan[], int diasdelPlan);
+void pasarNuevoClienteAlArchivo(const char ARCHIVO_PLANES[], stCliente clienteTmp, int idDelPlan, char nombrePlan[], int diasdelPlan);
 nodoArbol* buscarDNIEnADA(stCeldaPlanes ADA[], int validos, int dni);
 int cargarADA(const char ARCHIVO_PLANES[],stCeldaPlanes ADA[], int validos, int dniEntrada);
 int preguntarDNI();

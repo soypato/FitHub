@@ -19,22 +19,24 @@ void controlEmpleado()
         printf("0- Salir\n");
         mostrarLinea(40);
 
-
         printf("Su decision: ");
         fflush(stdin);
         scanf(" %d", &decision);
 
         switch (decision)
         {
+        case 0:
+            controlInicio();
+            break;
         case 1:
             mainClientes();
             limpiarPantalla();
             break;
-        case 0:
-            controlInicio();
+        case 2:
+
             break;
         default:
-            limpiarPantalla();
+            limpiarPantalla(); /// maybe???
             printf("Opcion invalida\n");
             goto reset;
             break;
