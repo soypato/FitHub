@@ -72,7 +72,7 @@ void inicioSesion()
     scanf("%d", &tmpClave);
     limpiarPantalla();
 
-    // Dependiendo lo que pusimos en la clave, nos mostrará un menú u otro
+    // Dependiendo lo que pusimos en la clave, nos mostrarÃ¡ un menÃº u otro
 
     switch (tmpClave)
     {
@@ -88,4 +88,3 @@ void inicioSesion()
         break;
     }
 }
-
