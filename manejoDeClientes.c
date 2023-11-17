@@ -668,9 +668,6 @@ void modificarClienteEnElADAyEnElArchivo(stCeldaPlanes ADA[], int validos, int d
 {
     nodoArbol * nodoTmp = buscarDNIEnADA(ADA, validos, dni);
     stArchivo archiTmp;
-    stCeldaPlanes planTmp;
-    planTmp.arbol->cliente.DNI = dni;
-    int posTmp = buscarPosicionEnElArreglo(ADA, validos, planTmp);
     stArchivo datosPlan = buscarPorDNIretornarTodaLaInformacion(dni);
 
     int opcion;
