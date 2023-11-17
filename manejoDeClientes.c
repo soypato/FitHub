@@ -559,8 +559,6 @@ stCliente convertirACliente(stArchivo archi)
 
 void mostrarADA(stCeldaPlanes ADA[], int validos)
 {
-    printf("validos %d", validos);
-
     for(int i = 0; i < validos; i++)
     {
 
