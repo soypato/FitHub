@@ -5,6 +5,7 @@
 #include <string.h>
 #include "ducktime.h"
 #include "manejoDeClientes.h"
+#include "manejoDePagos.h"
 #include "const.h"
 #include "tipoUsuario.h"
 
