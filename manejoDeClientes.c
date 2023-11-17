@@ -19,6 +19,8 @@ void imprimirMenu()
     printf("5- Buscar cliente\n");
     printf("6- Mostrar clientes de un plan\n");
     printf("7- Calcular IMC (indice de masa corporal)\n");
+    printf("8- Contar asistencia\n");
+    printf("9- Reiniciar asistencia\n");
     printf("0- Ir a atras\n");
     mostrarLinea(40);
 
@@ -35,6 +37,7 @@ int mainClientes()
     float peso;
     float estatura;
     int posTmp;
+    stArchivo archivoTmp;
     stCeldaPlanes idTmp;
     nodoArbol * nodoTmp1;
     char decisionTmpEstado2;
@@ -50,7 +53,7 @@ int mainClientes()
 
         valADAPlanes = archi2ADA(ADAPlanes, 10, ARCHIVO_PLANES);
         printf("validos: %i",valADAPlanes);
-        reset:
+reset:
         switch(opcion)
         {
         case 1:
@@ -83,30 +86,21 @@ int mainClientes()
             {
                 mostrarLinea(20);
                 mostrarClienteIndividual(nodoTmp1->cliente);
-                printf("El estado del cliente en este momento es: ");
-                if(nodoTmp1->cliente.bajaPasiva == 0)
-                {
-                    printf("ausente\n");
-                }
-                else
-                {
-                    printf("activo\n");
-                }
-                mostrarLinea(20);
+
                 printf("Cambiar estado? (s/n): ");
                 fflush(stdin);
                 scanf("%c", &decisionTmpEstado2);
                 if(tolower(decisionTmpEstado2) == 's')
                 {
-                    if(nodoTmp1->cliente.bajaPasiva == 0)
+                    if(nodoTmp1->cliente.bajaPasiva == 1)
                     {
                         restarurarCliente(ADAPlanes, valADAPlanes, dniTmp);
-                        printf("Cliente dado de alta de forma exitosa\n");
+                        printf("Cliente dado de baja de forma exitosa\n");
                     }
                     else
                     {
                         bajaCliente(ADAPlanes, valADAPlanes, dniTmp);
-                        printf("Cliente dado de baja de forma exitosa\n");
+                        printf("Cliente dado de alta de forma exitosa\n");
                     }
                 }
                 else
@@ -121,12 +115,12 @@ int mainClientes()
             break;
         case 3:
             marcoEsteticoSwitch("MANEJO DE CLIENTES > MODIFICAR CLIENTE");
-            mostrarADA(ADAPlanes, valADAPlanes);
             dniTmp = preguntarDNI();
             nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
             if(nodoTmp1)
             {
-                modificarCliente(ADAPlanes, valADAPlanes, dniTmp);
+                modificarClienteEnElADAyEnElArchivo(ADAPlanes, valADAPlanes, dniTmp);
+                mostrarLinea(20);
                 printf("Cliente modificado de forma exitosa\n");
             }
             else
@@ -145,7 +139,8 @@ int mainClientes()
             nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
             if(nodoTmp1)
             {
-                buscarPorDNIretornarTodaLaInformacion(dniTmp);
+                archivoTmp = buscarPorDNIretornarTodaLaInformacion(dniTmp);
+                mostrarUnStArchivo(archivoTmp);
             }
             else
             {
@@ -194,6 +189,32 @@ int mainClientes()
                 printf("Obesidad\n");
             }
             break;
+        case 8:
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > CONTAR ASISTENCIA");
+            dniTmp = preguntarDNI();
+            nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
+            if(nodoTmp1)
+            {
+                contarAsistencia(ADAPlanes, valADAPlanes, dniTmp);
+            }
+            else
+            {
+                printf("El cliente no existe en el sistema.");
+            }
+            break;
+        case 9:
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > REINICIAR ASISTENCIA");
+            dniTmp = preguntarDNI();
+            nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
+            if(nodoTmp1)
+            {
+                reiniciarAsistencia(ADAPlanes, valADAPlanes, dniTmp);
+            }
+            else
+            {
+                printf("El cliente no existe en el sistema.");
+            }
+            break;
         case 0:
             volverDependiendoTipoUsuario(tipoUsuario);
             break;
@@ -203,10 +224,10 @@ int mainClientes()
             goto reset;
             break;
         }
-    printf("\nDesea continuar? S/N: ");
-    fflush(stdin);
-    scanf("%c", &decision);
-    limpiarPantalla();
+        printf("\nDesea continuar? S/N: ");
+        fflush(stdin);
+        scanf("%c", &decision);
+        limpiarPantalla();
     }
     return 0;
 }
@@ -222,7 +243,6 @@ stArchivo buscarPorDNIretornarTodaLaInformacion(int dni)
             if(archi.DNI == dni)
             {
                 mostrarLinea(50);
-                mostrarUnStArchivo(archi);
             }
         }
         fclose(file);
@@ -534,20 +554,6 @@ stCliente convertirACliente(stArchivo archi)
 }
 
 
-void bajaCliente(stCeldaPlanes ADA[], int validos, int dni)
-{
-    nodoArbol * nodoTmp = buscarDNIEnADA(ADA, validos, dni);
-    nodoTmp->cliente.bajaPasiva = 0;
-}
-
-
-void restarurarCliente(stCeldaPlanes ADA[], int validos, int dni)
-{
-    nodoArbol * nodoTmp = buscarDNIEnADA(ADA, validos, dni);
-    nodoTmp->cliente.bajaPasiva = 1;
-}
-
-
 /// FUNCIONES DE MUESTREO INICIO
 
 void mostrarADA(stCeldaPlanes ADA[], int validos)
@@ -664,24 +670,121 @@ void mostrarArchivoClientes()
 }
 
 
-void modificarCliente(stCeldaPlanes ADA[], int validos, int dni)
+void bajaCliente(stCeldaPlanes ADA[], int validos, int dni)
 {
-    marcoEsteticoSwitch("MODIFICAR CLIENTE > MENU MODIFICACION");
     nodoArbol * nodoTmp = buscarDNIEnADA(ADA, validos, dni);
+    stArchivo archiTmp;
+    stArchivo datosPlan = buscarPorDNIretornarTodaLaInformacion(dni);
+
+    nodoTmp->cliente.bajaPasiva = 1;
+
+    archiTmp = formatoADA2Archi(datosPlan.DNI, datosPlan.nombre, datosPlan.diasDelPlan, nodoTmp->cliente);
+    mostrarUnStArchivo(archiTmp);
+    modificarClienteEnElArchivo(archiTmp);
+}
+
+
+void restarurarCliente(stCeldaPlanes ADA[], int validos, int dni)
+{
+    nodoArbol * nodoTmp = buscarDNIEnADA(ADA, validos, dni);
+    stArchivo archiTmp;
+    stArchivo datosPlan = buscarPorDNIretornarTodaLaInformacion(dni);
+
+    nodoTmp->cliente.bajaPasiva = 0;
+
+    archiTmp = formatoADA2Archi(datosPlan.DNI, datosPlan.nombre, datosPlan.diasDelPlan, nodoTmp->cliente);
+    mostrarUnStArchivo(archiTmp);
+    modificarClienteEnElArchivo(archiTmp);
+}
+
+void contarAsistencia(stCeldaPlanes ADA[], int validos, int dni)
+{
+    nodoArbol * nodoTmp = buscarDNIEnADA(ADA, validos, dni);
+    stArchivo archiTmp;
+    stArchivo datosPlan = buscarPorDNIretornarTodaLaInformacion(dni);
+
+    if (nodoTmp->cliente.diasConcurridosEstaSemana < datosPlan.diasDelPlan)
+    {
+        nodoTmp->cliente.diasConcurridosEstaSemana++;
+        archiTmp = formatoADA2Archi(datosPlan.DNI, datosPlan.nombre, datosPlan.diasDelPlan, nodoTmp->cliente);
+        mostrarUnStArchivo(archiTmp);
+        printf("Cliente modificado de forma exitosa\n");
+
+        modificarClienteEnElArchivo(archiTmp);
+    }
+    else
+    {
+        printf("Haz superado los dias disponibles por semana para este plan.\n");
+    }
+}
+
+void reiniciarAsistencia(stCeldaPlanes ADA[], int validos, int dni)
+{
+    nodoArbol *nodoTmp = buscarDNIEnADA(ADA, validos, dni);
+
+    if (nodoTmp != NULL)
+    {
+        stArchivo archiTmp;
+        stArchivo datosPlan = buscarPorDNIretornarTodaLaInformacion(dni);
+        nodoTmp->cliente.diasConcurridosEstaSemana = 0;
+        printf("Hemos reiniciado los dias de forma exitosa\n");
+        archiTmp = formatoADA2Archi(datosPlan.DNI, datosPlan.nombre, datosPlan.diasDelPlan, nodoTmp->cliente);
+        mostrarUnStArchivo(archiTmp);
+        modificarClienteEnElArchivo(archiTmp);
+    }
+    else
+    {
+        printf("Cliente no encontrado en el ADA\n");
+    }
+}
+
+void eliminarCliente(stCeldaPlanes ADA[], int validos, int dni)
+{
+    nodoArbol * nodoTmp = buscarDNIEnADA(ADA, validos, dni);
+    stArchivo archiTmp;
+    stArchivo datosPlan = buscarPorDNIretornarTodaLaInformacion(dni);
+
+    nodoTmp->cliente.bajaPasiva = 1;
+
+    archiTmp = formatoADA2Archi(datosPlan.DNI, datosPlan.nombre, datosPlan.diasDelPlan, nodoTmp->cliente);
+    modificarClienteEnElArchivo(archiTmp);
+}
+
+void restaurarCliente(stCeldaPlanes ADA[], int validos, int dni)
+{
+    nodoArbol * nodoTmp = buscarDNIEnADA(ADA, validos, dni);
+    stArchivo archiTmp;
+    stArchivo datosPlan = buscarPorDNIretornarTodaLaInformacion(dni);
+
+    nodoTmp->cliente.bajaPasiva = 0;
+
+    archiTmp = formatoADA2Archi(datosPlan.DNI, datosPlan.nombre, datosPlan.diasDelPlan, nodoTmp->cliente);
+    modificarClienteEnElArchivo(archiTmp);
+}
+
+void modificarClienteEnElADAyEnElArchivo(stCeldaPlanes ADA[], int validos, int dni)
+{
+    nodoArbol * nodoTmp = buscarDNIEnADA(ADA, validos, dni);
+    stArchivo archiTmp;
+    stArchivo datosPlan = buscarPorDNIretornarTodaLaInformacion(dni);
+
+    mostrarUnStArchivo(datosPlan);
+
     int opcion;
     printf("Que desea modificar?\n");
     printf("1- Nombre\n");
     printf("2- Apellido\n");
-    printf("3- Edad\n");
-    printf("4- Peso\n");
-    printf("5- Estatura\n");
-    printf("6- Estado\n");
-    printf("7- Dias concurridos esta semana\n");
-    printf("8- Domicilio\n");
-    printf("9- DNI\n");
+    printf("3- DNI\n");
+    printf("4- Edad\n");
+    printf("5- Domicilio\n");
+    printf("6- Peso\n");
+    printf("7- Estatura\n");
+    printf("8- Baja pasiva\n");
+    printf("9- Dias concurridos esta semana\n");
     printf("0- Cancelar\n");
     printf("Ingrese una opcion: ");
     scanf("%d", &opcion);
+
     switch(opcion)
     {
     case 1:
@@ -695,45 +798,105 @@ void modificarCliente(stCeldaPlanes ADA[], int validos, int dni)
         gets(nodoTmp->cliente.apellido);
         break;
     case 3:
+        printf("Ingrese el nuevo DNI: ");
+        scanf("%d", &nodoTmp->cliente.DNI);
+        break;
+    case 4:
         printf("Ingrese la nueva edad: ");
         scanf("%d", &nodoTmp->cliente.edad);
         break;
-    case 4:
-        printf("Ingrese el nuevo peso: ");
-        scanf("%f", &nodoTmp->cliente.peso);
-        break;
     case 5:
-        printf("Ingrese la nueva estatura: ");
-        scanf("%f", &nodoTmp->cliente.estatura);
-        break;
-    case 6:
-        printf("Ingrese el nuevo estado: ");
-        scanf("%d", &nodoTmp->cliente.bajaPasiva);
-        break;
-    case 7:
-        printf("Ingrese los nuevos dias concurridos esta semana: ");
-        scanf("%d", &nodoTmp->cliente.diasConcurridosEstaSemana);
-        break;
-    case 8:
         printf("Ingrese el nuevo domicilio: ");
         fflush(stdin);
         gets(nodoTmp->cliente.domicilio);
         break;
+    case 6:
+        printf("Ingrese el nuevo peso: ");
+        scanf("%f", &nodoTmp->cliente.peso);
+        break;
+    case 7:
+        printf("Ingrese la nueva estatura: ");
+        scanf("%f", &nodoTmp->cliente.estatura);
+        break;
+    case 8:
+        printf("Ingrese el nuevo estado de baja pasiva: ");
+        scanf("%d", &nodoTmp->cliente.bajaPasiva);
+        break;
     case 9:
-        printf("Ingrese el nuevo DNI: ");
-        scanf("%d", nodoTmp->cliente.DNI);
+        printf("Ingrese los nuevos dias concurridos esta semana: ");
+        scanf("%d", &nodoTmp->cliente.diasConcurridosEstaSemana);
         break;
     case 0:
         printf("Operacion cancelada por el usuario.\n");
         break;
     default:
-        printf("Opcion invalida, introduzca de nuevo la opcion");
+        printf("Opcion invalida, introduzca de nuevo la opcion: ");
         scanf("%d", &opcion);
         break;
     }
-    mostrarLinea(50);
-    mostrarClienteIndividual(nodoTmp->cliente);
-    mostrarLinea(50);
+
+    archiTmp = formatoADA2Archi(datosPlan.DNI, datosPlan.nombre, datosPlan.diasDelPlan, nodoTmp->cliente);
+    mostrarLinea(20);
+    mostrarUnStArchivo(archiTmp);
+    mostrarLinea(20);
+    modificarClienteEnElArchivo(archiTmp);
+
+
+}
+
+stArchivo formatoADA2Archi(int idPlan, char nombrePlan[], int diasDelPlan, stCliente cliente)
+{
+    stArchivo archi;
+    archi.idDePlan = idPlan;
+    strcpy(archi.plan, nombrePlan);
+    archi.diasDelPlan = diasDelPlan;
+
+    archi.peso = cliente.peso;
+    archi.estatura = cliente.estatura;
+    archi.bajaPasiva = cliente.bajaPasiva;
+    archi.diasConcurridosEstaSemana = cliente.diasConcurridosEstaSemana;
+    strcpy(archi.nombre, cliente.nombre);
+    strcpy(archi.apellido, cliente.apellido);
+    archi.DNI = cliente.DNI;
+    archi.edad = cliente.edad;
+    strcpy(archi.domicilio, cliente.domicilio);
+
+    return archi;
+}
+
+
+
+void modificarClienteEnElArchivo(stArchivo archi)
+{
+    FILE *file = fopen(ARCHIVO_PLANES, "rb+");
+
+    if (file != NULL)
+    {
+        stArchivo archiAux;
+        int encontrado = 0;  // Variable para indicar si se encontró el cliente
+
+        while (fread(&archiAux, sizeof(stArchivo), 1, file) > 0)
+        {
+            if (archiAux.DNI == archi.DNI)
+            {
+                fseek(file, -sizeof(stArchivo), SEEK_CUR);
+                fwrite(&archi, sizeof(stArchivo), 1, file);
+                encontrado = 1;  // Se ha encontrado el cliente
+                break;  // Salir del bucle, ya que se encontró y modificó el cliente
+            }
+        }
+
+        if (!encontrado)
+        {
+            printf("Cliente no encontrado en el archivo\n");
+        }
+
+        fclose(file);
+    }
+    else
+    {
+        printf("El archivo no pudo abrirse\n");
+    }
 }
 
 void mostraArchivoCompleto()
