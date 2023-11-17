@@ -44,6 +44,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="ducktime.h" />
+		<Unit filename="listasTDA.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="listasTDA.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
