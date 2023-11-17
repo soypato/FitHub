@@ -12,8 +12,8 @@
 void imprimirMenuPagosEmpleado()
 {
     printf("1- Generar factura de un cliente\n");
-    printf("2- Mostrar pago de un cliente\n");
-    printf("3- \n");
+    printf("2- Mostrar todas las facturas\n");
+    printf("0- Volver\n");
     mostrarLinea(40);
 }
 
