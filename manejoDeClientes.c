@@ -671,6 +671,7 @@ void modificarClienteEnElADAyEnElArchivo(stCeldaPlanes ADA[], int validos, int d
     stCeldaPlanes planTmp;
     planTmp.arbol->cliente.DNI = dni;
     int posTmp = buscarPosicionEnElArreglo(ADA, validos, planTmp);
+    stArchivo datosPlan = buscarPorDNIretornarTodaLaInformacion(dni);
 
     int opcion;
     printf("Que desea modificar?\n");
@@ -737,7 +738,7 @@ void modificarClienteEnElADAyEnElArchivo(stCeldaPlanes ADA[], int validos, int d
         break;
     }
 
-    archiTmp = formatoADA2Archi(ADA[posTmp].idPlan, ADA[posTmp].plan, ADA[posTmp].diasDelPlan, nodoTmp->cliente);
+    archiTmp = formatoADA2Archi(datosPlan.DNI, datosPlan.nombre, datosPlan.diasDelPlan, nodoTmp->cliente);
     mostrarUnStArchivo(archiTmp);
     modificarClienteEnElArchivo(archiTmp);
 
