@@ -188,11 +188,11 @@ reset:
             {
                 printf("Bajo peso\n");
             }
-            else if(IMC >= 18.5 && IMC <= 24.9)
+            else if(IMC >= 18.5 && IMC < 25)
             {
                 printf("Normal\n");
             }
-            else if(IMC >= 25 && IMC <= 29.9)
+            else if(IMC >= 25 && IMC < 30)
             {
                 printf("Sobrepeso\n");
             }
@@ -557,121 +557,6 @@ stCliente convertirACliente(stArchivo archi)
     return cliente;
 }
 
-
-/// FUNCIONES DE MUESTREO INICIO
-
-void mostrarADA(stCeldaPlanes ADA[], int validos)
-{
-    for(int i = 0; i < validos; i++)
-    {
-
-        printf("\n");
-        mostrarLinea(10);
-        printf("Plan:    |\n");
-        mostrarLinea(10);
-        mostrarPlan(ADA[i]);
-        mostrarLinea(15);
-        printf("Clientes:     |\n");
-        mostrarLinea(15);
-        mostrarArbol(ADA[i].arbol);
-    }
-}
-
-
-void mostrarPlanes(stCeldaPlanes ADA[], int validos)
-{
-    for(int i = 0; i <validos; i++)
-    {
-        mostrarLinea(40);
-        mostrarPlan(ADA[i]);
-        mostrarLinea(40);
-    }
-}
-
-
-void mostrarPlan(stCeldaPlanes plan)
-{
-    printf("ID del Plan ................ %i\n", plan.idPlan);
-    printf("Nombre ..................... %s\n", plan.plan);
-    printf("Dias ....................... %i\n", plan.diasDelPlan);
-}
-
-
-void mostrarArbol(nodoArbol * arbol)
-{
-    if(arbol)
-    {
-        mostrarArbol(arbol->izq);
-        mostrarClienteIndividual(arbol->cliente);
-        mostrarArbol(arbol->der);
-    }
-}
-
-
-void mostrarClienteIndividual(stCliente cliente)
-{
-    printf("Nombre: %s\n", cliente.nombre);
-    printf("Apellido: %s\n", cliente.apellido);
-    printf("DNI: %d\n", cliente.DNI);
-    printf("Edad: %d\n", cliente.edad);
-    printf("Domicilio: %s\n", cliente.domicilio);
-    printf("Peso: %.2f\n", cliente.peso);
-    printf("Estatura: %.2f\n", cliente.estatura);
-    if(cliente.bajaPasiva == 1)
-    {
-        printf("Este cliente esta activo\n");
-    }
-    else
-    {
-        printf("Este cliente esta ausente\n");
-    }
-    printf("Dias concurridos esta semana: %d\n", cliente.diasConcurridosEstaSemana);
-    mostrarLinea(20);
-}
-
-
-void mostrarUnStArchivo(stArchivo archi)
-{
-    printf("Nombre: %s\n", archi.nombre);
-    printf("Apellido: %s\n", archi.apellido);
-    printf("DNI: %d\n", archi.DNI);
-    printf("Edad: %d\n", archi.edad);
-    printf("Domicilio: %s\n", archi.domicilio);
-    printf("Peso: %.2f\n", archi.peso);
-    printf("Estatura: %.2f\n", archi.estatura);
-    if(archi.bajaPasiva == 1)
-    {
-        printf("Este cliente esta activo\n");
-    }
-    else
-    {
-        printf("Este cliente esta ausente\n");
-    }
-    printf("Dias concurridos esta semana: %d\n", archi.diasConcurridosEstaSemana);
-    mostrarLinea(8);
-    printf("ID del plan: %d\n", archi.idDePlan);
-    printf("Plan: %s\n", archi.plan);
-    printf("Dias del plan: %d\n", archi.diasDelPlan);
-    printf("\n");
-}
-
-
-void mostrarArchivoClientes()
-{
-    FILE * file = fopen(ARCHIVO_PLANES, "rb");
-    stArchivo archi;
-    if(file)
-    {
-        while(fread(&archi, sizeof(stArchivo), 1, file) > 0)
-        {
-            mostrarLinea(50);
-            mostrarUnStArchivo(archi);
-        }
-        fclose(file);
-    }
-}
-
-
 void bajaCliente(stCeldaPlanes ADA[], int validos, int dni)
 {
     nodoArbol* nodoTmp = buscarDNIEnADA(ADA,validos,dni);
@@ -922,6 +807,121 @@ void modificarClienteEnElArchivo(stArchivo archi)
         printf("El archivo no pudo abrirse\n");
     }
 }
+
+
+/// FUNCIONES DE MUESTREO INICIO
+
+void mostrarADA(stCeldaPlanes ADA[], int validos)
+{
+    for(int i = 0; i < validos; i++)
+    {
+
+        printf("\n");
+        mostrarLinea(10);
+        printf("Plan:    |\n");
+        mostrarLinea(10);
+        mostrarPlan(ADA[i]);
+        mostrarLinea(15);
+        printf("Clientes:     |\n");
+        mostrarLinea(15);
+        mostrarArbol(ADA[i].arbol);
+    }
+}
+
+
+void mostrarPlanes(stCeldaPlanes ADA[], int validos)
+{
+    for(int i = 0; i <validos; i++)
+    {
+        mostrarLinea(40);
+        mostrarPlan(ADA[i]);
+        mostrarLinea(40);
+    }
+}
+
+
+void mostrarPlan(stCeldaPlanes plan)
+{
+    printf("ID del Plan ................ %i\n", plan.idPlan);
+    printf("Nombre ..................... %s\n", plan.plan);
+    printf("Dias ....................... %i\n", plan.diasDelPlan);
+}
+
+
+void mostrarArbol(nodoArbol * arbol)
+{
+    if(arbol)
+    {
+        mostrarArbol(arbol->izq);
+        mostrarClienteIndividual(arbol->cliente);
+        mostrarArbol(arbol->der);
+    }
+}
+
+
+void mostrarClienteIndividual(stCliente cliente)
+{
+    printf("Nombre: %s\n", cliente.nombre);
+    printf("Apellido: %s\n", cliente.apellido);
+    printf("DNI: %d\n", cliente.DNI);
+    printf("Edad: %d\n", cliente.edad);
+    printf("Domicilio: %s\n", cliente.domicilio);
+    printf("Peso: %.2f\n", cliente.peso);
+    printf("Estatura: %.2f\n", cliente.estatura);
+    if(cliente.bajaPasiva == 1)
+    {
+        printf("Este cliente esta activo\n");
+    }
+    else
+    {
+        printf("Este cliente esta ausente\n");
+    }
+    printf("Dias concurridos esta semana: %d\n", cliente.diasConcurridosEstaSemana);
+    mostrarLinea(20);
+}
+
+
+void mostrarUnStArchivo(stArchivo archi)
+{
+    printf("Nombre: %s\n", archi.nombre);
+    printf("Apellido: %s\n", archi.apellido);
+    printf("DNI: %d\n", archi.DNI);
+    printf("Edad: %d\n", archi.edad);
+    printf("Domicilio: %s\n", archi.domicilio);
+    printf("Peso: %.2f\n", archi.peso);
+    printf("Estatura: %.2f\n", archi.estatura);
+    if(archi.bajaPasiva == 1)
+    {
+        printf("Este cliente esta activo\n");
+    }
+    else
+    {
+        printf("Este cliente esta ausente\n");
+    }
+    printf("Dias concurridos esta semana: %d\n", archi.diasConcurridosEstaSemana);
+    mostrarLinea(8);
+    printf("ID del plan: %d\n", archi.idDePlan);
+    printf("Plan: %s\n", archi.plan);
+    printf("Dias del plan: %d\n", archi.diasDelPlan);
+    printf("\n");
+}
+
+
+void mostrarArchivoClientes()
+{
+    FILE * file = fopen(ARCHIVO_PLANES, "rb");
+    stArchivo archi;
+    if(file)
+    {
+        while(fread(&archi, sizeof(stArchivo), 1, file) > 0)
+        {
+            mostrarLinea(50);
+            mostrarUnStArchivo(archi);
+        }
+        fclose(file);
+    }
+}
+
 
 void mostraArchivoCompleto()
 {

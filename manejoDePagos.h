@@ -1,11 +1,6 @@
 #ifndef PAGOS_H_INCLUDED
 #define PAGOS_H_INCLUDED
 #include "listasTDA.h"
-/// PROTOTIPADOS
-
-void mostrarNodo(nodoLista * nodo);
-void mostrarLista(nodoLista * inicioLista);
-nodoLista * crearNuevoPagoCliente();
-
+#include "ducktime.h"
 
 #endif // PAGOS_H_INCLUDED
