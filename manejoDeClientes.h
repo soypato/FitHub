@@ -9,7 +9,6 @@
 
 typedef struct
 {
-    int idCliente;
     char plan[25];
     int diasDelPlan;
     int idDePlan;
@@ -26,7 +25,6 @@ typedef struct
 
 typedef struct
 {
-    int idCliente; /// CAMPO UNICO ///
     char nombre[20];
     char apellido[20];
     int DNI;

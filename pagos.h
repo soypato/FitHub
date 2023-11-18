@@ -2,6 +2,8 @@
 #define PAGOS_H_INCLUDED
 #include "ducktime.h"
 
+
+
 typedef struct nodoLista
 {
     float montoPago;
