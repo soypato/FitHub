@@ -9,6 +9,8 @@
 #include <stddef.h>
 #include <string.h>
 
+const char Registro_Pagos[]="registropagos.dat";
+
 void imprimirMenuPagosEmpleado()
 {
     printf("1- Generar factura de un cliente\n");
@@ -42,6 +44,7 @@ int mainPagosEmpleado()
             {
                 nodoTmp = crearNuevoPagoCliente();
                 lista = agregarNodoInicio(lista, nodoTmp);
+
                 printf("Desea generar otra factura de pago? (s/n)\n");
                 fflush(stdin);
                 scanf("%c", &continuar);
