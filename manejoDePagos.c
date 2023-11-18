@@ -33,7 +33,7 @@ int mainPagosEmpleado()
     char continuar = 's';
     while (tolower(decision) == 's' || tolower(decision) == 'y')
     {
-        // Cada vez que se ejecute el menú refrescamos los datos de archivos
+        // Cada vez que se ejecute el menï¿½ refrescamos los datos de archivos
         marcoEsteticoSwitch("MANEJO DE PAGOS");
         imprimirMenuPagosEmpleado();
         printf("\nIngrese una opcion: ");
@@ -48,7 +48,7 @@ int mainPagosEmpleado()
                 nodoTmp = crearNuevoPagoCliente();
                 lista = agregarNodoInicio(lista, nodoTmp);
 
-                printf("Desea generar otra factura de pago? (s/n)\n");
+                printf("Desea generar otra factura de pago? (s/n): ");
                 fflush(stdin);
                 scanf("%c", &continuar);
             }
@@ -95,8 +95,13 @@ nodoListaPagos * crearNuevoPagoCliente()
     scanf("%f", &pagoTemporal.montoPago);
 
     printf("Seleccione el metodo de pago:\n");
-    printf("1. Efectivo\n2. Tarjeta de Credito\n3. Tarjeta de Debito\n4. Billetera Virtual\n");
-    printf("Ingrese el número correspondiente al método de pago: ");
+    mostrarLinea(120);
+    printf("1. Efectivo\
+           2. Tarjeta de Credito\
+           3. Tarjeta de Debito\
+           4. Billetera Virtual\n");
+    mostrarLinea(120);
+    printf("Ingrese el numero correspondiente al metodo de pago: ");
     scanf("%d", &pagoTemporal.idMetodoDePago);
 
 
@@ -106,17 +111,20 @@ nodoListaPagos * crearNuevoPagoCliente()
         strcpy(pagoTemporal.metodoDePago,"Efectivo");
         break;
     case 2:
-        printf("ingrese Tarjeta y Banco: \n");
+        mostrarLinea(20);
+        printf("Ingrese emisor de tarjeta y banco: \n");
         fflush(stdin);
         gets(pagoTemporal.metodoDePago);
         break;
     case 3:
-        printf("ingrese Tarjeta y Banco: \n");
+        mostrarLinea(20);
+        printf("Ingrese emisor de tarjeta y banco: \n");
         fflush(stdin);
         gets(pagoTemporal.metodoDePago);
         break;
     case 4:
-        printf("ingrese Billetera: \n");
+        mostrarLinea(20);
+        printf("Ingrese el nombre de la billetera virtual o fintech: \n");
         fflush(stdin);
         gets(pagoTemporal.metodoDePago);
         break;
@@ -157,7 +165,7 @@ void mostrarNodo(nodoListaPagos *nodo)
         break;
     }
 
-    mostrarFecha(nodo->pagoCliente.fechaDePago);
+            printf("Fecha de Pago: %d/%d/%d %d:%d\n", nodo->pagoCliente.fechaDePago.dia, nodo->pagoCliente.fechaDePago.mes, nodo->pagoCliente.fechaDePago.anio, nodo->pagoCliente.fechaDePago.hora, nodo->pagoCliente.fechaDePago.minuto);
 
     mostrarLinea(30);
 
