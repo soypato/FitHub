@@ -4,8 +4,9 @@
 #include <string.h>
 #include <conio.h>
 #include "listasTDA.h"
-#include "manejoDeClientes.h"
+#include "manejoDePagos.h"
 #include "ducktime.h"
+
 
 /// TDA LISTAS ///
 
@@ -16,7 +17,7 @@ nodoListaPagos * inicLista ()
 
 nodoListaPagos * crearNodoLista (stPago pagoTemporal)
 {
-    nodoListaPagos * nuevo = (nodoListaPagos*) malloc (sizeof(nodoListaPagos));
+    nodoListaPagos * nuevo = (nodoListaPagos*)malloc(sizeof(nodoListaPagos));
 
     nuevo->pagoCliente  = pagoTemporal;
     nuevo->siguiente=NULL;

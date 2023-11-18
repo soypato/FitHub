@@ -89,15 +89,15 @@ nodoListaPagos * crearNuevoPagoCliente()
     gets(pagoTemporal.nombreApellido);
 
     printf("DNI del cliente: ");
-    scanf("%d", pagoTemporal.DNICliente);
+    scanf("%d", &pagoTemporal.DNICliente);
 
     printf("Ingrese el monto del pago: ");
-    scanf("%f", pagoTemporal.montoPago);
+    scanf("%f", &pagoTemporal.montoPago);
 
     printf("Seleccione el metodo de pago:\n");
     printf("1. Efectivo\n2. Tarjeta de Credito\n3. Tarjeta de Debito\n4. Billetera Virtual\n");
     printf("Ingrese el número correspondiente al método de pago: ");
-    scanf("%d", pagoTemporal.idMetodoDePago);
+    scanf("%d", &pagoTemporal.idMetodoDePago);
 
 
     switch(pagoTemporal.idMetodoDePago)
