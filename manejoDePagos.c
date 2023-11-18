@@ -12,7 +12,7 @@
 
 
 
-const char Registro_Pagos[]="registropagos.dat";
+const char Registro_Pagos[]="registroPagos.dat";
 
 void imprimirMenuPagosEmpleado()
 {
@@ -52,6 +52,7 @@ int mainPagosEmpleado()
                 fflush(stdin);
                 scanf("%c", &continuar);
             }
+            continuar = 's';
             break;
         case 2:
             marcoEsteticoSwitch("MANEJO DE PAGOS > MOSTRAR TODOS LOS PAGOS");
@@ -147,7 +148,7 @@ void mostrarNodo(nodoListaPagos *nodo)
     mostrarLinea(30);
     printf("Nombre y Apellido: %s\n", nodo->pagoCliente.nombreApellido);
     printf("DNI: %d\n", nodo->pagoCliente.DNICliente);
-    printf("Monto: %f\n", nodo->pagoCliente.montoPago);
+    printf("Monto: AR$%0.2f\n", nodo->pagoCliente.montoPago);
     printf("ID Metodo de Pago: %d\n", nodo->pagoCliente.idMetodoDePago);
     switch(nodo->pagoCliente.idMetodoDePago)
     {
@@ -155,13 +156,13 @@ void mostrarNodo(nodoListaPagos *nodo)
         printf("Metodo de Pago: %s\n", "Efectivo");
         break;
     case 2:
-        printf("Metodo de Pago: %s\n", nodo->pagoCliente.metodoDePago);
+        printf("Metodo de Pago: CREDITO / %s\n", nodo->pagoCliente.metodoDePago);
         break;
     case 3:
-        printf("Metodo de Pago: %s\n", nodo->pagoCliente.metodoDePago);
+        printf("Metodo de Pago: DEBITO / %s\n", nodo->pagoCliente.metodoDePago);
         break;
     case 4:
-        printf("Metodo de Pago: %s\n", nodo->pagoCliente.metodoDePago);
+        printf("Metodo de Pago: VIRTUAL / %s\n", nodo->pagoCliente.metodoDePago);
         break;
     }
 
@@ -180,4 +181,5 @@ void mostrarLista(nodoListaPagos * inicioLista)
         temp = temp->siguiente;
     }
 }
+
 
