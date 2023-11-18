@@ -410,7 +410,6 @@ void pasarNuevoClienteAlArchivo(const char ARCHIVO_PLANES[], stCliente clienteTm
 
             fseek(buffer,sizeof(stArchivo)*-1,SEEK_END);
             fread(&auxiliar,sizeof(stArchivo),1,buffer);
-            nuevoDato.idCliente = auxiliar.idCliente+1;
 
             fclose(buffer);
 
@@ -429,7 +428,6 @@ void pasarNuevoClienteAlArchivo(const char ARCHIVO_PLANES[], stCliente clienteTm
 
             if(buffer)
             {
-                nuevoDato.idCliente = 1;
                 fwrite(&nuevoDato,sizeof(stArchivo),1,buffer);
                 fclose(buffer);
             }
@@ -441,7 +439,7 @@ void pasarNuevoClienteAlArchivo(const char ARCHIVO_PLANES[], stCliente clienteTm
         buffer = fopen(ARCHIVO_PLANES,"wb"); // como no existe el archi no hay problema con usar wb
         if(buffer)
         {
-            nuevoDato.idCliente = 1;
+
             fwrite(&nuevoDato,sizeof(stArchivo),1,buffer);
             fclose(buffer);
         }
@@ -859,7 +857,7 @@ void modificarClienteEnElArchivo(stArchivo archi)
 
         while (fread(&archiAux, sizeof(stArchivo), 1, file) > 0)
         {
-            if (archiAux.DNI == archi.DNI ||  strcmp(archiAux.idCliente,archi.idCliente) == 0)
+            if((archiAux.DNI == archi.DNI)||(strcmp(archiAux.nombre,archi.nombre) == 0 && strcmp(archiAux.apellido,archi.apellido) == 0) || ( strcmp(archiAux.domicilio,archi.domicilio) == 0))
             {
                 fseek(file, sizeof(stArchivo)*-1, SEEK_CUR);//lo encotro y mueve el registro a una pos antes
                 fwrite(&archi, sizeof(stArchivo), 1, file); //sobreescribe esa pos
@@ -902,7 +900,6 @@ void mostraArchivoCompleto()
 
 float calcularIMC(float peso, float estatura)
 {
-    //estatura = estatura/100;
     float imc = peso / ( (estatura/100) * (estatura/100));
     return imc;
 }
