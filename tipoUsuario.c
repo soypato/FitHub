@@ -10,4 +10,5 @@ void volverDependiendoTipoUsuario (int tipoUsuario)
     {
         controlEmpleado();
     }
+
 }

@@ -2,7 +2,7 @@
 #define TIPOUSUARIO_H_INCLUDED
 // CON ESTO INICIALIZAMOS LA VARIABLE EN TODAS LAS LIBERIAS
 //  EXTENALIAZMOS LA VARIABLE
-extern int tipoUsuario;
+    extern int tipoUsuario;
 void volverDependiendoTipoUsuario (int tipoUsuario);
 
 #endif // TIPOUSUARIO_H_INCLUDED

@@ -68,9 +68,14 @@ int preguntarDNI();
 stArchivo buscarPorDNIretornarTodaLaInformacion(int dni);
 void bajaCliente(stCeldaPlanes ADA[], int validos, int dni);
 void restaurarCliente(stCeldaPlanes ADA[], int validos, int dni);
-void modificarCliente(stCeldaPlanes ADA[], int validos, int dni);
+void contarAsistencia(stCeldaPlanes ADA[], int validos, int dni);
+void reiniciarAsistencia(stCeldaPlanes ADA[], int validos, int dni);
 float calcularIMC(float peso, float estatura);
-
+void modificarClienteEnElADAyEnElArchivo(stCeldaPlanes ADA[], int validos, int dni);
+nodoArbol * modificarClienteIndividual(nodoArbol * cliente);
+stArchivo formatoADA2Archi(int idPlan, char nombrePlan[], int diasDelPlan, stCliente cliente);
+void eliminarCliente(stCeldaPlanes ADA[], int validos, int dni);
+void restaurarCliente(stCeldaPlanes ADA[], int validos, int dni);
 void listadoClientes();
 void mostrarPlan(stCeldaPlanes plan);
 void mostrarArbol(nodoArbol * arbol);
@@ -78,14 +83,15 @@ void mostrarClienteIndividual(stCliente cliente);
 void imprimirEncabezado();
 void imprimirMenu();
 void mostrarUnStArchivo(stArchivo archi);
-
+void mostraArchivoCompleto();
+void modificarClienteEnElArchivo(stArchivo archi);
 /// TDA arbolCliente
 nodoArbol * inicArbol();
 nodoArbol * cargarNodoArbolClientes(stCliente cliente);
 nodoArbol * insertar(nodoArbol * arbol, nodoArbol * nuevo);
 nodoArbol * buscarArbolCliente(nodoArbol * arbol, int dni);
 
-/// usaremos la librería de pilas para manejar pesas o discos del inventario.
+/// usaremos la librerï¿½a de pilas para manejar pesas o discos del inventario.
 
 
 #endif // CLIENTES_H_INCLUDED
