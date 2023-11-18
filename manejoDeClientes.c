@@ -138,7 +138,6 @@ reset:
                     goto preguntarDNIOtravez;
                 }
             }
-
             break;
         case 4:
             marcoEsteticoSwitch("MANEJO DE CLIENTES > LISTADO DE PLANES + CLIENTES");
@@ -661,7 +660,7 @@ void bajaCliente(stCeldaPlanes ADA[], int validos, int dni)
 
     nodoTmp->cliente.bajaPasiva = 1;
 
-    archiTmp = formatoADA2Archi(datosPlan.DNI, datosPlan.nombre, datosPlan.diasDelPlan, nodoTmp->cliente);
+    archiTmp = formatoADA2Archi(datosPlan.idDePlan, datosPlan.plan, datosPlan.diasDelPlan, nodoTmp->cliente);
     mostrarUnStArchivo(archiTmp);
     modificarClienteEnElArchivo(archiTmp);
 }
@@ -675,7 +674,7 @@ void restarurarCliente(stCeldaPlanes ADA[], int validos, int dni)
 
     nodoTmp->cliente.bajaPasiva = 0;
 
-    archiTmp = formatoADA2Archi(datosPlan.DNI, datosPlan.nombre, datosPlan.diasDelPlan, nodoTmp->cliente);
+    archiTmp = formatoADA2Archi(datosPlan.idDePlan, datosPlan.plan, datosPlan.diasDelPlan, nodoTmp->cliente);
     mostrarUnStArchivo(archiTmp);
     modificarClienteEnElArchivo(archiTmp);
 }
@@ -689,7 +688,7 @@ void contarAsistencia(stCeldaPlanes ADA[], int validos, int dni)
     if (nodoTmp->cliente.diasConcurridosEstaSemana < datosPlan.diasDelPlan)
     {
         nodoTmp->cliente.diasConcurridosEstaSemana++;
-        archiTmp = formatoADA2Archi(datosPlan.DNI, datosPlan.nombre, datosPlan.diasDelPlan, nodoTmp->cliente);
+        archiTmp = formatoADA2Archi(datosPlan.idDePlan, datosPlan.plan, datosPlan.diasDelPlan, nodoTmp->cliente);
         mostrarUnStArchivo(archiTmp);
         printf("Cliente modificado de forma exitosa\n");
 
@@ -711,7 +710,7 @@ void reiniciarAsistencia(stCeldaPlanes ADA[], int validos, int dni)
         stArchivo datosPlan = buscarPorDNIretornarTodaLaInformacion(dni);
         nodoTmp->cliente.diasConcurridosEstaSemana = 0;
         printf("Hemos reiniciado los dias de forma exitosa\n");
-        archiTmp = formatoADA2Archi(datosPlan.DNI, datosPlan.nombre, datosPlan.diasDelPlan, nodoTmp->cliente);
+        archiTmp = formatoADA2Archi(datosPlan.idDePlan, datosPlan.plan, datosPlan.diasDelPlan, nodoTmp->cliente);
         mostrarUnStArchivo(archiTmp);
         modificarClienteEnElArchivo(archiTmp);
     }
@@ -729,7 +728,7 @@ void eliminarCliente(stCeldaPlanes ADA[], int validos, int dni)
 
     nodoTmp->cliente.bajaPasiva = 1;
 
-    archiTmp = formatoADA2Archi(datosPlan.DNI, datosPlan.nombre, datosPlan.diasDelPlan, nodoTmp->cliente);
+    archiTmp = formatoADA2Archi(datosPlan.idDePlan, datosPlan.plan, datosPlan.diasDelPlan, nodoTmp->cliente);
     modificarClienteEnElArchivo(archiTmp);
 }
 
@@ -741,7 +740,7 @@ void restaurarCliente(stCeldaPlanes ADA[], int validos, int dni)
 
     nodoTmp->cliente.bajaPasiva = 0;
 
-    archiTmp = formatoADA2Archi(datosPlan.DNI, datosPlan.nombre, datosPlan.diasDelPlan, nodoTmp->cliente);
+    archiTmp = formatoADA2Archi(datosPlan.idDePlan, datosPlan.plan, datosPlan.diasDelPlan, nodoTmp->cliente);
     modificarClienteEnElArchivo(archiTmp);
 }
 
@@ -819,7 +818,7 @@ void modificarClienteEnElADAyEnElArchivo(stCeldaPlanes ADA[], int validos, int d
         break;
     }
 
-    archiTmp = formatoADA2Archi(datosPlan.idDePlan, datosPlan.nombre, datosPlan.diasDelPlan, nodoTmp->cliente);
+    archiTmp = formatoADA2Archi(datosPlan.idDePlan, datosPlan.plan, datosPlan.diasDelPlan, nodoTmp->cliente);
     mostrarLinea(20);
     mostrarUnStArchivo(archiTmp);
     mostrarLinea(20);
@@ -860,15 +859,16 @@ void modificarClienteEnElArchivo(stArchivo archi)
 
         while (fread(&archiAux, sizeof(stArchivo), 1, file) > 0)
         {
-            if (archiAux.DNI == archi.DNI)
+            if (archiAux.DNI == archi.DNI ||  strcmp(archiAux.idCliente,archi.idCliente) == 0)
             {
                 fseek(file, sizeof(stArchivo)*-1, SEEK_CUR);//lo encotro y mueve el registro a una pos antes
                 fwrite(&archi, sizeof(stArchivo), 1, file); //sobreescribe esa pos
                 encontrado = 1;  // Se ha encontrado el cliente
-                break;  // Salir del bucle, ya que se encontró y modificó el cliente
+                goto saltarWhile;   //quiero ver si tiene  el mismo efecto que el break;/ entiendo que el break sale del if pero no se si del while. just in case
+                //break;  // Salir del bucle, ya que se encontró y modificó el cliente
             }
         }
-
+        saltarWhile:
         if (encontrado == 0)
         {
             printf("Cliente no encontrado en el archivo\n");
