@@ -38,7 +38,9 @@ int mainClientes()
     float peso;
     float estatura;
     int posTmp;
-
+    int idPlanTmp;
+    int nombreTmp;
+    int cantTmp;
     char confirmacion='w';
 
     stArchivo archivoTmp;
@@ -219,6 +221,26 @@ reset:
             if(nodoTmp1)
             {
                 reiniciarAsistencia(ADAPlanes, valADAPlanes, dniTmp);
+            }
+            else
+            {
+                printf("El cliente no existe en el sistema.");
+            }
+            break;
+        case 10:
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > CAMBIAR PLAN");
+            dniTmp = preguntarDNI();
+            nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
+            if(nodoTmp1)
+            {
+                printf("Ingrese el ID del nuevo plan: ");
+                scanf("%i", &idPlanTmp);
+                printf("Ingrese el nombre del nuevo plan: ");
+                fflush(stdin);
+                scanf("%s", &nombreTmp);
+                printf("Ingrese la cantidad de dias del nuevo plan: ");
+                scanf("%i", &cantTmp);
+                cambiarDePlan(ADAPlanes, valADAPlanes, dniTmp, idPlanTmp, nombreTmp, cantTmp);
             }
             else
             {
@@ -741,6 +763,27 @@ void restaurarCliente(stCeldaPlanes ADA[], int validos, int dni)
     archiTmp = formatoADA2Archi(datosPlan.idDePlan, datosPlan.plan, datosPlan.diasDelPlan, nodoTmp->cliente);
     modificarClienteEnElArchivo(archiTmp);
 }
+
+void cambiarDePlan(stCeldaPlanes ADA[], int validos, int dni, int nuevoID, char nuevoNombre[], int nuevoDias)
+{
+    stArchivo archiTmp;
+    nodoArbol * nodoTmp = buscarDNIEnADA(ADA, validos, dni);
+    stArchivo datosPlan = buscarPorDNIretornarTodaLaInformacion(dni);
+
+    mostrarUnStArchivo(datosPlan);
+
+    printf("hola");
+
+    datosPlan.idDePlan = nuevoID;
+    strcpy(datosPlan.plan, nuevoNombre);
+    datosPlan.diasDelPlan = nuevoDias;
+
+    printf("chau");
+
+    archiTmp = formatoADA2Archi(datosPlan.idDePlan, datosPlan.plan, datosPlan.diasDelPlan, nodoTmp->cliente);
+    modificarClienteEnElArchivo(archiTmp);
+}
+
 
 void modificarClienteEnElADAyEnElArchivo(stCeldaPlanes ADA[], int validos, int dni)
 {
