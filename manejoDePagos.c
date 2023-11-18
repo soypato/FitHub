@@ -1,13 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stddef.h>
+#include <conio.h>
+#include <string.h>
+
 #include "listasTDA.h"
 #include "manejoDePagos.h"
 #include "manejoDeClientes.h"
 #include "ducktime.h"
 #include "tipoUsuario.h"
-#include <conio.h>
-#include <stddef.h>
-#include <string.h>
+
+
 
 const char Registro_Pagos[]="registropagos.dat";
 
@@ -23,8 +26,8 @@ void imprimirMenuPagosEmpleado()
 int mainPagosEmpleado()
 {
     limpiarPantalla();
-    nodoLista * nodoTmp = inicLista();
-    nodoLista * lista = inicLista();
+    nodoListaPagos * nodoTmp = inicLista();
+    nodoListaPagos * lista = inicLista();
     int opcion;
     char decision = 's';
     char continuar = 's';
@@ -72,65 +75,101 @@ int mainPagosEmpleado()
 }
 
 
-
 /// FUNCIONES
 
-nodoLista * crearNuevoPagoCliente()
+nodoListaPagos * crearNuevoPagoCliente()
 {
-    nodoLista * temp = inicLista();
-    char nombreYApellido[40];
-    int DNI;
-    float montoPago;
-    int idMetodoPago;
-    char metodoPago[25];
+    stPago pagoTemporal;
+    nodoListaPagos * nodoTemp = inicLista();
+
     tiempo fechaPago;
+
     printf("Ingrese el nombre y apellido del cliente: ");
     fflush(stdin);
-    gets(nombreYApellido);
+    gets(pagoTemporal.nombreApellido);
 
     printf("DNI del cliente: ");
-    scanf("%d", &DNI);
+    scanf("%d", pagoTemporal.DNICliente);
 
     printf("Ingrese el monto del pago: ");
-    scanf("%f", &montoPago);
+    scanf("%f", pagoTemporal.montoPago);
 
     printf("Seleccione el metodo de pago:\n");
     printf("1. Efectivo\n2. Tarjeta de Credito\n3. Tarjeta de Debito\n4. Billetera Virtual\n");
     printf("Ingrese el número correspondiente al método de pago: ");
-    scanf("%d", &idMetodoPago);
+    scanf("%d", pagoTemporal.idMetodoDePago);
 
-    printf("Ingrese el nombre del método de pago: ");
-    fflush(stdin);
-    gets(metodoPago);
+
+    switch(pagoTemporal.idMetodoDePago)
+    {
+    case 1:
+        strcpy(pagoTemporal.metodoDePago,"Efectivo");
+        break;
+    case 2:
+        printf("ingrese Tarjeta y Banco: \n");
+        fflush(stdin);
+        gets(pagoTemporal.metodoDePago);
+        break;
+    case 3:
+        printf("ingrese Tarjeta y Banco: \n");
+        fflush(stdin);
+        gets(pagoTemporal.metodoDePago);
+        break;
+    case 4:
+        printf("ingrese Billetera: \n");
+        fflush(stdin);
+        gets(pagoTemporal.metodoDePago);
+        break;
+    default:
+        break;
+    }
 
     printf("Ingrese la fecha del pago (anio mes dia hora minuto): ");
-    scanf("%d %d %d %d %d", &fechaPago.anio, &fechaPago.mes,
-            &fechaPago.dia, &fechaPago.hora, &fechaPago.minuto);
-    temp = crearNodoLista(DNI, nombreYApellido, montoPago, idMetodoPago, metodoPago, fechaPago);
+    scanf("%d %d %d %d %d", &fechaPago.anio, &fechaPago.mes, &fechaPago.dia, &fechaPago.hora, &fechaPago.minuto);
 
-    return temp;
+    pagoTemporal.fechaDePago = fechaPago;
+
+    nodoTemp = crearNodoLista(pagoTemporal);
+
+    return nodoTemp;
 }
 
-void mostrarNodo(nodoLista *nodo)
+void mostrarNodo(nodoListaPagos *nodo)
 {
     mostrarLinea(30);
-    printf("Nombre y Apellido: %s\n", nodo->nombreYApellido);
-    printf("DNI: %d\n", nodo->DNI);
-    printf("Monto: %f\n", nodo->montoPago);
-    printf("Metodo de Pago: %s\n", nodo->metodoPago);
-    printf("ID Metodo de Pago: %d\n", nodo->idMetodoPago);
-    printf("Fecha de Pago: %d/%d/%d %d:%d\n", nodo->fechaPago.dia, nodo->fechaPago.mes, nodo->fechaPago.anio,
-           nodo->fechaPago.hora, nodo->fechaPago.minuto);
-    printf("\n");
+    printf("Nombre y Apellido: %s\n", nodo->pagoCliente.nombreApellido);
+    printf("DNI: %d\n", nodo->pagoCliente.DNICliente);
+    printf("Monto: %f\n", nodo->pagoCliente.montoPago);
+    printf("ID Metodo de Pago: %d\n", nodo->pagoCliente.idMetodoDePago);
+    switch(nodo->pagoCliente.idMetodoDePago)
+    {
+    case 1:
+        printf("Metodo de Pago: %s\n", "Efectivo");
+        break;
+    case 2:
+        printf("Metodo de Pago: %s\n", nodo->pagoCliente.metodoDePago);
+        break;
+    case 3:
+        printf("Metodo de Pago: %s\n", nodo->pagoCliente.metodoDePago);
+        break;
+    case 4:
+        printf("Metodo de Pago: %s\n", nodo->pagoCliente.metodoDePago);
+        break;
+    }
+
+    mostrarFecha(nodo->pagoCliente.fechaDePago);
+
     mostrarLinea(30);
+
 }
 
-void mostrarLista(nodoLista * inicioLista)
+void mostrarLista(nodoListaPagos * inicioLista)
 {
-    nodoLista *temp = inicioLista;
+    nodoListaPagos *temp = inicioLista;
     while (temp != NULL)
     {
         mostrarNodo(temp);
         temp = temp->siguiente;
     }
 }
+
