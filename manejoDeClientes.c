@@ -186,11 +186,11 @@ reset:
             {
                 printf("Bajo peso\n");
             }
-            else if(IMC >= 18.5 && IMC <= 24.9)
+            else if(IMC >= 18.5 && IMC < 25)
             {
                 printf("Normal\n");
             }
-            else if(IMC >= 25 && IMC <= 29.9)
+            else if(IMC >= 25 && IMC < 30)
             {
                 printf("Sobrepeso\n");
             }
