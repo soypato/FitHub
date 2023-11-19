@@ -170,6 +170,7 @@ nodoListaPagos * crearNuevoPagoCliente()
     return nodoTemp;
 }
 
+
 void mostrarNodo(nodoListaPagos *nodo)
 {
 

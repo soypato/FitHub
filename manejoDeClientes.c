@@ -22,6 +22,7 @@ void imprimirMenu()
     printf("7- Calcular IMC (indice de masa corporal)\n");
     printf("8- Contar asistencia\n");
     printf("9- Reiniciar asistencia\n");
+    printf("10- Cambiar cliente de plan\n");
     printf("0- Ir a atras\n");
     mostrarLinea(40);
 
@@ -38,9 +39,11 @@ int mainClientes()
     float peso;
     float estatura;
     int posTmp;
+
     int idPlanTmp;
     int nombreTmp;
     int cantTmp;
+
     char confirmacion='w';
 
     stArchivo archivoTmp;
@@ -228,7 +231,7 @@ reset:
             }
             break;
         case 10:
-            marcoEsteticoSwitch("MANEJO DE CLIENTES > CAMBIAR PLAN");
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > CAMBIAR CLIENTE DE PLAN");
             dniTmp = preguntarDNI();
             nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
             if(nodoTmp1)
@@ -237,7 +240,7 @@ reset:
                 scanf("%i", &idPlanTmp);
                 printf("Ingrese el nombre del nuevo plan: ");
                 fflush(stdin);
-                scanf("%s", &nombreTmp);
+                gets(&nombreTmp);
                 printf("Ingrese la cantidad de dias del nuevo plan: ");
                 scanf("%i", &cantTmp);
                 cambiarDePlan(ADAPlanes, valADAPlanes, dniTmp, idPlanTmp, nombreTmp, cantTmp);
@@ -248,7 +251,8 @@ reset:
             }
             break;
         case 0:
-            volverDependiendoTipoUsuario(tipoUsuario);
+            //volverDependiendoTipoUsuario(tipoUsuario);
+            return 0;
             break;
         default:
             printf("Opcion invalida, introduzca de nuevo la opcion: ");
@@ -655,15 +659,18 @@ void cambiarDePlan(stCeldaPlanes ADA[], int validos, int dni, int nuevoID, char 
     nodoArbol * nodoTmp = buscarDNIEnADA(ADA, validos, dni);
     stArchivo datosPlan = buscarPorDNIretornarTodaLaInformacion(dni);
 
+    printf("pre-modificacion\n");
     mostrarUnStArchivo(datosPlan);
 
-    printf("hola");
 
     datosPlan.idDePlan = nuevoID;
-    strcpy(datosPlan.plan, nuevoNombre);
+    //strcpy(datosPlan.plan,nuevoNombre);///ES EL PROBLEMA, PORQUE?
     datosPlan.diasDelPlan = nuevoDias;
 
-    printf("chau");
+    printf("pos-modificacion\n");
+
+    mostrarUnStArchivo(datosPlan);
+
 
     archiTmp = formatoADA2Archi(datosPlan.idDePlan, datosPlan.plan, datosPlan.diasDelPlan, nodoTmp->cliente);
     modificarClienteEnElArchivo(archiTmp);
@@ -763,6 +770,7 @@ stArchivo formatoADA2Archi(int idPlan, char nombrePlan[], int diasDelPlan, stCli
     archi.estatura = cliente.estatura;
     archi.bajaPasiva = cliente.bajaPasiva;
     archi.diasConcurridosEstaSemana = cliente.diasConcurridosEstaSemana;
+
     strcpy(archi.nombre, cliente.nombre);
     strcpy(archi.apellido, cliente.apellido);
     archi.DNI = cliente.DNI;
@@ -771,7 +779,6 @@ stArchivo formatoADA2Archi(int idPlan, char nombrePlan[], int diasDelPlan, stCli
 
     return archi;
 }
-
 
 
 void modificarClienteEnElArchivo(stArchivo archi)
