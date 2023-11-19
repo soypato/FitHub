@@ -39,15 +39,11 @@ int mainClientes()
     float peso;
     float estatura;
     int posTmp;
-
     int idPlanTmp;
     char nombreTmp[25];
     int cantTmp;
-
     char confirmacion='w';
-
     stArchivo archivoTmp;
-
     nodoArbol * nodoTmp1;
     char decisionTmpEstado2;
 
