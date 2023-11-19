@@ -1,6 +1,8 @@
 // CLAVES DE USUARIOS
 
-#define claveEmpleado 2
-#define clave 2389
-#define claveCliente 3290
+
+#define claveSalir 0
 #define claveAdmin 1
+#define claveEmpleado 2
+#define claveCliente 3
+

@@ -1,34 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "listasTDA.h"
-#include "manejoDeClientes.h"
-#include "ducktime.h"
-#include <conio.h>
 #include <stddef.h>
 #include <string.h>
+#include <conio.h>
+#include "listasTDA.h"
+#include "manejoDePagos.h"
+#include "ducktime.h"
+
 
 /// TDA LISTAS ///
 
-nodoLista * inicLista ()
+nodoListaPagos * inicLista ()
 {
     return NULL;
 }
 
-nodoLista * crearNodoLista (int DNI,char nombreyApellido[], float montoPago, int idMetodoPago, char metodoPago[], tiempo fechaPago)
+nodoListaPagos * crearNodoLista (stPago pagoTemporal)
 {
-    nodoLista * nuevo = (nodoLista*) malloc (sizeof(nodoLista));
-    nuevo->DNI = DNI;
-    strcpy(nuevo->nombreYApellido, nombreyApellido);
-    nuevo->fechaPago = fechaPago;
-    nuevo->idMetodoPago = idMetodoPago;
-    strcpy(nuevo->metodoPago, metodoPago);
-    nuevo->montoPago = montoPago;
-    nuevo->siguiente = NULL;
+    nodoListaPagos * nuevo = (nodoListaPagos*)malloc(sizeof(nodoListaPagos));
+
+    nuevo->pagoCliente  = pagoTemporal;
+    nuevo->siguiente=NULL;
 
     return nuevo;
 }
 
-nodoLista * agregarNodoInicio(nodoLista * lista, nodoLista * nuevo)
+nodoListaPagos * agregarNodoInicio(nodoListaPagos * lista, nodoListaPagos * nuevo)
 {
     if(lista==NULL)
     {
@@ -42,11 +39,11 @@ nodoLista * agregarNodoInicio(nodoLista * lista, nodoLista * nuevo)
     return lista;
 }
 
-nodoLista * agregar_nodo_ordenado(nodoLista * lista, nodoLista * nuevo)
+nodoListaPagos * agregarNodoOrdenadoPorNomYApe(nodoListaPagos * lista, nodoListaPagos * nuevo)
 {
-    nodoLista * actual = lista;
-    nodoLista * anterior = inicLista();
-    while(actual!= NULL && strcmp(nuevo->nombreYApellido, actual->nombreYApellido) > 0 )
+    nodoListaPagos * actual = lista;
+    nodoListaPagos * anterior = inicLista();
+    while(actual!= NULL && strcmp(nuevo->pagoCliente.nombreApellido, actual->pagoCliente.nombreApellido) > 0 )
     {
         anterior = actual;
         actual = actual->siguiente;
@@ -65,3 +62,50 @@ nodoLista * agregar_nodo_ordenado(nodoLista * lista, nodoLista * nuevo)
     return lista;
 }
 
+// Agrega un nodo a la lista de forma ordenada por el campo 'monto'
+nodoListaPagos * agregarNodoOrdenadoPorMonto(nodoListaPagos *lista, nodoListaPagos *nuevoNodo)
+{
+    if (lista == NULL || nuevoNodo->pagoCliente.montoPago < lista->pagoCliente.montoPago)
+    {
+        nuevoNodo->siguiente = lista;
+        lista = nuevoNodo;
+    }
+    else
+    {
+        nodoListaPagos *actual = lista;
+
+        while (actual->siguiente != NULL && actual->siguiente->pagoCliente.montoPago < nuevoNodo->pagoCliente.montoPago)
+        {
+            actual = actual->siguiente;
+        }
+
+        nuevoNodo->siguiente = actual->siguiente;
+        actual->siguiente = nuevoNodo;
+    }
+
+    return lista;
+}
+
+// Agrega un nodo a la lista de forma ordenada por el campo 'DNI'
+nodoListaPagos *agregarNodoOrdenadoPorDNI(nodoListaPagos *lista, nodoListaPagos *nuevoNodo)
+{
+    if (lista == NULL || nuevoNodo->pagoCliente.DNICliente < lista->pagoCliente.DNICliente)
+    {
+        nuevoNodo->siguiente = lista;
+        lista = nuevoNodo;
+    }
+    else
+    {
+        nodoListaPagos *actual = lista;
+
+        while (actual->siguiente != NULL && actual->siguiente->pagoCliente.DNICliente < nuevoNodo->pagoCliente.DNICliente)
+        {
+            actual = actual->siguiente;
+        }
+
+        nuevoNodo->siguiente = actual->siguiente;
+        actual->siguiente = nuevoNodo;
+    }
+
+    return lista;
+}

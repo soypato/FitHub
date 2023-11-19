@@ -87,5 +87,5 @@ void cargaDeFechas(tiempo *A)
 
 void mostrarFecha(tiempo fecha)
 {
-    printf("Fecha: %d %s. %d\n", fecha.dia, fecha.nombreMes, fecha.anio);
+    printf("Fecha: %d / %s / %d | %d : %d \n", fecha.dia, fecha.nombreMes, fecha.anio,fecha.hora,fecha.minuto);
 }

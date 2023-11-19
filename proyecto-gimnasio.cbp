@@ -31,11 +31,15 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="calorias.c">
+		<Unit filename="const.h" />
+		<Unit filename="controlAdmin.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="calorias.h" />
-		<Unit filename="const.h" />
+		<Unit filename="controlAdmin.h" />
+		<Unit filename="controlCliente.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="controlCliente.h" />
 		<Unit filename="controlEmpleado.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -63,10 +67,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="manejoEmpleado.h" />
-		<Unit filename="pagos.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="pagos.h" />
 		<Unit filename="tipoUsuario.c">
 			<Option compilerVar="CC" />
 		</Unit>
