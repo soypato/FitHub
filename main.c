@@ -69,6 +69,7 @@ void centrarTexto(char *texto, int y)
 
 int main()
 {
+
     system("COLOR 04");
     controlInicio();
     return 0;
