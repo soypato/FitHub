@@ -3,11 +3,11 @@
 
 typedef struct{
     int legajo;
-    char nombre[];
-    char apelldio[];
+    char nombreYApellido[40];
     int edad;
     int DNI;
-
+    char categoria[30];
+    int bajaPasiva;
 }stEmpleado;
 
 #endif // MANEJOEMPLEADO_H_INCLUDED

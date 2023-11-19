@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "manejoDeClientes.h"
 #include "controlEmpleado.h"
 #include "const.h"
@@ -33,7 +34,7 @@ void controlEmpleado()
             limpiarPantalla();
             break;
         case 2:
-            mainPagosEmpleado();
+            mainPagosClientes();
             limpiarPantalla();
             break;
         default:

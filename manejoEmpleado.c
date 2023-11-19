@@ -9,8 +9,7 @@
 #include "const.h"
 #include "tipoUsuario.h"
 
-int mainEmpleados
-()
+int mainEmpleados()
 {
     limpiarPantalla();
     int op=0;

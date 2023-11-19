@@ -1,6 +1,0 @@
-#ifndef CALORIAS_H_INCLUDED
-#define CALORIAS_H_INCLUDED
-
-
-
-#endif // CALORIAS_H_INCLUDED
