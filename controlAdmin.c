@@ -1,21 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "manejoDeClientes.h"
-#include "controlEmpleado.h"
+#include "manejoEmpleado.h"
+#include "controlAdmin.h"
 #include "const.h"
 #include "tipoUsuario.h"
 
-void controlEmpleado()
+void controlAdmin()
 {
     int decision;
     do
     {
-        marcoEsteticoSwitch("CONTROL DE EMPLEADO");
+        marcoEsteticoSwitch("CONTROL DE ADMINISTRADOR");
         reset:
         mostrarLinea(40);
         printf("1- Manejo de clientes\n");
         printf("2- Manejo de pagos\n"); /// aca decía: "manejo de empleados" pero lo podríamos revisar :)
+        printf("3- Manejo de empleados\n");
         printf("0- Salir\n");
         mostrarLinea(40);
 
@@ -36,6 +37,10 @@ void controlEmpleado()
             mainPagosClientes();
             limpiarPantalla();
             break;
+        case 3:
+            mainEmpleados();
+            limpiarPantalla();
+            break;
         default:
             limpiarPantalla(); /// maybe???
             printf("Opcion invalida\n");
@@ -45,7 +50,3 @@ void controlEmpleado()
     }
     while (decision != 0);
 }
-
-
-
-

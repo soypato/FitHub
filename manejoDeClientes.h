@@ -9,7 +9,6 @@
 
 typedef struct
 {
-    int idCliente;
     char plan[25];
     int diasDelPlan;
     int idDePlan;
@@ -26,7 +25,6 @@ typedef struct
 
 typedef struct
 {
-    int idCliente; /// CAMPO UNICO ///
     char nombre[20];
     char apellido[20];
     int DNI;
@@ -74,6 +72,7 @@ float calcularIMC(float peso, float estatura);
 void modificarClienteEnElADAyEnElArchivo(stCeldaPlanes ADA[], int validos, int dni);
 nodoArbol * modificarClienteIndividual(nodoArbol * cliente);
 stArchivo formatoADA2Archi(int idPlan, char nombrePlan[], int diasDelPlan, stCliente cliente);
+void cambiarDePlan(stCeldaPlanes ADA[], int validos, int dni, int nuevoID, char nuevoNombre[], int nuevoDias);
 void eliminarCliente(stCeldaPlanes ADA[], int validos, int dni);
 void restaurarCliente(stCeldaPlanes ADA[], int validos, int dni);
 void listadoClientes();
