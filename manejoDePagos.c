@@ -18,6 +18,11 @@ void imprimirMenuPagosEmpleado()
 {
     printf("1- Generar factura de un cliente\n");
     printf("2- Mostrar todas las facturas\n");
+    printf("3- Mostrar facturas filtradas por Monto\n");
+    printf("4- Mostrar facturas filtradas por DNI\n");
+    printf("5- Mostrar facturas dadas de baja\n");
+    printf("6- Quitar una factura\n");
+    printf("7- Reactivar una factura\n");
     printf("0- Volver\n");
     mostrarLinea(40);
 }
@@ -52,11 +57,32 @@ int mainPagosEmpleado()
                 fflush(stdin);
                 scanf("%c", &continuar);
             }
+            guardarFacturasEnArchivo(lista);
             continuar = 's';
             break;
         case 2:
-            marcoEsteticoSwitch("MANEJO DE PAGOS > MOSTRAR TODOS LOS PAGOS");
-            mostrarLista(lista);
+            marcoEsteticoSwitch("MANEJO DE PAGOS > MOSTRAR TODAS LAS FACTURAS");
+            mostrarFacturasDesdeArchivo();
+            break;
+        case 3:
+            marcoEsteticoSwitch("MANEJO DE PAGOS > MOSTRAR FACTURAS POR MONTO");
+            mostrarFacturasDesdeArchivoOrdenadasPorMonto();
+            break;
+        case 4:
+            marcoEsteticoSwitch("MANEJO DE PAGOS > MOSTRAR FACTURAS POR DNI");
+            mostrarFacturasDesdeArchivoOrdenadasPorDNI();
+            break;
+        case 5:
+            marcoEsteticoSwitch("MANEJO DE PAGOS > MOSTRAR FACTURAS DADAS DE BAJA");
+            mostrarFacturasDadasDeBaja();
+            break;
+        case 6:
+            marcoEsteticoSwitch("MANEJO DE PAGOS > QUITAR UNA FACTURA");
+            darDeBajaUnaFactura();
+            break;
+        case 7:
+            marcoEsteticoSwitch("MANEJO DE PAGOS > REACTIVAR UNA FACTURA");
+            reactivarFactura();
             break;
         case 0:
             volverDependiendoTipoUsuario(tipoUsuario);
@@ -137,6 +163,7 @@ nodoListaPagos * crearNuevoPagoCliente()
     scanf("%d %d %d %d %d", &fechaPago.anio, &fechaPago.mes, &fechaPago.dia, &fechaPago.hora, &fechaPago.minuto);
 
     pagoTemporal.fechaDePago = fechaPago;
+    pagoTemporal.bajaPasiva = 0;
 
     nodoTemp = crearNodoLista(pagoTemporal);
 
@@ -146,7 +173,8 @@ nodoListaPagos * crearNuevoPagoCliente()
 
 void mostrarNodo(nodoListaPagos *nodo)
 {
-    mostrarLinea(30);
+
+    mostrarLinea(45);
     printf("Nombre y Apellido: %s\n", nodo->pagoCliente.nombreApellido);
     printf("DNI: %d\n", nodo->pagoCliente.DNICliente);
     printf("Monto: AR$%0.2f\n", nodo->pagoCliente.montoPago);
@@ -167,10 +195,32 @@ void mostrarNodo(nodoListaPagos *nodo)
         break;
     }
 
-            printf("Fecha de Pago: %d/%d/%d %d:%d\n", nodo->pagoCliente.fechaDePago.dia, nodo->pagoCliente.fechaDePago.mes, nodo->pagoCliente.fechaDePago.anio, nodo->pagoCliente.fechaDePago.hora, nodo->pagoCliente.fechaDePago.minuto);
+    printf("Fecha de Pago: %d/%d/%d %d:%d\n", nodo->pagoCliente.fechaDePago.dia, nodo->pagoCliente.fechaDePago.mes, nodo->pagoCliente.fechaDePago.anio, nodo->pagoCliente.fechaDePago.hora, nodo->pagoCliente.fechaDePago.minuto);
 
-    mostrarLinea(30);
+    mostrarLinea(45);
 
+}
+
+void guardarFacturasEnArchivo(nodoListaPagos *lista)
+{
+    FILE *archivo = fopen(Registro_Pagos, "ab"); // Abre el archivo en modo de agregar binario
+
+    if (archivo != NULL)
+    {
+        nodoListaPagos *temp = lista;
+
+        while (temp != NULL)
+        {
+            fwrite(&(temp->pagoCliente), sizeof(stPago), 1, archivo);
+            temp = temp->siguiente;
+        }
+
+        fclose(archivo);
+    }
+    else
+    {
+        printf("Error al abrir el archivo para guardar las facturas.\n");
+    }
 }
 
 void mostrarLista(nodoListaPagos * inicioLista)
@@ -178,9 +228,241 @@ void mostrarLista(nodoListaPagos * inicioLista)
     nodoListaPagos *temp = inicioLista;
     while (temp != NULL)
     {
-        mostrarNodo(temp);
+        if (temp->pagoCliente.bajaPasiva == 0)
+        {
+            mostrarNodo(temp);
+        }
         temp = temp->siguiente;
     }
 }
 
+void mostrarFacturasDesdeArchivo()
+{
+    FILE *archivo = fopen(Registro_Pagos, "rb"); // Abre el archivo en modo de leer binario
 
+    if (archivo != NULL)
+    {
+        stPago factura;
+        while (fread(&factura, sizeof(stPago), 1, archivo) > 0)
+        {
+            if (factura.bajaPasiva == 0)
+            {
+                mostrarNodo(crearNodoLista(factura));
+            }
+        }
+
+        fclose(archivo);
+    }
+    else
+    {
+        printf("Error al abrir el archivo para leer las facturas.\n");
+    }
+}
+
+void mostrarFacturasDesdeArchivoOrdenadasPorMonto()
+{
+    FILE *archivo = fopen(Registro_Pagos, "rb"); // Abre el archivo en modo de leer binario
+
+    if (archivo != NULL)
+    {
+        nodoListaPagos *lista = inicLista();
+        stPago factura;
+
+        // Leer las facturas y agregarlas a la lista
+        while (fread(&factura, sizeof(stPago), 1, archivo) > 0)
+        {
+            nodoListaPagos *nuevoNodo = crearNodoLista(factura);
+            lista = agregarNodoOrdenadoPorMonto(lista, nuevoNodo);
+        }
+
+        // Mostrar las facturas ordenadas por monto
+        mostrarLista(lista);
+
+        fclose(archivo);
+    }
+    else
+    {
+        printf("Error al abrir el archivo para leer las facturas.\n");
+    }
+}
+
+void mostrarFacturasDesdeArchivoOrdenadasPorDNI()
+{
+    FILE *archivo = fopen(Registro_Pagos, "rb"); // Abre el archivo en modo de leer binario
+
+    if (archivo != NULL)
+    {
+        nodoListaPagos *lista = inicLista();
+        stPago factura;
+
+        // Leer las facturas y agregarlas a la lista
+        while (fread(&factura, sizeof(stPago), 1, archivo) > 0)
+        {
+            nodoListaPagos *nuevoNodo = crearNodoLista(factura);
+            lista = agregarNodoOrdenadoPorDNI(lista, nuevoNodo);
+        }
+
+        // Mostrar las facturas ordenadas por monto
+        mostrarLista(lista);
+
+        fclose(archivo);
+    }
+    else
+    {
+        printf("Error al abrir el archivo para leer las facturas.\n");
+    }
+}
+
+
+void darDeBajaUnaFactura()
+{
+    FILE *archivo = fopen(Registro_Pagos, "rb+"); // Abre el archivo en modo de leer y escribir binario
+
+    if (archivo != NULL)
+    {
+        stPago factura;
+        int dniBuscar;
+
+        // Solicitar al usuario el DNI de la factura a modificar
+        printf("Ingrese el DNI del cliente de la factura a quitar: ");
+        scanf("%d", &dniBuscar);
+
+        // Buscar la factura en el archivo
+        int encontrado = 0;
+        while (fread(&factura, sizeof(stPago), 1, archivo) > 0)
+        {
+            if (factura.DNICliente == dniBuscar)
+            {
+                encontrado = 1;
+
+                // Mostrar la factura actual
+                printf("Factura encontrada:\n");
+                mostrarNodo(crearNodoLista(factura));
+
+                // Solicitar al usuario si desea dar de baja la factura
+                int opcion;
+                printf("Desea dar de baja esta factura? (1: Si / 0: No): ");
+                scanf("%d", &opcion);
+
+                // Modificar el campo bajaPasiva según la opción del usuario
+                if (opcion == 1)
+                {
+                    factura.bajaPasiva = 1;
+                    fseek(archivo, -sizeof(stPago), SEEK_CUR); // Retrocede un registro para escribir sobre el registro actual
+                    fwrite(&factura, sizeof(stPago), 1, archivo);
+                    printf("Factura dada de baja exitosamente.\n");
+                }
+                else
+                {
+                    printf("Operacion cancelada. La factura no fue modificada.\n");
+                }
+
+                break; // No es necesario seguir buscando
+            }
+        }
+
+        if (!encontrado)
+        {
+            printf("Factura no encontrada.\n");
+        }
+
+        fclose(archivo);
+    }
+    else
+    {
+        printf("Error al abrir el archivo para modificar la factura.\n");
+    }
+}
+
+
+void reactivarFactura()
+{
+    FILE *archivo = fopen(Registro_Pagos, "rb+"); // Abre el archivo en modo de leer y escribir binario
+
+    if (archivo != NULL)
+    {
+        stPago factura;
+        int dniBuscar;
+
+        // Solicitar al usuario el DNI de la factura a reactivar
+        printf("Ingrese el DNI del cliente de la factura a reactivar: ");
+        scanf("%d", &dniBuscar);
+
+        // Buscar la factura en el archivo
+        int encontrado = 0;
+        while (fread(&factura, sizeof(stPago), 1, archivo) > 0)
+        {
+            if (factura.DNICliente == dniBuscar)
+            {
+                encontrado = 1;
+
+                // Mostrar la factura actual
+                printf("Factura encontrada:\n");
+                mostrarNodo(crearNodoLista(factura));
+
+                // Solicitar al usuario si desea reactivar la factura
+                int opcion;
+                printf("Desea reactivar esta factura? (1: Si / 0: No): ");
+                scanf("%d", &opcion);
+
+                // Modificar el campo bajaPasiva según la opción del usuario
+                if (opcion == 1)
+                {
+                    factura.bajaPasiva = 0;
+                    fseek(archivo, -sizeof(stPago), SEEK_CUR); // Retrocede un registro para escribir sobre el registro actual
+                    fwrite(&factura, sizeof(stPago), 1, archivo);
+                    printf("Factura reactivada exitosamente.\n");
+                }
+                else
+                {
+                    printf("Operacion cancelada. La factura no fue modificada.\n");
+                }
+
+                break; // No es necesario seguir buscando
+            }
+        }
+
+        if (!encontrado)
+        {
+            printf("Factura no encontrada.\n");
+        }
+
+        fclose(archivo);
+    }
+    else
+    {
+        printf("Error al abrir el archivo para modificar la factura.\n");
+    }
+}
+
+
+void mostrarFacturasDadasDeBaja()
+{
+    FILE *archivo = fopen(Registro_Pagos, "rb"); // Abre el archivo en modo de leer binario
+
+    if (archivo != NULL)
+    {
+        stPago factura;
+        int contadorFacturas = 0;
+
+        while (fread(&factura, sizeof(stPago), 1, archivo) > 0)
+        {
+            if (factura.bajaPasiva == 1)
+            {
+                mostrarNodo(crearNodoLista(factura));
+                contadorFacturas++;
+            }
+        }
+
+        if (contadorFacturas == 0)
+        {
+            printf("No hay facturas dadas de baja en el archivo.\n");
+        }
+
+        fclose(archivo);
+    }
+    else
+    {
+        printf("Error al abrir el archivo para leer las facturas.\n");
+    }
+}

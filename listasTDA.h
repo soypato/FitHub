@@ -16,6 +16,7 @@ typedef struct
     float montoPago;
     int idMetodoDePago; /// 1 para efectivo, 2 tarj credito, 3 tarj debito, 4 billeteras virtuales
     char metodoDePago[20]; /// efectivo, bill virtual, tarjeta credito, tarjeta debito
+    int bajaPasiva;
     tiempo fechaDePago;
 }stPago;
 
@@ -28,11 +29,26 @@ typedef struct nodoListaPagos{
 }nodoListaPagos;
 
 /// PROTOTIPADOS
+nodoListaPagos * inicLista ();
+nodoListaPagos * crearNodoLista (stPago pagoTemporal);
+nodoListaPagos * agregarNodoInicio(nodoListaPagos * lista, nodoListaPagos * nuevo);
+nodoListaPagos * agregarNodoOrdenadoPorNomYApe(nodoListaPagos * lista, nodoListaPagos * nuevo);
+nodoListaPagos * agregarNodoOrdenadoPorMonto(nodoListaPagos *lista, nodoListaPagos *nuevoNodo);
+nodoListaPagos * agregarNodoOrdenadoPorDNI(nodoListaPagos *lista, nodoListaPagos *nuevoNodo);
+
+/// PROTOTIPADOS MANEJODEPAGOS
 void imprimirMenuPagosEmpleado();
 int mainPagosEmpleado();
 nodoListaPagos * crearNuevoPagoCliente();
 void mostrarNodo(nodoListaPagos *nodo);
 void mostrarLista(nodoListaPagos* inicioLista);
+void guardarFacturasEnArchivo(nodoListaPagos *lista);
+void mostrarFacturasDesdeArchivo();
+void mostrarFacturasDesdeArchivoOrdenadasPorMonto();
+void mostrarFacturasDesdeArchivoOrdenadasPorDNI();
+void darDeBajaUnaFactura();
+void reactivarFactura();
+void mostrarFacturasDadasDeBaja();
 
 
 #endif // LISTASTDA_H_INCLUDED
