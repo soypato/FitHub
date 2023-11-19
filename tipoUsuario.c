@@ -8,7 +8,14 @@ void volverDependiendoTipoUsuario (int tipoUsuario)
     // dependiendo el ID del usuario (no la pass)
     if (tipoUsuario == 1)
     {
+        //controlAdmin();
+    }else if (tipoUsuario == 2)
+    {
         controlEmpleado();
+    }
+    else if (tipoUsuario == 3)
+    {
+        //controlCliente();
     }
 
 }

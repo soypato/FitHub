@@ -77,10 +77,17 @@ void inicioSesion()
 
     switch (tmpClave)
     {
-    case claveEmpleado:
+    case claveAdmin:
         tipoUsuario = 1;
+        break;
+    case claveEmpleado:
+        tipoUsuario = 2;
         controlEmpleado();
         break;
+    case claveCliente:
+        tipoUsuario = 3;
+        break;
+
     default:
         printf("Clave incorrecta, presiona enter para intentar de nuevo\n");
         getchar(); // Captura el Enter previo al scanf
