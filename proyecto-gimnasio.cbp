@@ -31,6 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="arbolesTDA.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="arbolesTDA.h" />
 		<Unit filename="const.h" />
 		<Unit filename="controlAdmin.c">
 			<Option compilerVar="CC" />
