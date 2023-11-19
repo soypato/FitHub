@@ -7,6 +7,7 @@
 #include "const.h"
 #include "tipoUsuario.h"
 
+
 void controlEmpleado()
 {
     int decision;

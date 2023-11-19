@@ -150,7 +150,7 @@ int inicioSesion()
         break;
     case claveCliente:
         tipoUsuario = 3;
-        //controlCliente();
+        controlCliente();
         break;
     default:
         printf("Clave incorrecta, presiona enter para intentar de nuevo\n");
