@@ -143,6 +143,7 @@ nodoListaPagos * crearNuevoPagoCliente()
     return nodoTemp;
 }
 
+
 void mostrarNodo(nodoListaPagos *nodo)
 {
     mostrarLinea(30);
