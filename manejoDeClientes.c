@@ -28,28 +28,28 @@ void imprimirMenu()
 
 }
 
+stCeldaPlanes ADAPlanes[10];
+int valADAPlanes = 0;
+int dniTmp;
+int opcion;
+float IMC;
+float peso;
+float estatura;
+int posTmp;
+int idPlanTmp;
+char nombreTmp[25];
+int cantTmp;
+char confirmacion='w';
+stArchivo archivoTmp;
+nodoArbol * nodoTmp1;
+char decisionTmpEstado2;
+int op=0;
+char decision = 's';
 
 int mainClientes()
 {
     limpiarPantalla();
-    stCeldaPlanes ADAPlanes[10];
-    int valADAPlanes = 0;
-    int dniTmp;
-    int opcion;
-    float IMC;
-    float peso;
-    float estatura;
-    int posTmp;
-    int idPlanTmp;
-    char nombreTmp[25];
-    int cantTmp;
-    char confirmacion='w';
-    stArchivo archivoTmp;
-    nodoArbol * nodoTmp1;
-    char decisionTmpEstado2;
-
-    char decision = 's';
-    while (tolower(decision) == 's' || tolower(decision) == 'y')
+    while (tolower(decision) == 's'|| tolower(decision) == 'y')
     {
         // Cada vez que se ejecute el menú refrescamos los datos de archivos
         marcoEsteticoSwitch("MANEJO DE CLIENTES");
@@ -1016,11 +1016,9 @@ nodoArbol * buscarArbolCliente(nodoArbol * arbol, int dni)
 
 void controlCliente()
 {
-    float peso;
-    float estatura;
-    float IMC;
-    int decision = 1;
-    while(decision == 1)
+    valADAPlanes = archi2ADA(ADAPlanes, 10, ARCHIVO_PLANES);
+    char decision = 's';
+    while(tolower(decision) == 's')
     {
         marcoEsteticoSwitch("ACCIONES DE CLIENTE");
 reset:
@@ -1032,16 +1030,16 @@ reset:
 
         printf("Su decision: ");
         fflush(stdin);
-        scanf(" %d", &decision);
+        scanf(" %d", &op);
 
-        switch (decision)
+        switch (op)
         {
         case 0:
             return;
             break;
         case 1:
-            marcoEsteticoSwitch("CLIENTES > CALCULO DE IMC"); //
-            printf("El IMC es un calculo hecho por la OMS para determinar si una persona\ntiene bajo peso, peso normal, sobrepeso, u obesidad,\npara calcularlo necesitamos el peso y la estatura de la persona\n");
+            marcoEsteticoSwitch("CLIENTES > CALCULO DE IMC");
+            printf("El IMC es un calculo hecho por la OMS para determinar si una persona\ntiene bajo peso, peso normal, sobrepeso u obesidad,\npara calcularlo necesitamos el peso y la estatura de la persona\n");
             mostrarLinea(50);
 
             printf("Introduzca el peso(en kg): ");
@@ -1052,7 +1050,7 @@ reset:
 
             IMC = calcularIMC(peso, estatura);
 
-            printf("Tu IMC es: %f.2, eso quiere decir: ", IMC);
+            printf("Tu IMC es: %f, eso quiere decir: ", IMC);
 
             if(IMC < 18.5)
             {
@@ -1060,7 +1058,7 @@ reset:
             }
             else if(IMC >= 18.5 && IMC < 25)
             {
-                printf("Peos Normal\n");
+                printf("Normal\n");
             }
             else if(IMC >= 25 && IMC < 30)
             {
@@ -1070,28 +1068,31 @@ reset:
             {
                 printf("Obesidad\n");
             }
-            limpiarPantalla();
+
             break;
         case 2:
-            marcoEsteticoSwitch("CLIENTES > CONTAR ASISTENCIA");
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > CONTAR ASISTENCIA");
             dniTmp = preguntarDNI();
             nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
             if(nodoTmp1)
             {
                 contarAsistencia(ADAPlanes, valADAPlanes, dniTmp);
-                ///sigue pasando lo mismo de siempre, no podemos usar variable de otra lib. sin hacer autenticas BARBARIDADES :|
             }
             else
             {
                 printf("El cliente no existe en el sistema.");
             }
-            limpiarPantalla();
-            break;*/
+            break;
         default:
-            limpiarPantalla(); /// maybe???
+            limpiarPantalla();
             printf("Opcion invalida\n");
             goto reset;
             break;
         }
+
+        printf("Desea continuar?  ");
+        printf("S / N\n");
+        fflush(stdin);
+        scanf("%c",&decision);
     }
 }

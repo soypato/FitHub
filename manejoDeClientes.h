@@ -86,6 +86,9 @@ void imprimirMenu();
 void mostrarUnStArchivo(stArchivo archi);
 void mostraArchivoCompleto();
 void modificarClienteEnElArchivo(stArchivo archi);
+
+void controlCliente();
+
 /// TDA arbolCliente
 nodoArbol * inicArbol();
 nodoArbol * cargarNodoArbolClientes(stCliente cliente);
