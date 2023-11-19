@@ -39,7 +39,7 @@ nodoListaPagos * agregarNodoInicio(nodoListaPagos * lista, nodoListaPagos * nuev
     return lista;
 }
 
-nodoListaPagos * agregar_nodo_ordenado(nodoListaPagos * lista, nodoListaPagos * nuevo)
+nodoListaPagos * agregarNodoOrdenadoPorNomYApe(nodoListaPagos * lista, nodoListaPagos * nuevo)
 {
     nodoListaPagos * actual = lista;
     nodoListaPagos * anterior = inicLista();
@@ -62,3 +62,50 @@ nodoListaPagos * agregar_nodo_ordenado(nodoListaPagos * lista, nodoListaPagos * 
     return lista;
 }
 
+// Agrega un nodo a la lista de forma ordenada por el campo 'monto'
+nodoListaPagos * agregarNodoOrdenadoPorMonto(nodoListaPagos *lista, nodoListaPagos *nuevoNodo)
+{
+    if (lista == NULL || nuevoNodo->pagoCliente.montoPago < lista->pagoCliente.montoPago)
+    {
+        nuevoNodo->siguiente = lista;
+        lista = nuevoNodo;
+    }
+    else
+    {
+        nodoListaPagos *actual = lista;
+
+        while (actual->siguiente != NULL && actual->siguiente->pagoCliente.montoPago < nuevoNodo->pagoCliente.montoPago)
+        {
+            actual = actual->siguiente;
+        }
+
+        nuevoNodo->siguiente = actual->siguiente;
+        actual->siguiente = nuevoNodo;
+    }
+
+    return lista;
+}
+
+// Agrega un nodo a la lista de forma ordenada por el campo 'DNI'
+nodoListaPagos *agregarNodoOrdenadoPorDNI(nodoListaPagos *lista, nodoListaPagos *nuevoNodo)
+{
+    if (lista == NULL || nuevoNodo->pagoCliente.DNICliente < lista->pagoCliente.DNICliente)
+    {
+        nuevoNodo->siguiente = lista;
+        lista = nuevoNodo;
+    }
+    else
+    {
+        nodoListaPagos *actual = lista;
+
+        while (actual->siguiente != NULL && actual->siguiente->pagoCliente.DNICliente < nuevoNodo->pagoCliente.DNICliente)
+        {
+            actual = actual->siguiente;
+        }
+
+        nuevoNodo->siguiente = actual->siguiente;
+        actual->siguiente = nuevoNodo;
+    }
+
+    return lista;
+}

@@ -8,6 +8,7 @@
 #include "tipoUsuario.h"
 #include <conio.h>
 
+
 /// PROTOTIPADOS
 void menuPrincipal();
 void limpiarPantalla();
