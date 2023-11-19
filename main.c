@@ -13,7 +13,7 @@
 void menuPrincipal();
 void limpiarPantalla();
 void controlInicio();
-void inicioSesion();
+int inicioSesion();
 void controlEmpleado();
 void marcoEsteticoSwitch(char texto[]);
 void mostrarLinea(int cantidad);
@@ -64,11 +64,13 @@ void controlInicio()
 
 }
 
-void inicioSesion()
+int inicioSesion()
 {
     int tmpClave = 0;
     int loginExitoso = 0;
     limpiarPantalla();
+    /// hacer funcino que muestre FITHUB
+    restart:
     printf("\n\n>> Introduzca la contrasena: ");
     scanf("%d", &tmpClave);
     limpiarPantalla();
@@ -77,15 +79,28 @@ void inicioSesion()
 
     switch (tmpClave)
     {
-    case claveEmpleado:
+    case claveSalir://0
+        return 0;
+        break;
+    case claveAdmin://1
         tipoUsuario = 1;
+        controlAdmin();
+        break;
+    case claveEmpleado:// 2
+        tipoUsuario = 2;
         controlEmpleado();
+        break;
+    case claveCliente://3
+        tipoUsuario = 3;
+        controlCliente();
         break;
     default:
         printf("Clave incorrecta, presiona enter para intentar de nuevo\n");
         getchar(); // Captura el Enter previo al scanf
         getchar(); // Espera a que el usuario presione Enter para continuar
-        inicioSesion();
+        limpiarPantalla();
+        goto restart;
         break;
     }
+    return 0;
 }

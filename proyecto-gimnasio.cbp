@@ -36,6 +36,14 @@
 		</Unit>
 		<Unit filename="calorias.h" />
 		<Unit filename="const.h" />
+		<Unit filename="controlAdmin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="controlAdmin.h" />
+		<Unit filename="controlCliente.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="controlCliente.h" />
 		<Unit filename="controlEmpleado.c">
 			<Option compilerVar="CC" />
 		</Unit>
