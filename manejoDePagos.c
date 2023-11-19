@@ -28,7 +28,7 @@ void imprimirMenuPagosEmpleado()
 }
 
 
-int mainPagosEmpleado()
+int mainPagosClientes()
 {
     limpiarPantalla();
     nodoListaPagos * nodoTmp = inicLista();

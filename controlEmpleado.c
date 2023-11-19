@@ -33,7 +33,7 @@ void controlEmpleado()
             limpiarPantalla();
             break;
         case 2:
-            mainPagosEmpleado();
+            mainPagosClientes();
             limpiarPantalla();
             break;
         default:
