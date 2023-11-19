@@ -40,15 +40,11 @@ int mainClientes()
     float peso;
     float estatura;
     int posTmp;
-
     int idPlanTmp;
-    int nombreTmp;
+    char nombreTmp[25];
     int cantTmp;
-
     char confirmacion='w';
-
     stArchivo archivoTmp;
-
     nodoArbol * nodoTmp1;
     char decisionTmpEstado2;
 
@@ -665,7 +661,7 @@ void cambiarDePlan(stCeldaPlanes ADA[], int validos, int dni, int nuevoID, char 
 
 
     datosPlan.idDePlan = nuevoID;
-    //strcpy(datosPlan.plan,nuevoNombre);///ES EL PROBLEMA, PORQUE?
+    strcpy(datosPlan.plan,nuevoNombre);
     datosPlan.diasDelPlan = nuevoDias;
 
     printf("pos-modificacion\n");
