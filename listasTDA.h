@@ -49,6 +49,6 @@ void mostrarFacturasDesdeArchivoOrdenadasPorDNI();
 void darDeBajaUnaFactura();
 void reactivarFactura();
 void mostrarFacturasDadasDeBaja();
-
+void exportarPagosCSV();
 
 #endif // LISTASTDA_H_INCLUDED

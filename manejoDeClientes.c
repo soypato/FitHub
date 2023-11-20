@@ -262,7 +262,7 @@ preguntarDNIOtravez:
             {
                 char* rutinaMuscular = generarRutinaMuscular(diasRutinaTmp);
 
-                 mostrarLinea(50);
+                mostrarLinea(50);
                 printf("%s", rutinaMuscular);
                 printf("Consultar ejercicios al entrenador\n");
                 mostrarLinea(50);
@@ -274,7 +274,7 @@ preguntarDNIOtravez:
             }
             break;
         case 12:
-            marcoEsteticoSwitch("MANEJO DE CLIENTES > EXPORTAR A CSV");
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > EXPORTAR A EXCEL");
             exportarClientesCSV();
             printf("clientes.csv exportado\n");
             break;
@@ -798,7 +798,7 @@ elegirOpcionModificacion:
         scanf("%d", &nodoTmp->cliente.diasConcurridosEstaSemana);
         break;
     case 0:
-        printf("Operac  ion cancelada por el usuario.\n");
+        printf("Operacion cancelada por el usuario.\n");
         break;
     default:
         printf("Opcion invalida, introduzca de nuevo la opcion: ");
@@ -835,7 +835,6 @@ stArchivo formatoADA2Archi(int idPlan, char nombrePlan[], int diasDelPlan, stCli
 
     return archi;
 }
-
 
 void modificarClienteEnElArchivo(stArchivo archi)
 {
@@ -1073,7 +1072,7 @@ nodoArbol * buscarArbolCliente(nodoArbol * arbol, int dni)
     return rta;
 }
 
-void controlCliente()
+void controlCliente() /// ESTA ES UNA VERSION "PROTEGIDA" PARA EL PUBLICO
 {
     valADAPlanes = archi2ADA(ADAPlanes, 10, ARCHIVO_PLANES);
     char decision = 's';
@@ -1084,7 +1083,6 @@ reset:
         mostrarLinea(40);
         printf("1- Calcular IMC (indice de masa corporal)\n");
         printf("2- Contar asistencia\n");
-        printf("3- Ir al inventario\n");
         printf("0- Salir\n");
         mostrarLinea(40);
 
@@ -1143,9 +1141,6 @@ reset:
                 printf("El cliente no existe en el sistema.");
             }
             break;
-        case 3:
-            mainInventario();
-            break;
         default:
             limpiarPantalla();
             printf("Opcion invalida\n");
@@ -1153,8 +1148,7 @@ reset:
             break;
         }
 
-        printf("Desea continuar?  ");
-        printf("S / N\n");
+        printf("Desea continuar? (s/n) ");
         fflush(stdin);
         scanf("%c",&decision);
     }
