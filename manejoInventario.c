@@ -231,6 +231,12 @@ void apilarObjeto(pila *p)
     printf("Ingrese el nombre del objeto: ");
     fflush(stdin);
     fgets(nuevoNodo->objeto.nombreObjeto, sizeof(nuevoNodo->objeto.nombreObjeto), stdin);
+    /// CON SCANF/GETS TIRA ERROR, USO FGETS POR SEGURIDAD
+    /// LE BORRO EL ESPACIO EN BLANCO QUE SE GENERA AL FINAL
+    size_t length = strlen(nuevoNodo->objeto.nombreObjeto);
+    if (length > 0 && nuevoNodo->objeto.nombreObjeto[length - 1] == '\n') {
+        nuevoNodo->objeto.nombreObjeto[length - 1] = '\0';
+    }
 
     printf("Ingrese el peso del objeto en Kg: ");
     scanf("%f", &nuevoNodo->objeto.pesoEnKg);
@@ -380,5 +386,5 @@ void mostrarStockTotal(const pila *p)
     printf("+---------------------+---------------------+---------------------+\n");
 
     // Imprimir el total debajo de la tabla
-    printf("TOTAL: %d\n", acumulado);
+    printf("TOTAL de objetos acumulados: %d\n", acumulado);
 }
