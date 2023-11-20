@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "manejoDeClientes.h"
 #include "controlEmpleado.h"
 #include "const.h"
 #include "tipoUsuario.h"
+
 
 void controlEmpleado()
 {

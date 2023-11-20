@@ -157,13 +157,13 @@ void inicioSesion()
         break;
     case claveCliente:
         tipoUsuario = 3;
-        //controlCliente();
+        controlCliente();
         break;
     default:
         printf("Clave incorrecta, presiona enter para intentar de nuevo\n");
         getchar(); // Captura el Enter previo al scanf
         getchar(); // Espera a que el usuario presione Enter para continuar
-        inicioSesion();
+        goto restart;
         break;
     }
 }
