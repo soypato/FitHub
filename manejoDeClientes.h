@@ -52,6 +52,8 @@ typedef struct
 } stCeldaPlanes;
 
 /// Prototipados
+void exportarClientesCSV();
+
 int archi2ADA(stCeldaPlanes ADA[], int dimension, const char ARCHIVO_PLANES[]);
 int altaCliente(const char ARCHIVO_PLANES[], stCeldaPlanes ADA[], int validos, stCliente clienteTmp, int idDelPlan, char nombrePlan[], int diasDelPlan);
 int agregarEnArregloClientes(stCeldaPlanes ADA[], int validos, stCeldaPlanes planTmp);
@@ -87,7 +89,6 @@ void imprimirMenu();
 void mostrarUnStArchivo(stArchivo archi);
 void mostraArchivoCompleto();
 void modificarClienteEnElArchivo(stArchivo archi);
-
 void controlCliente();
 
 /// TDA arbolCliente

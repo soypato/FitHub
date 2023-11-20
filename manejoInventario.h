@@ -35,4 +35,5 @@ void eliminarObjeto(pila *p);
 void buscarObjeto(const pila *p);
 void modificarObjeto(pila *p);
 void mostrarStockTotal(const pila *p);
+void exportarCSV(const pila *p);
 #endif // MANEJOINVENTARIO_H_INCLUDED
