@@ -14,7 +14,7 @@
 void menuPrincipal();
 void limpiarPantalla();
 void controlInicio();
-int inicioSesion();
+void inicioSesion();
 void controlEmpleado();
 void marcoEsteticoSwitch(char texto[]);
 void mostrarLinea(int cantidad);
@@ -70,6 +70,7 @@ void centrarTexto(char *texto, int y)
 int main()
 {
     system("COLOR 04");
+    limpiarPantalla();
     controlInicio();
     return 0;
 }
@@ -101,7 +102,7 @@ void mostrarLinea(int cantidad)
 }
 
 
-int inicioSesion()
+void inicioSesion()
 {
     int i;
     int tmpClave = 0;
@@ -138,8 +139,13 @@ int inicioSesion()
 
     switch (tmpClave)
     {
-    case 0:
-        return 0; // Retorna 0 para indicar la salida del programa
+    case claveSalir:
+        limpiarPantalla();
+        recuadro(0, 0, 39, 12);
+        gotoxy(7,3);printf("Cerrando programa...\n");
+        gotoxy(7,5);printf("Gracias por elegir FIT HUB!\n");
+        gotoxy(7,7);printf("Hasta luego!\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        break;
     case claveAdmin:
         tipoUsuario = 1;
         controlAdmin();
@@ -156,50 +162,22 @@ int inicioSesion()
         printf("Clave incorrecta, presiona enter para intentar de nuevo\n");
         getchar(); // Captura el Enter previo al scanf
         getchar(); // Espera a que el usuario presione Enter para continuar
-        limpiarPantalla();
-        goto restart;
+        inicioSesion();
         break;
     }
-
-    return 1; // Retorna 0 para indicar que la ejecución no debe continuar
 }
 
 void controlInicio()
 {
-    int opcion;
-    int continuar = 1;
+    char continuar = 1;
 
-    while (continuar == 1)
+    while (continuar)
     {
-        opcion = inicioSesion();
-        switch (opcion)
-        {
-        case 0:
-            continuar = 0;
-            break;
-        case 1:
-            controlAdmin();
-            tipoUsuario = 1;
-            break;
-        case 2:
-            controlEmpleado();
-            tipoUsuario = 2;
-            break;
-        case 3:
-            //controlCliente();
-            tipoUsuario = 3;
-            break;
-        default:
-            return 0;
-            break;
-        }
+        inicioSesion(); // login siempre, PRIMER LOGIN AL EJECUTAR
+        printf("Que desea hacer? 1: Ir a inicio de sesion / 0: Cerrar programa): ");
+        scanf("%d", &continuar);
+        limpiarPantalla();
     }
-
-    limpiarPantalla();
-    recuadro(0, 0, 39, 12);
-    gotoxy(7,3);printf("Cerrando programa...\n");
-    gotoxy(7,5);printf("Gracias por elegir FIT HUB!\n");
-    gotoxy(7,7);printf("Hasta luego!\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-
+    return;
 }
 
