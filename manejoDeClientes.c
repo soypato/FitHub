@@ -1077,11 +1077,10 @@ void obtenerNombreUsuario(char * nombre[])
 {
     printf("Ingrese su nombre: ");
     fflush(stdin);
-    scanf("%s", nombre);
+    gets(nombre);
 }
 
-// Función para imprimir la lista de alimentos disponibles
-void imprimirListaAlimentos(struct Alimento alimentos[], int numAlimentos)
+ void imprimirListaAlimentos(struct Alimento alimentos[], int numAlimentos)
 {
     printf("Lista de alimentos disponibles:\n");
     for (int i = 0; i < numAlimentos; i++)
@@ -1090,7 +1089,7 @@ void imprimirListaAlimentos(struct Alimento alimentos[], int numAlimentos)
     }
 }
 
-// Función para crear la dieta y exportar los resultados a un archivo de texto
+
 void crearDietaYExportar()
 {
     struct Alimento alimentos[] =
@@ -1105,9 +1104,9 @@ void crearDietaYExportar()
         {"Leche", 80.0, 8.0, 4.5, 6.0},
         {"Yogurt", 150.0, 12.0, 8.0, 10.0},
         {"Manzana", 95.0, 0.5, 0.3, 25.0},
-        {"Platano", 105.0, 1.3, 0.4, 27.0},
+        {"Banana", 105.0, 1.3, 0.4, 27.0},
         {"Naranja", 62.0, 1.2, 0.2, 15.0},
-        {"Fresas", 32.0, 1.0, 0.3, 7.0},
+        {"Frutillas", 32.0, 1.0, 0.3, 7.0},
         {"Almendras", 207.0, 7.6, 18.0, 4.0},
         {"Pavo", 135.0, 30.0, 3.6, 0.0},
         {"Queso Cottage", 206.0, 28.0, 10.0, 3.0},
@@ -1139,11 +1138,12 @@ void crearDietaYExportar()
 
     do
     {
-        printf("Elige un alimento (1-%d) o ingresa 0 para terminar: ", numAlimentos);
+        printf("Elija un alimento (1-%d) o ingresa 0 para terminar de cargar: ", numAlimentos);
         scanf("%d", &eleccion);
 
         if (eleccion >= 1 && eleccion <= numAlimentos)
         {
+            alimentos[eleccion - 1].elegido = 1;  // Marcar el alimento como seleccionado
             caloriasTotales += alimentos[eleccion - 1].calorias;
             proteinasTotales += alimentos[eleccion - 1].proteinas;
             grasasTotales += alimentos[eleccion - 1].grasas;
@@ -1176,10 +1176,26 @@ void crearDietaYExportar()
     {
         fprintf(archivo, "Nombre del usuario: %s\n", nombreUsuario);
         fprintf(archivo, "Dieta Final:\n");
+        fprintf(archivo, "| %-20s | %-10s | %-10s | %-15s | %-15s |\n", "Nombre", "Calorías", "Proteínas", "Grasas", "Carbohidratos");
+        mostrarLinea(90);
+
+        // Imprimir solo los alimentos seleccionados en la tabla
+        for (int i = 0; i < numAlimentos; i++)
+        {
+            if (alimentos[i].elegido)
+            {
+                fprintf(archivo, "| %-20s | %-10.2f | %-10.2f | %-15.2f | %-15.2f |\n", alimentos[i].nombre, alimentos[i].calorias, alimentos[i].proteinas, alimentos[i].grasas, alimentos[i].carbohidratos);
+            }
+        }
+
+        mostrarLinea(90);
+
+        fprintf(archivo, "\nTotales:\n");
         fprintf(archivo, "Calorias totales: %.2f\n", caloriasTotales);
         fprintf(archivo, "Proteinas totales: %.2f\n", proteinasTotales);
         fprintf(archivo, "Grasas totales: %.2f\n", grasasTotales);
         fprintf(archivo, "Carbohidratos totales: %.2f\n", carbohidratosTotales);
+
         fclose(archivo);
         mostrarLinea(30);
         printf("\nResultados exportados a %s\n", nombreConcat);
@@ -1188,6 +1204,17 @@ void crearDietaYExportar()
     {
         printf("\nError al abrir el archivo para exportar resultados.\n");
     }
+}
+
+void abrirArchivo(const char *nombreArchivo)
+{
+    char comando[100];
+
+    // Construir el comando para abrir el archivo
+    sprintf(comando, "start %s", nombreArchivo);
+
+    // Ejecutar el comando
+    system(comando);
 }
 
 void controlCliente() /// ESTA ES UNA VERSION "PROTEGIDA" PARA EL PUBLICO
@@ -1261,6 +1288,7 @@ reset:
             }
             break;
         case 3:
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > CREAR DIETA");
             crearDietaYExportar();
             break;
         default:
