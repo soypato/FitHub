@@ -36,6 +36,9 @@ void controlEmpleado()
             mainPagosClientes();
             limpiarPantalla();
             break;
+        case 3:
+            mainInventario();
+            break;
         default:
             limpiarPantalla(); /// maybe???
             printf("Opcion invalida\n");

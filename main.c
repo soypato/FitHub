@@ -9,6 +9,7 @@
 #include "tipoUsuario.h"
 #include <conio.h>
 #include <stdbool.h>
+#include "manejoInventario.h"
 
 /// PROTOTIPADOS
 void menuPrincipal();
