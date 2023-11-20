@@ -17,8 +17,10 @@ void controlEmpleado()
         reset:
         mostrarLinea(40);
         printf("1- Manejo de clientes\n");
-        printf("2- Manejo de pagos\n"); /// aca decía: "manejo de empleados" pero lo podríamos revisar :)
+        printf("2- Manejo de pagos\n");
+        printf("3- Ir al inventario\n");
         printf("0- Salir\n");
+
         mostrarLinea(40);
 
         printf("Su decision: ");

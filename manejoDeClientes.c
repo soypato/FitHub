@@ -739,7 +739,7 @@ void modificarClienteEnElADAyEnElArchivo(stCeldaPlanes ADA[], int validos, int d
         scanf("%d", &nodoTmp->cliente.diasConcurridosEstaSemana);
         break;
     case 0:
-        printf("Operacion cancelada por el usuario.\n");
+        printf("Operac  ion cancelada por el usuario.\n");
         break;
     default:
         printf("Opcion invalida, introduzca de nuevo la opcion: ");
@@ -1025,6 +1025,7 @@ reset:
         mostrarLinea(40);
         printf("1- Calcular IMC (indice de masa corporal)\n");
         printf("2- Contar asistencia\n");
+        printf("3- Ir al inventario\n");
         printf("0- Salir\n");
         mostrarLinea(40);
 
@@ -1082,6 +1083,9 @@ reset:
             {
                 printf("El cliente no existe en el sistema.");
             }
+            break;
+        case 3:
+            mainInventario();
             break;
         default:
             limpiarPantalla();
