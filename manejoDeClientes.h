@@ -51,6 +51,15 @@ typedef struct
     struct nodoArbol* arbol;
 } stCeldaPlanes;
 
+
+struct Alimento {
+    char nombre[50];
+    float calorias;
+    float proteinas;
+    float grasas;
+    float carbohidratos;
+};
+
 /// Prototipados
 void exportarClientesCSV();
 
@@ -90,6 +99,9 @@ void mostrarUnStArchivo(stArchivo archi);
 void mostraArchivoCompleto();
 void modificarClienteEnElArchivo(stArchivo archi);
 void controlCliente();
+void crearDietaYExportar();
+void imprimirListaAlimentos(struct Alimento alimentos[], int numAlimentos);
+void obtenerNombreUsuario(char * nombre[]);
 
 /// TDA arbolCliente
 nodoArbol * inicArbol();
