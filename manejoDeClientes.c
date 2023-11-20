@@ -26,6 +26,7 @@ void imprimirMenu()
     printf("9- Reiniciar asistencia\n");
     printf("10- Cambiar cliente de plan\n");
     printf("11- Generar rutina segun dias\n");
+    printf("12- Exportar a Excel mediante CSV\n");
     printf("0 - Ir a atras\n");
     mostrarLinea(40);
 
@@ -62,7 +63,6 @@ int mainClientes()
         scanf("%d", &opcion);
 
         valADAPlanes = archi2ADA(ADAPlanes, 10, ARCHIVO_PLANES);
-        printf("validos: %i",valADAPlanes);
 reset:
         switch(opcion)
         {
@@ -272,7 +272,11 @@ preguntarDNIOtravez:
             {
                 printf("Numero de dias no valido para una rutina muscular.\n");
             }
-
+            break;
+        case 12:
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > EXPORTAR A CSV");
+            exportarClientesCSV();
+            printf("clientes.csv exportado\n");
             break;
         case 0:
             //volverDependiendoTipoUsuario(tipoUsuario);
@@ -290,6 +294,34 @@ preguntarDNIOtravez:
         limpiarPantalla();
     }
     return 0;
+}
+
+void exportarClientesCSV()
+{
+    FILE * file = fopen(ARCHIVO_PLANES, "rb");
+    stArchivo archi;
+    if(file)
+    {
+        FILE * file2 = fopen("clientes.csv", "wt");
+        if(file2)
+        {
+            fprintf(file2, "Nombre,Apellido,DNI,Edad,Domicilio,Peso,Estatura,Baja Pasiva,Dias Concurridos Esta Semana,ID del Plan,Plan,Dias del Plan\n");
+            while(fread(&archi, sizeof(stArchivo), 1, file) > 0)
+            {
+                fprintf(file2, "%s,%s,%d,%d,%s,%.2f,%.2f,%d,%d,%d,%s,%d\n", archi.nombre, archi.apellido, archi.DNI, archi.edad, archi.domicilio, archi.peso, archi.estatura, archi.bajaPasiva, archi.diasConcurridosEstaSemana, archi.idDePlan, archi.plan, archi.diasDelPlan);
+            }
+            fclose(file2);
+        }
+        else
+        {
+            printf("El archivo no pudo abrirse");
+        }
+        fclose(file);
+    }
+    else
+    {
+        printf("El archivo no pudo abrirse");
+    }
 }
 
 stArchivo buscarPorDNIretornarTodaLaInformacion(int dni)
