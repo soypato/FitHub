@@ -1080,7 +1080,7 @@ void obtenerNombreUsuario(char * nombre[])
     gets(nombre);
 }
 
- void imprimirListaAlimentos(struct Alimento alimentos[], int numAlimentos)
+void imprimirListaAlimentos(struct Alimento alimentos[], int numAlimentos)
 {
     printf("Lista de alimentos disponibles:\n");
     for (int i = 0; i < numAlimentos; i++)
@@ -1094,6 +1094,23 @@ void crearDietaYExportar()
 {
     struct Alimento alimentos[] =
     {
+        {"Mate", 10.0, 0.5, 1.0, 2.0, 0},
+        {"Cafe", 5.0, 0.2, 0.1, 1.0, 0},
+        {"Harina", 120.0, 3.0, 0.5, 25.0, 0},
+        {"Palmitos", 20.0, 1.0, 0.5, 4.0, 0},
+        {"Yerba", 0.0, 0.0, 0.0, 0.0, 0},
+        {"Mermelada", 50.0, 0.5, 0.1, 12.0, 0},
+        {"Cacao", 30.0, 2.0, 1.0, 5.0, 0},
+        {"Picadillo", 70.0, 5.0, 3.0, 0.0, 0},
+        {"Pate", 45.0, 3.0, 2.0, 1.0, 0},
+        {"Caballa", 90.0, 20.0, 5.0, 0.0, 0},
+        {"Arroz", 200.0, 5.0, 1.0, 45.0, 0},
+        {"Arbejas", 50.0, 3.0, 0.5, 10.0, 0},
+        {"Sardinas", 80.0, 15.0, 3.0, 0.0, 0},
+        {"Atun", 120.0, 26.0, 1.0, 0.0, 0},
+        {"Choclo", 60.0, 2.0, 0.5, 12.0, 0},
+        {"Lenteja", 230.0, 18.0, 0.8, 40.0, 0},
+        {"Marolio le da sabor a tu vida", 0.0, 0.0, 0.0, 0.0, 0},
         {"Pollo", 150.0, 25.0, 5.0, 0.0},
         {"Arroz", 200.0, 5.0, 1.0, 45.0},
         {"Brocoli", 55.0, 3.0, 0.5, 11.0},
