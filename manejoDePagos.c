@@ -23,6 +23,7 @@ void imprimirMenuPagosEmpleado()
     printf("5- Mostrar facturas dadas de baja\n");
     printf("6- Quitar una factura\n");
     printf("7- Reactivar una factura\n");
+    printf("8- Exportar a Excel mediante CSV\n");
     printf("0- Volver\n");
     mostrarLinea(40);
 }
@@ -84,6 +85,10 @@ int mainPagosClientes()
             marcoEsteticoSwitch("MANEJO DE PAGOS > REACTIVAR UNA FACTURA");
             reactivarFactura();
             break;
+        case 8:
+            marcoEsteticoSwitch("MANEJO DE PAGOS > EXPORTAR A EXCEL");
+            exportarPagosCSV();
+            break;
         case 0:
             volverDependiendoTipoUsuario(tipoUsuario);
             break;
@@ -103,6 +108,50 @@ int mainPagosClientes()
 
 
 /// FUNCIONES
+
+void exportarPagosCSV()
+{
+    FILE *archivo = fopen(Registro_Pagos, "rb"); // Abre el archivo en modo de leer binario
+    if (archivo == NULL)
+    {
+        printf("Error al abrir el archivo de pagos para lectura.\n");
+        return;
+    }
+
+    FILE *archivoCSV = fopen("pagos.csv", "w");
+    if (archivoCSV == NULL)
+    {
+        printf("Error al abrir el archivo CSV para escritura.\n");
+        fclose(archivo);
+        return;
+    }
+
+    fprintf(archivoCSV, "Nombre,DNI,Monto,Metodo de Pago,Fecha de Pago,Baja Pasiva\n");
+
+    stPago factura;
+
+    while (fread(&factura, sizeof(stPago), 1, archivo) > 0)
+    {
+        fprintf(archivoCSV, "%s,%d,%.2f,%s,%d/%d/%d %d:%d,%d\n",
+                factura.nombreApellido,
+                factura.DNICliente,
+                factura.montoPago,
+                factura.metodoDePago,
+                factura.fechaDePago.dia,
+                factura.fechaDePago.mes,
+                factura.fechaDePago.anio,
+                factura.fechaDePago.hora,
+                factura.fechaDePago.minuto,
+                factura.bajaPasiva);
+    }
+
+    fclose(archivo);
+    fclose(archivoCSV);
+
+    printf("Pagos exportados a pagos.csv\n");
+}
+
+
 
 nodoListaPagos * crearNuevoPagoCliente()
 {

@@ -6,5 +6,7 @@
 #include "manejoDeClientes.h"
 
 
+/* Prototipados en listasTDA.h por  responsabilidad
+de librerías */
 
 #endif // MANEJODEPAGOS_H_INCLUDED

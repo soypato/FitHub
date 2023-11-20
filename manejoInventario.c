@@ -55,7 +55,7 @@ int mainInventario()
             mostrarStockTotal(&p);
             break;
         case 7:
-            marcoEsteticoSwitch("INVENTARIO > EXPORTAR A CSV");
+            marcoEsteticoSwitch("INVENTARIO > EXPORTAR A EXCEL");
             exportarCSV(&p);
             break;
         case 0:

@@ -36,6 +36,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="controlAdmin.h" />
+		<Unit filename="controlCliente.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="controlCliente.h" />
 		<Unit filename="controlEmpleado.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -63,6 +67,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="manejoEmpleado.h" />
+		<Unit filename="manejoInventario.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="manejoInventario.h" />
 		<Unit filename="tipoUsuario.c">
 			<Option compilerVar="CC" />
 		</Unit>
