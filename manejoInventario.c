@@ -1,279 +1,202 @@
+// manejoInventario.c
+
 #include "manejoInventario.h"
-#include "stdlib.h"
-#include "stdio.h"
+#include <stdlib.h>
+#include <stdio.h>
+
 
 int mainInventario()
 {
     int op;
-    int decision;
+    char decision = 's';
     pila p;
     inicPila(&p);
 
-    while(decision == 's')
+    while (decision == 's')
     {
-        printf("1. CARGAR INVENTARIO\n");
-        printf("2. MOSTRAR INVENTARIO\n");
-        printf("3. AGREGAR OBJETO\n");
-        printf("4. ELIMINAR OBJETO\n");
-        printf("5. BUSCAR OBJETO\n");
-        printf("6. MODIFICAR OBJETO\n");
-        printf("7. SALIR\n");
+        marcoEsteticoSwitch("INVENTARIO");
+        printf("1. Cargar objeto\n");
+        printf("2. Mostrar inventario\n");
+        printf("3. Desapilar ultimo objeto\n");
+        printf("4. Buscar objeto\n");
+        printf("5. Modificar objeto\n");
+        printf("0. Salir\n");
+        mostrarLinea(30);
+        printf("Su decision: ");
         scanf("%d", &op);
 
-        switch(op)
+        switch (op)
         {
-            case 1:
-                cargarInventario();
-                break;
-            case 2:
-                mostrarPila(p);
-                break;
-            case 3:
-                agregarObjeto();
-                break;
-            case 4:
-                eliminarObjeto();
-                break;
-            case 5:
-                buscarObjeto();
-                break;
-            case 6:
-                modificarObjeto();
-                break;
-            case 7:
-                decision = 'n';
-                break;
-            default:
-                printf("OPCION INVALIDA\n");
-                break;
+        case 1:
+            marcoEsteticoSwitch("INVENTARIO > CARGAR OBJETO");
+            apilarObjeto(&p);
+            break;
+        case 2:
+            marcoEsteticoSwitch("INVENTARIO > MOSTRAR INVENTARIO");
+            mostrarPila(&p);
+            break;
+        case 3:
+            marcoEsteticoSwitch("INVENTARIO > DESAPILAR ULTIMO OBJETO");
+            eliminarObjeto(&p);
+            break;
+        case 4:
+            marcoEsteticoSwitch("INVENTARIO > BUSCAR OBJETO");
+            buscarObjeto(&p);
+            break;
+        case 5:
+            marcoEsteticoSwitch("INVENTARIO > MODIFICAR OBJETO");
+            modificarObjeto(&p);
+            break;
+        case 0:
+            decision = 'n';
+            break;
+        default:
+            printf("OPCION INVALIDA\n");
+            break;
+        }
+
+        if (decision == 'n') {
+            printf("Saliendo del programa.\n");
+        } else {
+            printf("Seguir ejecutando? (s/n): ");
+            fflush(stdin);
+            scanf(" %c", &decision);
         }
     }
+
     return 0;
 }
-nodoListaInventario * inicListaInventario()
+
+void inicPila(pila *p)
 {
-    return NULL;
+    p->listaDePila = NULL;
 }
 
-nodoListaInventario * crearNodoInventario(stObjeto objeto)
+void apilarObjeto(pila *p)
 {
-    nodoListaInventario * aux = (nodoListaInventario *)malloc(sizeof(nodoListaInventario));
-    aux->objeto = objeto;
-    aux->siguiente = NULL;
-    return aux;
-}
+    nodoListaInventario *nuevoNodo = (nodoListaInventario *)malloc(sizeof(nodoListaInventario));
 
-nodoListaInventario * agregarAlPrincipio(nodoListaInventario * lista, nodoListaInventario * nuevoNodo)
-{
-    if(lista == NULL)
+    if (nuevoNodo == NULL)
     {
-        lista = nuevoNodo;
+        printf("Error al asignar memoria para el nuevo objeto.\n");
+        return;
     }
-    else
+
+    printf("Ingrese el nombre del objeto: ");
+    fflush(stdin);
+    fgets(nuevoNodo->objeto.nombreObjeto, sizeof(nuevoNodo->objeto.nombreObjeto), stdin);
+
+    printf("Ingrese el peso del objeto en Kg: ");
+    scanf("%f", &nuevoNodo->objeto.pesoEnKg);
+
+    printf("Ingrese la cantidad de objetos: ");
+    scanf("%d", &nuevoNodo->objeto.cantidad);
+
+    nuevoNodo->siguiente = p->listaDePila;
+    p->listaDePila = nuevoNodo;
+
+    printf("Objeto apilado correctamente.\n");
+}
+
+void mostrarPila(const pila *p)
+{
+    if (p->listaDePila == NULL)
     {
-        nuevoNodo = lista;
-        lista = nuevoNodo;
+        printf("La pila esta vacia.\n");
+        return;
     }
-    return lista;
-}
 
-nodoListaInventario * borrarPrimerNodo(nodoListaInventario * lista)
-{
-    nodoListaInventario * tmp = inicListaInventario();
-    nodoListaInventario * rta = inicListaInventario();
-    if(lista != NULL)
+    nodoListaInventario *actual = p->listaDePila;
+
+    while (actual != NULL)
     {
-        tmp = lista;
-        tmp->siguiente = NULL;
-        lista = lista->siguiente;
-        free(tmp);
-    }
-    return rta;
-}
-nodoListaInventario * retornarPrimerNodo(nodoListaInventario * lista)
-{
-    nodoListaInventario * tmp = inicListaInventario();
-    if(lista != NULL)
-    {
-        tmp = lista;
-        tmp->siguiente = NULL;
-    }
-    return tmp;
-}
+        printf("Nombre: %s\n", actual->objeto.nombreObjeto);
+        printf("Peso: %.2f Kg\n", actual->objeto.pesoEnKg);
+        printf("Cantidad: %d\n", actual->objeto.cantidad);
+        printf("-------------------------\n");
 
-int listaVacia(nodoListaInventario * lista)
-{
-    int rta = 0;
-    if(lista == NULL)
-    {
-        rta = 1;
-    }
-    return rta;
-}
-
-/// ////// FUNCIONES MUESTREO
-
-void mostrarNodoInventario(nodoListaInventario * nodo)
-{
-    mostrarUnObjeto(nodo->objeto);
-}
-
-void mostrarUnObjeto(stObjeto dato)
-{
-    mostrarLinea(30);
-    printf("NOMBRE DEL OBJETO ............................ %s", &dato.nombreObjeto);
-    printf("PESO EN KILOS     ............................ %f", &dato.pesoEnKg);
-    printf("CANTIDAD ............................ %s", &dato.nombreObjeto);
-    mostrarLinea(30);
-}
-/// ////// TDA PILAS CON LISTAS
-
-int inicPila(pila * p)
-{
-    inicListaInventario(p->listaDePila);
-}
-
-int pilaVacia(pila p)
-{
-    int rta = 0;
-    if(listaVacia(p.listaDePila) == 1)
-    {
-        rta = 1;
-    }
-    return rta;
-}
-
-stObjeto tope(pila p)
-{
-    nodoListaInventario * tmp = retornarPrimerNodo(p.listaDePila);
-    stObjeto rta = tmp->objeto;
-    return rta;
-}
-
-void mostrarPila(pila p)
-{
-    mostrarNodoInventario(p.listaDePila);
-}
-
-void apilar(pila * p, stObjeto dato)
-{
-    nodoListaInventario * nuevoNodo = crearNodoInventario(dato);
-    p->listaDePila = agregarAlPrincipio(p->listaDePila, nuevoNodo);
-}
-
-stObjeto desapilar(pila * p)
-{
-    nodoListaInventario * tmp = retornarPrimerNodo(p->listaDePila);
-    stObjeto rta = tmp->objeto;
-    p->listaDePila = borrarPrimerNodo(p->listaDePila);
-    return rta;
-}
-
-/// ////// FUNCIONES DE INVENTARIO
-
-void cargarInventario()
-{
-    pila inventario;
-    inicPila(&inventario);
-    stObjeto objeto;
-    char decision = 's';
-    while(decision == 's')
-    {
-        printf("NOMBRE DEL OBJETO ............................ ");
-        scanf("%s", &objeto.nombreObjeto);
-        printf("PESO EN KILOS     ............................ ");
-        scanf("%f", &objeto.pesoEnKg);
-        printf("CANTIDAD ............................ ");
-        scanf("%d", &objeto.cantidad);
-        apilar(&inventario, objeto);
-        printf("DESEA CONTINUAR CARGANDO OBJETOS? s/n");
-        scanf("%c", &decision);
+        actual = actual->siguiente;
     }
 }
 
-
-void agregarObjeto()
+void eliminarObjeto(pila *p)
 {
-    pila inventario;
-    inicPila(&inventario);
-    stObjeto objeto;
-    printf("NOMBRE DEL OBJETO ............................ ");
-    scanf("%s", &objeto.nombreObjeto);
-    printf("PESO EN KILOS     ............................ ");
-    scanf("%f", &objeto.pesoEnKg);
-    printf("CANTIDAD ............................ ");
-    scanf("%d", &objeto.cantidad);
-    apilar(&inventario, objeto);
+    if (p->listaDePila == NULL)
+    {
+        printf("La pila esta vacia, no hay objetos para desapilar.\n");
+        return;
+    }
+
+    nodoListaInventario *temp = p->listaDePila;
+    p->listaDePila = temp->siguiente;
+    free(temp);
+
+    printf("Objeto desapilado correctamente.\n");
 }
 
-void eliminarObjeto()
+void buscarObjeto(const pila *p)
 {
-    pila inventario;
-    inicPila(&inventario);
-    stObjeto objeto;
-    char nombreObjeto[20];
-    printf("NOMBRE DEL OBJETO ............................ ");
-    scanf("%s", &nombreObjeto);
-    while(!pilaVacia(inventario))
+    if (p->listaDePila == NULL)
     {
-        objeto = desapilar(&inventario);
-        if(strcmp(objeto.nombreObjeto, nombreObjeto) != 0)
+        printf("La pila esta vacia, no hay objetos para buscar.\n");
+        return;
+    }
+
+    char nombreBuscado[50];
+    printf("Ingrese el nombre del objeto a buscar: ");
+    fflush(stdin);
+    fgets(nombreBuscado, sizeof(nombreBuscado), stdin);
+
+    nodoListaInventario *actual = p->listaDePila;
+
+    while (actual != NULL)
+    {
+        if (strcmp(actual->objeto.nombreObjeto, nombreBuscado) == 0)
         {
-            apilar(&inventario, objeto); // Si es distinto lo vuelo a apilar, sino queda desapilado
+            printf("Objeto encontrado:\n");
+            printf("Nombre: %s\n", actual->objeto.nombreObjeto);
+            printf("Peso: %.2f Kg\n", actual->objeto.pesoEnKg);
+            printf("Cantidad: %d\n", actual->objeto.cantidad);
+            return;
         }
-        else
-        {
-            printf("OBJETO ELIMINADO");
-        }
+
+        actual = actual->siguiente;
     }
+
+    printf("Objeto no encontrado en el inventario.\n");
 }
 
-void buscarObjeto()
+void modificarObjeto(pila *p)
 {
-    pila inventario;
-    inicPila(&inventario);
-    stObjeto objeto;
-    char nombreObjeto[20];
-    printf("NOMBRE DEL OBJETO ............................ ");
-    scanf("%s", &nombreObjeto);
-    while(!pilaVacia(inventario))
+    if (p->listaDePila == NULL)
     {
-        objeto = desapilar(&inventario);
-        if(strcmp(objeto.nombreObjeto, nombreObjeto) != 0)
-        {
-            apilar(&inventario, objeto); // Si es distinto lo vuelo a apilar, sino queda desapilado
-        }
-        else
-        {
-            printf("OBJETO ENCONTRADO");
-        }
+        printf("La pila esta vacia, no hay objetos para modificar.\n");
+        return;
     }
-}
 
-void modificarObjeto()
-{
-    pila inventario;
-    inicPila(&inventario);
-    stObjeto objeto;
-    char nombreObjeto[20];
-    printf("NOMBRE DEL OBJETO ............................ ");
-    scanf("%s", &nombreObjeto);
-    while(!pilaVacia(inventario))
+    char nombreModificar[50];
+    printf("Ingrese el nombre del objeto a modificar: ");
+    fflush(stdin);
+    fgets(nombreModificar, sizeof(nombreModificar), stdin);
+
+    nodoListaInventario *actual = p->listaDePila;
+
+    while (actual != NULL)
     {
-        objeto = desapilar(&inventario);
-        if(strcmp(objeto.nombreObjeto, nombreObjeto) != 0)
+        if (strcmp(actual->objeto.nombreObjeto, nombreModificar) == 0)
         {
-            apilar(&inventario, objeto); // Si es distinto lo vuelo a apilar, sino queda desapilado
+            printf("Ingrese el nuevo peso del objeto en Kg: ");
+            scanf("%f", &actual->objeto.pesoEnKg);
+
+            printf("Ingrese la nueva cantidad de objetos: ");
+            scanf("%d", &actual->objeto.cantidad);
+
+            printf("Objeto modificado correctamente.\n");
+            return;
         }
-        else
-        {
-            printf("NOMBRE DEL OBJETO ............................ ");
-            scanf("%s", &objeto.nombreObjeto);
-            printf("PESO EN KILOS     ............................ ");
-            scanf("%f", &objeto.pesoEnKg);
-            printf("CANTIDAD ............................ ");
-            scanf("%d", &objeto.cantidad);
-            apilar(&inventario, objeto);
-        }
+
+        actual = actual->siguiente;
     }
+
+    printf("Objeto no encontrado en el inventario.\n");
 }

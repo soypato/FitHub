@@ -22,16 +22,11 @@ typedef struct pila
     nodoListaInventario * listaDePila;
 } pila;
 
-nodoListaInventario * inicListaInventario();
-nodoListaInventario * crearNodoInventario(stObjeto objeto);
-nodoListaInventario * agregarAlPrincipio(nodoListaInventario * lista, nodoListaInventario * nuevoNodo);
-nodoListaInventario * borrarPrimerNodo(nodoListaInventario * lista);
-nodoListaInventario * retornarPrimerNodo(nodoListaInventario * lista);
-int listaVacia(nodoListaInventario * lista);
-void mostrarNodoInventario(nodoListaInventario * nodo);
-void mostrarUnObjeto(stObjeto dato);
-int inicPila(pila * p);
-void mostrarPila(pila p);
-stObjeto tope(pila p);
-int pilaVacia(pila p);
+
+void inicPila(pila *p);
+void apilarObjeto(pila *p);
+void mostrarPila(const pila *p);
+void eliminarObjeto(pila *p);
+void buscarObjeto(const pila *p);
+void modificarObjeto(pila *p);
 #endif // MANEJOINVENTARIO_H_INCLUDED
