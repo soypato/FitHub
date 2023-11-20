@@ -9,6 +9,8 @@
 #include "const.h"
 #include "tipoUsuario.h"
 
+#define MAX_LONGITUD_RUTINA 1000
+
 const char ARCHIVO_PLANES[] = "planesClientes.dat";
 
 void imprimirMenu()
@@ -23,7 +25,8 @@ void imprimirMenu()
     printf("8- Contar asistencia\n");
     printf("9- Reiniciar asistencia\n");
     printf("10- Cambiar cliente de plan\n");
-    printf("0- Ir a atras\n");
+    printf("11- Generar rutina segun dias\n");
+    printf("0 - Ir a atras\n");
     mostrarLinea(40);
 
 }
@@ -39,6 +42,7 @@ int posTmp;
 int idPlanTmp;
 char nombreTmp[25];
 int cantTmp;
+int diasRutinaTmp;
 char confirmacion='w';
 stArchivo archivoTmp;
 nodoArbol * nodoTmp1;
@@ -121,7 +125,7 @@ reset:
             break;
         case 3:
             marcoEsteticoSwitch("MANEJO DE CLIENTES > MODIFICAR CLIENTE");
-            preguntarDNIOtravez:
+preguntarDNIOtravez:
             dniTmp = preguntarDNI();
             nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
             if(nodoTmp1)
@@ -134,7 +138,9 @@ reset:
             }
             else
             {
-                printf("El cliente no existe en el sistema. Intentar otra vez?: ");fflush(stdin);scanf("%c",&confirmacion);
+                printf("El cliente no existe en el sistema. Intentar otra vez?: ");
+                fflush(stdin);
+                scanf("%c",&confirmacion);
                 if( confirmacion == 's')
                 {
                     goto preguntarDNIOtravez;
@@ -246,6 +252,27 @@ reset:
             {
                 printf("El cliente no existe en el sistema.");
             }
+            break;
+
+        case 11:
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > MOSTRAR RUTINA SEGUN DIAS");
+            printf("Ingrese la cantidad de dias que desea para su rutina (3/4/5/6)\n");
+            scanf("%d", &diasRutinaTmp);
+            if (diasRutinaTmp == 3 ||  diasRutinaTmp == 4 ||diasRutinaTmp == 5 || diasRutinaTmp == 6)
+            {
+                char* rutinaMuscular = generarRutinaMuscular(diasRutinaTmp);
+
+                 mostrarLinea(50);
+                printf("%s", rutinaMuscular);
+                printf("Consultar ejercicios al entrenador\n");
+                mostrarLinea(50);
+                free(rutinaMuscular);
+            }
+            else
+            {
+                printf("Numero de dias no valido para una rutina muscular.\n");
+            }
+
             break;
         case 0:
             //volverDependiendoTipoUsuario(tipoUsuario);
@@ -696,7 +723,7 @@ void modificarClienteEnElADAyEnElArchivo(stCeldaPlanes ADA[], int validos, int d
     printf("0- Cancelar\n");
     printf("Ingrese una opcion: ");
     scanf("%d", &opcion);
-    elegirOpcionModificacion:
+elegirOpcionModificacion:
     switch(opcion)
     {
     case 1:
@@ -798,7 +825,7 @@ void modificarClienteEnElArchivo(stArchivo archi)
                 //break;  // Salir del bucle, ya que se encontró y modificó el cliente
             }
         }
-        saltarWhile:
+saltarWhile:
         if (encontrado == 0)
         {
             printf("Cliente no encontrado en el archivo\n");
@@ -1100,3 +1127,65 @@ reset:
         scanf("%c",&decision);
     }
 }
+
+
+
+char* generarRutinaMuscular(int dias)
+{
+    char* rutina = (char*)malloc(MAX_LONGITUD_RUTINA * sizeof(char));
+
+    if (rutina == NULL)
+    {
+        printf("Error: No se pudo asignar memoria para la rutina.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    strcpy(rutina, "Rutina Muscular:\n");
+
+    switch (dias)
+    {
+    case 3:
+
+        strcat(rutina, "Dia 1: Pecho y triceps\n");
+        strcat(rutina, "Dia 2: Espalda y biceps\n");
+        strcat(rutina, "Dia 3: Piernas y hombros\n");
+
+        break;
+    case 4:
+
+        strcat(rutina, "Dia 1: Pecho y triceps\n");
+        strcat(rutina, "Dia 2: Espalda y biceps\n");
+        strcat(rutina, "Dia 3: Piernas y hombros\n");
+        strcat(rutina, "Dia 4: Pecho y triceps\n");
+
+        break;
+    case 5:
+
+        strcat(rutina, "Dia 1: Pecho, triceps y hombro\n");
+        strcat(rutina, "Dia 2: Espalda y biceps\n");
+        strcat(rutina, "Dia 3: Piernas\n");
+        strcat(rutina, "Dia 4: Pecho, triceps y hombro\n");
+        strcat(rutina, "Dia 5: Espalda y biceps\n");
+
+        break;
+
+    case 6:
+
+        strcat(rutina, "Dia 1: Pecho, triceps y hombro\n");
+        strcat(rutina, "Dia 2: Espalda y biceps\n");
+        strcat(rutina, "Dia 3: Piernas\n");
+        strcat(rutina, "Dia 4: Pecho, triceps y hombro\n");
+        strcat(rutina, "Dia 5: Espalda y biceps\n");
+        strcat(rutina, "Dia 6: Piernas\n");
+
+        break;
+    default:
+        strcat(rutina, "Numero de dias no valido para una rutina \n");
+        break;
+
+
+    }
+
+    return rutina;
+}
+
