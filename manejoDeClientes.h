@@ -89,6 +89,10 @@ stArchivo formatoADA2Archi(int idPlan, char nombrePlan[], int diasDelPlan, stCli
 void cambiarDePlan(stCeldaPlanes ADA[], int validos, int dni, int nuevoID, char nuevoNombre[], int nuevoDias);
 void eliminarCliente(stCeldaPlanes ADA[], int validos, int dni);
 void restaurarCliente(stCeldaPlanes ADA[], int validos, int dni);
+void generarRutina3dias();
+void generarRutina4dias();
+void generarRutina5dias();
+void generarRutina6dias();
 char* generarRutinaMuscular(int dias);
 void listadoClientes();
 void mostrarPlan(stCeldaPlanes plan);

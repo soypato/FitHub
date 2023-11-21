@@ -8,6 +8,7 @@
 #include "manejoDePagos.h"
 #include "const.h"
 #include "tipoUsuario.h"
+#include <time.h>
 
 #define MAX_LONGITUD_RUTINA 1000
 
@@ -255,29 +256,53 @@ preguntarDNIOtravez:
             break;
 
         case 11:
+            printf("\n");
             marcoEsteticoSwitch("MANEJO DE CLIENTES > MOSTRAR RUTINA SEGUN DIAS");
             printf("Ingrese la cantidad de dias que desea para su rutina (3/4/5/6)\n");
+restart:
             scanf("%d", &diasRutinaTmp);
-            if (diasRutinaTmp == 3 ||  diasRutinaTmp == 4 ||diasRutinaTmp == 5 || diasRutinaTmp == 6)
-            {
-                char* rutinaMuscular = generarRutinaMuscular(diasRutinaTmp);
+            limpiarPantalla();
 
-                mostrarLinea(50);
-                printf("%s", rutinaMuscular);
-                printf("Consultar ejercicios al entrenador\n");
-                mostrarLinea(50);
-                free(rutinaMuscular);
-            }
-            else
+
+            char* rutinaMuscular = generarRutinaMuscular(diasRutinaTmp);
+            printf("%s", rutinaMuscular);
+            printf("\n");
+            mostrarLinea(60);
+            switch(diasRutinaTmp)
             {
-                printf("Numero de dias no valido para una rutina muscular.\n");
+
+            case 3:
+
+                generarRutina3dias();
+                break;
+
+            case 4:
+                generarRutina4dias();
+                break;
+
+            case 5:
+                generarRutina5dias();
+                break;
+
+            case 6:
+                generarRutina6dias();
+                break;
+
+            default:
+                printf("Opcion invalida. Ingrese de nuevo el dia\n");
+                goto restart;
+
+                break;
             }
             break;
         case 12:
             marcoEsteticoSwitch("MANEJO DE CLIENTES > EXPORTAR A EXCEL");
             exportarClientesCSV();
             printf("clientes.csv exportado\n");
+
             break;
+
+
         case 0:
             //volverDependiendoTipoUsuario(tipoUsuario);
             return 0;
@@ -1321,6 +1346,366 @@ reset:
     }
 }
 
+void generarRutina3dias()
+{
+    srand(time(NULL));
+    int numeroRandom=0;
+    numeroRandom = rand()% 3 + 1;
+
+
+    switch(numeroRandom)
+    {
+    case 1:
+        printf("EJERCICIOS\n");
+        printf("\n");
+        mostrarLinea(70);
+        printf("Dia 1: Pecho y triceps\n");
+
+
+        printf("Pecho: Press inclinado 2x6-9| Press plano 2x 7-10| Cruce en polea(high to low) 2x 8-12\n");
+        printf("Triceps: Extension de soga 3x 6-9 | press frances 3x 7-12\n");
+        mostrarLinea(70);
+        printf("Dia 2: Espalda y biceps\n");
+        printf("Espalda: Jalon al pecho 2x6-9 | Remo caballo 3x 5-9 | Remo gironda 3x 7-12\n");
+        printf("Biceps: Curl scott 3x 7-10 | Martillo en polea 3x 7-10\n");
+        mostrarLinea(70);
+        printf("Dia 3: Hombro y piernas\n");
+        printf("Hombro: Laterales 3x 8-13 | Press militar 2x 5-8 | Pajaro en polea 2x 8-13\n");
+        printf("Pierna: Hack squat 2x 5-9 | Prensa 45° 2x 7-12 | Extension de cuadriceps 2x 6-9\n");
+        mostrarLinea(70);
+        break;
+
+    case 2:
+        printf("EJERCICIOS\n");
+        printf("\n");
+        mostrarLinea(70);
+        printf("Dia 1: Pecho y triceps\n");
+
+        printf("Pecho: Press plano c/barra 2x4-6 | Press inclinado 2x6-9\n");
+        printf("Triceps: Extension de soga 3x6-9 | press frances 3x7-12\n");
+        mostrarLinea(70);
+        printf("Dia 2: Espalda y biceps\n");
+
+        printf("Espalda: Pull-up 3x8-12 | Remo sentado con barra T 2x7-10 | Pulldown en polea 3x8-12\n");
+        printf("Biceps: Curl 21s 3x7-10 | Curl concentrado 2x8-12\n");
+        mostrarLinea(70);
+        printf("Dia 3: Hombro y piernas\n");
+
+        printf("Hombro: Press militar 2x8-12 | Elevaciones laterales 3x8-12 | Face pull 2x10-15\n");
+        printf("Pierna: Sentadillas 3x6-9 | Prensa horizontal 2x7-10 | Curl femoral 3x8-12\n");
+        mostrarLinea(70);
+        break;
+
+    case 3:
+        printf("EJERCICIOS\n");
+        printf("\n");
+        mostrarLinea(70);
+        printf("Dia 1: Pecho y triceps\n");
+
+        printf("Pecho: Fondos 3x8-12 | Pullover con mancuerna 2x10-15\n");
+        printf("Triceps: Triceps dip 3x8-12 | Press frances con barra EZ 2x10-15\n");
+        mostrarLinea(70);
+        printf("Dia 2: Espalda y biceps\n");
+
+        printf("Espalda: Peso muerto 3x5-8 | Hiperextensiones 3x10-15 | Pull-up agarre cerrado 2x8-12\n");
+        printf("Biceps: Curl 21s 3x7-10 | Martillo en polea 2x8-12\n");
+        mostrarLinea(70);
+        printf("Dia 3: Hombro y piernas\n");
+
+
+        printf("Hombro: Press militar 3x6-9 | Elevaciones laterales 3x8-12 | Face pull 2x10-15\n");
+        printf("Pierna: Sentadillas  2x8-12 | Prensa 3x10-15 | Curl femoral 3x8-12\n");
+        mostrarLinea(70);
+        break;
+
+    default:
+
+        printf("Opción no válida\n");
+    }
+
+}
+void generarRutina4dias()
+{
+    srand(time(NULL));
+    int numeroRandom=0;
+
+
+    numeroRandom = rand()% 3 + 1;
+
+
+
+    switch(numeroRandom)
+    {
+    case 1:
+        printf("EJERCICIOS");
+        printf("\n");
+        mostrarLinea(70);
+        printf("Dia 1: Pecho,triceps y hombro\n");
+
+        printf("Pecho: Press inclinado 2x6-9 | Press plano 2x 7-10 | Cruce en polea(high to low) 2x 8-12\n");
+        printf("Triceps: Extension de soga 3x 6-9 | press frances 2x7-12\n");
+        printf("Hombro: Laterales 2x6-12 | Pajaros en polea 2x7-15\n");
+
+        mostrarLinea(70);
+        printf("Dia 2: Espalda y biceps\n");
+        printf("Espalda: Jalon al pecho 2x6-9 | Remo caballo 3x 5-9 | Remo gironda 3x 7-12\n");
+        printf("Biceps: Curl scott 3x 7-10 | Martillo en polea 3x 7-10\n");
+        mostrarLinea(70);
+        printf("Dia 3: Piernas\n");
+        printf("Pierna: Hack squat 2x 5-9 | Prensa 45° 2x 7-12 | Extension de cuadriceps 2x 6-9\n");
+        mostrarLinea(70);
+        printf("Dia 4: Pecho, triceps y hombro\n");
+        printf("Pecho: Press inclinado 2x6-9 | Press plano 2x7-10 | Cruce en polea(high to low) 2x-8-12\n");
+        printf("Triceps: Extension de soga 3x6-9 | Press frances 2x7-12\n");
+        printf("Hombro: Laterales 2x6-12 | Pajaros en polea 2x7-15\n");
+        mostrarLinea(70);
+        break;
+
+    case 2:
+        printf("EJERCICIOS");
+        printf("\n");
+        mostrarLinea(70);
+        printf("Dia 1: Pecho,triceps y hombro\n");
+
+        printf("Pecho: Press plano c/mancuerna 2x6-9 | Press inclinado 2x 5-10 | Pec deck 2x 8-12\n");
+        printf("Triceps: Fondos 3x 6-9 | press frances 2x7-12\n");
+        printf("Hombro: Press militar 2x6-12 | Pajaros en polea 2x7-15\n");
+        mostrarLinea(70);
+        printf("Dia 2: Espalda y biceps\n");
+        printf("Espalda: Jalon al pecho 2x6-9 | Remo a caballo 3x 5-9 | Remo gironda 3x 7-12\n");
+        printf("Biceps: Curl sentado c/mancuerna 3x 5-10 | Martillo en polea 3x 5-10\n");
+        mostrarLinea(70);
+        printf("Dia 3: Piernas\n");
+        printf("Pierna: Prensa 45° 2x5-10 | Extension de cuadriceps  2x 7-12 | Curl femoral 2x 6-9\n");
+        mostrarLinea(70);
+        printf("Dia 4: Pecho, triceps y hombro\n");
+        printf("Pecho: Press plano c/mancuerna 2x6-9 | Press inclinado 2x 5-10 | Pec deck 2x 8-12\n");
+        printf("Triceps: Fondos 3x 6-9 | press frances 2x7-12\n");
+        printf("Hombro: Laterales en polea 2x6-12 | Pajaros en polea 2x7-15\n");
+        mostrarLinea(70);
+        break;
+
+    case 3:
+        printf("EJERCICIOS");
+        printf("\n");
+        mostrarLinea(70);
+        printf("Dia 1: Pecho,triceps y hombro\n");
+        printf("Pecho: Press inclinado c/barra 2x6-9 | press plano c/mancuerna 2x 5-10 | Cruce en polea 2x 8-12\n");
+        printf("Triceps: Extension de soga 3x 6-9 | press frances 2x7-12\n");
+        printf("Hombro: Laterales en polea 2x6-12 | Pajaros en polea 2x7-15\n");
+        mostrarLinea(70);
+        printf("Dia 2: Espalda y biceps\n");
+        printf("Espalda: Jalon al pecho 2x6-9 | Remo caballo 3x 5-9 | Remo gironda 3x 7-12\n");
+        printf("Biceps: Curl sentado c/mancuerna 3x 5-10 | Martillo en polea 3x 5-10\n");
+        mostrarLinea(70);
+        printf("Dia 3: Piernas\n");
+        printf("Pierna: Sentadilla en smith 2x5-10 | Extension de cuadriceps  2x 7-12 | Curl femoral 2x 6-9\n");
+        mostrarLinea(70);
+        printf("Dia 4: Pecho, triceps y hombro\n");
+        printf("Pecho: Press plano c/mancuerna 2x6-9 | Press inclinado 2x 5-10 | Peck deck 2x 8-12\n");
+        printf("Triceps: Extension de soga 3x 6-9 | press frances 2x7-12\n");
+        printf("Hombro: Laterales en polea 2x6-12 | Pajaros en polea 2x7-15\n");
+        mostrarLinea(70);
+        break;
+
+    default:
+
+        printf("Opción no válida\n");
+    }
+
+}
+
+
+void generarRutina5dias()
+{
+    srand(time(NULL));
+    int numeroRandom = rand() % 3 + 1;
+
+    switch (numeroRandom)
+    {
+    case 1:
+        printf("EJERCICIOS");
+        printf("\n");
+        mostrarLinea(70);
+        printf("Dia 1: Pecho, triceps y hombro\n");
+        printf("Press plano 4x8-12 | Fondos en paralelas 3x10-15 | Apertura en polea 3x12-15\n");
+        printf("Fondos en paralelas 3x10-15 | Press frances 3x7-13\n");
+        printf("Laterales en polea 2x7-13 | Pajaro en polea 2x7-15\n");
+        mostrarLinea(70);
+
+        printf("Dia 2: Espalda y biceps\n");
+        printf("Pull-up 4x8-12 | Remo T 3x10-15 | Curl con barra 3x12-15\n");
+        mostrarLinea(70);
+
+        printf("Dia 3: Piernas \n");
+        printf("Sentadillas 2x7-10 | Prensa 3x6-15 | Curl femoral 2x6-10\n");
+        mostrarLinea(70);
+        printf("Dia 4: Pecho, triceps y hombro\n");
+        printf("Press inclinado 3x8-12 | Press plano 3x5-10 \n");
+        printf("Press frances 3x8-12 | Extension de soga en polea 3x12-15\n");
+        printf("Press militar 1x6-10 | Laterales 2x6-12\n");
+        mostrarLinea(70);
+        printf("Dia 5: Espalda y biceps\n");
+        printf("Jalon al pecho 4x8-12 | Curl martillo 3x10-15 | Pulldown en polea 3x12-15 | Curl scot 3x 7-12\n");
+        mostrarLinea(70);
+        break;
+
+    case 2:
+        printf("EJERCICIOS");
+        printf("\n");
+        mostrarLinea(70);
+        printf("Dia 1: Pecho, triceps y hombro\n");
+        printf("Press inclinado 4x8-12 | Fondos en paralelas 3x10-15 | Apertura en polea 3x12-15\n");
+        printf("Fondos en paralelas 3x10-15 | Press frances 3x7-13\n");
+        printf("Laterales 2x7-13 | Pajaro en polea 2x7-15\n");
+        mostrarLinea(70);
+        printf("Dia 2: Espalda y biceps\n");
+        printf("Pull-up 4x8-12 | Pulldown en polea 3x10-15 | Curl con barra 3x12-15\n");
+        mostrarLinea(70);
+        printf("Dia 3: Piernas\n");
+        printf("Sentadillas 3x8-12 | Prensa 3x10-15 | Curl femoral 2x5-10\n");
+        mostrarLinea(70);
+        printf("Dia 4: Pecho, triceps y hombro\n");
+        printf("Press inclinado 3x8-12 | Press plano 3x5-10 \n");
+        printf("Press frances 3x8-12 | Extension de soga en polea 3x12-15\n");
+        printf("Press militar 1x6-10 | Laterales 2x6-12\n");
+        mostrarLinea(70);
+        printf("Dia 5: Espalda y biceps\n");
+        printf("Jalon al pecho 4x8-12 | Curl martillo 3x10-15 | Pulldown en polea 3x12-15\n");
+        mostrarLinea(70);
+        break;
+
+    case 3:
+        printf("EJERCICIOS");
+        printf("\n");
+        mostrarLinea(70);
+        printf("Dia 1: Pecho, triceps y hombro\n");
+        printf("Press inclinado 4x8-12 | Fondos en paralelas 3x10-15 | Apertura en polea 3x12-15\n");
+        printf("Fondos en paralelas 3x10-15 | Press frances 3x7-13\n");
+        printf("Laterales 2x7-13 | Pajaro en polea 2x7-15\n");
+
+        mostrarLinea(70);
+        printf("Dia 2: Espalda y biceps\n");
+        printf("Jalon al pecho 2x8-12 | Remo T 2x10-15 | Curl con barra 3x12-15\n");
+
+        mostrarLinea(70);
+        printf("Dia 3: Piernas\n");
+        printf("Sentadillas 4x8-12 | Prensa 3x10-15| Extension de cuadriceps 2x5-10\n");
+
+        mostrarLinea(70);
+        printf("Dia 4: Pecho, triceps y hombro\n");
+        printf("Press inclinado 3x8-12 | Press plano 3x5-10 \n");
+        printf("Press frances 3x8-12 | Extension de soga en polea 3x12-15\n");
+        printf("Press militar 1x6-10 | Laterales 2x6-12\n");
+        mostrarLinea(70);
+        printf("Dia 5: Espalda y biceps\n");
+        printf("Jalon al pecho 4x8-12 | Curl martillo 3x10-15 | Pulldown en polea 3x12-15\n");
+        mostrarLinea(70);
+
+        break;
+
+    default:
+        printf("Opción no válida\n");
+    }
+}
+
+void generarRutina6dias()
+{
+    srand(time(NULL));
+    int numeroRandom = rand() % 3 + 1;
+
+    switch (numeroRandom)
+    {
+    case 1:
+
+        printf("EJERCICIOS");
+        printf("\n");
+        mostrarLinea(70);
+        printf("Dia 1: Pecho, triceps y hombro\n");
+        printf("Press plano 2x5-7 | Press inclinado 2x6-9\n");
+        printf("Fondos en paralelas 3x10-15 | Extension de soga en polea 3x6-10\n");
+        printf("Press militar 2x5-10 | laterales 2x6-12 | Pajarito en polea 2x5-10\n");
+        mostrarLinea(70);
+        printf("Dia 2: Espalda y biceps\n");
+        printf("Remo T 2x5-9 | Pullover 2x10-15 | Curl con barra 3x12-15| Martillo c/mancuerna 3x5-9\n");
+        mostrarLinea(70);
+        printf("Dia 3: Piernas\n");
+        printf("Sentadillas 2x6-9 | Prensa 2x10-15 |  Curl isquios 2x- 6-9\n");
+        mostrarLinea(70);
+        printf("Dia 4: Pecho, triceps y hombro\n");
+        printf("Press plano 2x5-7 | Press inclinado 2x6-9\n");
+        printf("Fondos en paralelas 3x10-15 | Extension de soga en polea 3x6-10\n");
+        printf("Press militar 2x5-10 | laterales 2x6-12 | Pajarito en polea 2x5-10\n");
+        mostrarLinea(70);
+        printf("Dia 5: Espalda y biceps\n");
+        printf("Jalon al pecho 2x8-12 | Curl martillo 3x10-15 | Pullover en polea 3x12-15 | Curl scot 3x 7-12\n");
+        mostrarLinea(70);
+        printf("Dia 6: Piernas\n");
+        printf("Sentadillas 2x8-12 | Prensa 3x10-15 | Press militar 3x12-15 | Laterales 3x 8-13\n");
+
+        break;
+
+    case 2:
+        printf("EJERCICIOS");
+        printf("\n");
+        mostrarLinea(70);
+        printf("Dia 1: Pecho, triceps y hombro\n");
+        printf("Press plano 2x5-7 | Press inclinado 2x6-9\n");
+        printf("Press frances 3x10-15 | Extension de soga en polea 3x6-10\n");
+        printf("Press militar 2x5-10 | laterales 2x6-12 | Pajarito en polea 2x5-10\n");
+        mostrarLinea(70);
+        printf("Dia 2: Espalda y biceps\n");
+        printf("Pull-up 4x8-12 | Pulldown en polea 3x10-15 | Curl con barra 3x12-15\n");
+        mostrarLinea(70);
+        printf("Dia 3: Piernas\n");
+        printf("Sentadillas 4x8-12 | Prensa 3x10-15 | Press militar 3x12-15 | Laterales 3x 6-8\n");
+        mostrarLinea(70);
+        printf("Dia 4: Pecho, triceps y hombro\n");
+        printf("Press plano 2x5-7 | Press inclinado 2x6-9\n");
+        printf("Press frances | Extension de soga en polea 3x6-10\n");
+        printf("Press militar 2x5-10 | laterales 2x6-12 | Pajarito en polea 2x5-10\n");
+        mostrarLinea(70);
+        printf("Dia 5: Espalda y biceps\n");
+        printf("Jalon al pecho 4x8-12 | Curl martillo 3x10-15 | Pulldown en polea 3x12-15\n");
+        mostrarLinea(70);
+        printf("Dia 6: Piernas\n");
+        printf("Sentadillas 4x8-12 | Prensa 3x10-15 | Press militar 3x12-15 | Laterales 3x 7-12\n");
+        mostrarLinea(70);
+        break;
+
+    case 3:
+
+        printf("EJERCICIOS");
+        printf("\n");
+        mostrarLinea(70);
+        printf("Dia 1: Pecho, triceps y hombro\n");
+        printf("Press plano 2x5-7 | Press inclinado 2x6-9\n");
+        printf("Press frances 3x10-15 | Extension de soga en polea 3x6-10\n");
+        printf("Press militar 2x5-10 | laterales 2x6-12 | Pajarito en polea 2x5-10\n");
+        mostrarLinea(70);
+        printf("Dia 2: Espalda y biceps\n");
+        printf("Jalon al pecho 2x8-12 | Remo T 2x10-15 | Curl con barra 3x12-15\n");
+        mostrarLinea(70);
+        printf("Dia 3: Piernas\n");
+        printf("Sentadillas 4x8-12 | Prensa 3x10-15 | Press militar 3x12-15 | Laterales 3x 7-12\n");
+        mostrarLinea(70);
+        printf("Dia 4: Pecho, triceps y hombro\n");
+        printf("Press plano 2x5-7 | Press inclinado 2x6-9\n");
+        printf("Press frances | Extension de soga en polea 3x6-10\n");
+        printf("Press militar 2x5-10 | laterales 2x6-12 | Pajarito en polea 2x5-10\n");
+        mostrarLinea(70);
+        printf("Dia 5: Espalda y biceps\n");
+        printf("Jalon al pecho 4x8-12 | Curl martillo 3x10-15 | Pulldown en polea 3x12-15\n");
+        mostrarLinea(70);
+        printf("Dia 6: Piernas\n");
+        printf("Sentadillas 4x8-12 | Prensa 3x10-15 | Press militar 3x12-15 | Laterales 3x 8-13\n");
+        mostrarLinea(70);
+        break;
+
+    default:
+        printf("Opción no válida\n");
+    }
+}
 
 
 char* generarRutinaMuscular(int dias)
@@ -1333,7 +1718,7 @@ char* generarRutinaMuscular(int dias)
         exit(EXIT_FAILURE);
     }
 
-    strcpy(rutina, "Rutina Muscular:\n");
+    strcpy(rutina, "Rutina:\n");
 
     switch (dias)
     {
@@ -1342,14 +1727,12 @@ char* generarRutinaMuscular(int dias)
         strcat(rutina, "Dia 1: Pecho y triceps\n");
         strcat(rutina, "Dia 2: Espalda y biceps\n");
         strcat(rutina, "Dia 3: Piernas y hombros\n");
-
         break;
     case 4:
-
-        strcat(rutina, "Dia 1: Pecho y triceps\n");
+        strcat(rutina, "Dia 1: Pecho, triceps y hombro\n");
         strcat(rutina, "Dia 2: Espalda y biceps\n");
-        strcat(rutina, "Dia 3: Piernas y hombros\n");
-        strcat(rutina, "Dia 4: Pecho y triceps\n");
+        strcat(rutina, "Dia 3: Piernas\n");
+        strcat(rutina, "Dia 4: Pecho, triceps y hombro\n");
 
         break;
     case 5:
@@ -1370,13 +1753,7 @@ char* generarRutinaMuscular(int dias)
         strcat(rutina, "Dia 4: Pecho, triceps y hombro\n");
         strcat(rutina, "Dia 5: Espalda y biceps\n");
         strcat(rutina, "Dia 6: Piernas\n");
-
         break;
-    default:
-        strcat(rutina, "Numero de dias no valido para una rutina \n");
-        break;
-
-
     }
 
     return rutina;
