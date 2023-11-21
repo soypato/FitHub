@@ -95,8 +95,8 @@ int mainEmpleados()
             break;
         case 10:
             marcoEsteticoSwitch("MANEJO DE CLIENTES > EXPORTAR A EXCEL");
-            exportarClientesCSV();
-            printf("clientes.csv exportado\n");
+            exportarEmpleadosCSV();
+            printf("empleados.csv exportado\n");
             break;
         case 0:
             volverDependiendoTipoUsuario(tipoUsuario);
@@ -150,7 +150,6 @@ void exportarEmpleadosCSV()
     fclose(archivo);
     fclose(archivoCSV);
 
-    printf("Empleados exportados a empleados.csv\n");
 }
 
 
