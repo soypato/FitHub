@@ -304,7 +304,7 @@ restart:
 
             break;
         case 0:
-            //volverDependiendoTipoUsuario(tipoUsuario);
+            volverDependiendoTipoUsuario(tipoUsuario);
             return 0;
             break;
         default:

@@ -11,9 +11,6 @@
 #include <stdbool.h>
 #include "manejoInventario.h"
 
-/// FITHUB
-/// IGNACIO ACUÑA, JUAN MANUEL CIARDI, ENZO GUERCI, PATRICIO TUBIO
-
 /// PROTOTIPADOS
 void menuPrincipal();
 void limpiarPantalla();

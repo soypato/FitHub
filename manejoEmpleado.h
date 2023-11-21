@@ -35,7 +35,8 @@ nodoListaEmpleados *agregarNodoOrdenadoPorEdadEmpleado(nodoListaEmpleados *lista
 
 
 /// PROTOTIPADOS MANEJODEEMPLADO
-
+void liberarListaEmpleados(listaEmpleados);
+void cargarNuevoEmpleado(nodoListaEmpleados **lista);
 nodoListaEmpleados * crearNuevoEmpleado();
 void mostrarNodoEmpleado(nodoListaEmpleados *nodo);
 void mostrarListaEmpleados(nodoListaEmpleados *lista);
