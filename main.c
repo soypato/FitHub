@@ -70,7 +70,7 @@ void centrarTexto(char *texto, int y)
 
 int main()
 {
-    system("COLOR 04");
+    system("COLOR 0F");
     limpiarPantalla();
     controlInicio();
     return 0;
@@ -114,7 +114,8 @@ void inicioSesion()
     recuadro(0, 0, 79, 24);
     recuadro(1, 1, 78, 3);
     centrarTexto("S I S T E M A    F I T H U B", 2);
-    gotoxy(2, 5);printf(">> Introduzca la clave\n  (o marque 3 en caso de que sea cliente): ");
+    gotoxy(5, 6);printf(">> Marque 0 para salir");
+    gotoxy(2, 5);printf(">> Introduzca la clave: ");
     scanf("%d", &tmpClave);
     ocultarCursor();
     centrarTexto("C A R G A N D O...",21);

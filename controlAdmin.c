@@ -17,6 +17,8 @@ void controlAdmin()
         printf("1- Manejo de clientes\n");
         printf("2- Manejo de pagos\n"); /// aca decía: "manejo de empleados" pero lo podríamos revisar :)
         printf("3- Manejo de empleados\n");
+        printf("4- Manejo de inventario\n");
+        printf("5- Manejo de clientes (version publica)\n");
         printf("0- Salir\n");
         mostrarLinea(40);
 
@@ -39,6 +41,14 @@ void controlAdmin()
             break;
         case 3:
             mainEmpleados();
+            limpiarPantalla();
+            break;
+        case 4:
+            mainInventario();
+            limpiarPantalla();
+            break;
+        case 5:
+            controlCliente();
             limpiarPantalla();
             break;
         default:

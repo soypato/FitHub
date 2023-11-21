@@ -51,7 +51,20 @@ typedef struct
     struct nodoArbol* arbol;
 } stCeldaPlanes;
 
+
+struct Alimento
+{
+    char nombre[50];
+    float calorias;
+    float proteinas;
+    float grasas;
+    float carbohidratos;
+    int elegido; // Nuevo campo para rastrear si el alimento ha sido seleccionado
+};
+
 /// Prototipados
+void exportarClientesCSV();
+
 int archi2ADA(stCeldaPlanes ADA[], int dimension, const char ARCHIVO_PLANES[]);
 int altaCliente(const char ARCHIVO_PLANES[], stCeldaPlanes ADA[], int validos, stCliente clienteTmp, int idDelPlan, char nombrePlan[], int diasDelPlan);
 int agregarEnArregloClientes(stCeldaPlanes ADA[], int validos, stCeldaPlanes planTmp);
@@ -81,7 +94,6 @@ void generarRutina4dias();
 void generarRutina5dias();
 void generarRutina6dias();
 char* generarRutinaMuscular(int dias);
-
 void listadoClientes();
 void mostrarPlan(stCeldaPlanes plan);
 void mostrarArbol(nodoArbol * arbol);
@@ -91,9 +103,11 @@ void imprimirMenu();
 void mostrarUnStArchivo(stArchivo archi);
 void mostraArchivoCompleto();
 void modificarClienteEnElArchivo(stArchivo archi);
-
 void controlCliente();
-
+void crearDietaYExportar();
+void imprimirListaAlimentos(struct Alimento alimentos[], int numAlimentos);
+void obtenerNombreUsuario(char *nombre[]);
+void abrirArchivo(const char *nombreArchivo);
 /// TDA arbolCliente
 nodoArbol * inicArbol();
 nodoArbol * cargarNodoArbolClientes(stCliente cliente);

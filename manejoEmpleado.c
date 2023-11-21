@@ -23,6 +23,7 @@ void imprimirMenuManejoEmpleados()
     printf("7- Despedir empleado\n");
     printf("8- Re-Contratar empleado\n");
     printf("9- Modificar empleado\n");
+    printf("10- Exportar a Excel mediante CSV\n");
     printf("0- Volver\n");
     mostrarLinea(40);
 }
@@ -92,6 +93,11 @@ int mainEmpleados()
             marcoEsteticoSwitch("MANEJO DE EMPLEADOS > MODIFICAR DATOS EMPLEADO");
             modificarEmpleado();
             break;
+        case 10:
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > EXPORTAR A EXCEL");
+            exportarEmpleadosCSV();
+            printf("empleados.csv exportado\n");
+            break;
         case 0:
             volverDependiendoTipoUsuario(tipoUsuario);
             break;
@@ -108,6 +114,44 @@ int mainEmpleados()
     }
     return 0;
 }
+
+void exportarEmpleadosCSV()
+{
+    FILE *archivo = fopen(Registro_Empleados, "rb"); // Abre el archivo en modo de leer binario
+    if (archivo == NULL)
+    {
+        printf("Error al abrir el archivo de empleados para lectura.\n");
+        return;
+    }
+
+    FILE *archivoCSV = fopen("empleados.csv", "w");
+    if (archivoCSV == NULL)
+    {
+        printf("Error al abrir el archivo CSV para escritura.\n");
+        fclose(archivo);
+        return;
+    }
+
+    fprintf(archivoCSV, "Nombre y Apellido,Legajo,Edad,DNI,Categoria,Baja Pasiva\n");
+
+    stEmpleado empleado;
+
+    while (fread(&empleado, sizeof(stEmpleado), 1, archivo) > 0)
+    {
+        fprintf(archivoCSV, "%s,%d,%d,%d,%s,%d\n",
+                empleado.nombreYApellido,
+                empleado.legajo,
+                empleado.edad,
+                empleado.DNI,
+                empleado.categoria,
+                empleado.bajaPasiva);
+    }
+
+    fclose(archivo);
+    fclose(archivoCSV);
+
+}
+
 
 /// FUNCIONES TDA stEMPLEADOS ///
 

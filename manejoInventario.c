@@ -22,7 +22,8 @@ int mainInventario()
         printf("4. Buscar objeto\n");
         printf("5. Modificar objeto\n");
         printf("6. Recuento total\n");
-        printf("0. Salir\n");
+        printf("7. Exportar a Excel mediante CSV\n");
+        printf("0. Atras\n");
         mostrarLinea(50);
         printf("Su decision: ");
         scanf("%d", &op);
@@ -53,6 +54,10 @@ int mainInventario()
             marcoEsteticoSwitch("INVENTARIO > MOSTRAR STOCK TOTAL");
             mostrarStockTotal(&p);
             break;
+        case 7:
+            marcoEsteticoSwitch("INVENTARIO > EXPORTAR A EXCEL");
+            exportarCSV(&p);
+            break;
         case 0:
             decision = 'n';
             break;
@@ -60,12 +65,7 @@ int mainInventario()
             printf("OPCION INVALIDA\n");
             break;
         }
-
-        if (decision == 'n')
-        {
-            printf("Saliendo del programa.\n");
-        }
-        else
+        if(decision != 'n')
         {
             printf("Seguir ejecutando? (s/n): ");
             fflush(stdin);
@@ -387,4 +387,28 @@ void mostrarStockTotal(const pila *p)
 
     // Imprimir el total debajo de la tabla
     printf("TOTAL de objetos acumulados: %d\n", acumulado);
+}
+
+// Función para exportar el inventario a un archivo CSV
+void exportarCSV(const pila *p)
+{
+    FILE *archivoCSV = fopen("inventario.csv", "w");
+    if (archivoCSV == NULL)
+    {
+        printf("Error al abrir el archivo CSV para escritura.\n");
+        return;
+    }
+
+    fprintf(archivoCSV, "Nombre,Peso en Kg,Cantidad\n");
+
+    nodoListaInventario *actual = p->listaDePila;
+
+    while (actual != NULL)
+    {
+        fprintf(archivoCSV, "%s,%.2f,%d\n", actual->objeto.nombreObjeto, actual->objeto.pesoEnKg, actual->objeto.cantidad);
+        actual = actual->siguiente;
+    }
+
+    fclose(archivoCSV);
+    printf("Inventario exportado a inventario.csv\n");
 }

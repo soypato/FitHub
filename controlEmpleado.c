@@ -19,7 +19,7 @@ void controlEmpleado()
         printf("1- Manejo de clientes\n");
         printf("2- Manejo de pagos\n");
         printf("3- Ir al inventario\n");
-        printf("0- Salir\n");
+        printf("0- Atras\n");
 
         mostrarLinea(40);
 

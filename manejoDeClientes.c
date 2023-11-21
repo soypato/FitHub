@@ -27,6 +27,7 @@ void imprimirMenu()
     printf("9- Reiniciar asistencia\n");
     printf("10- Cambiar cliente de plan\n");
     printf("11- Generar rutina segun dias\n");
+    printf("12- Exportar a Excel mediante CSV\n");
     printf("0 - Ir a atras\n");
     mostrarLinea(40);
 
@@ -63,7 +64,6 @@ int mainClientes()
         scanf("%d", &opcion);
 
         valADAPlanes = archi2ADA(ADAPlanes, 10, ARCHIVO_PLANES);
-        printf("validos: %i",valADAPlanes);
 reset:
         switch(opcion)
         {
@@ -263,6 +263,7 @@ restart:
             scanf("%d", &diasRutinaTmp);
             limpiarPantalla();
 
+
             char* rutinaMuscular = generarRutinaMuscular(diasRutinaTmp);
             printf("%s", rutinaMuscular);
             printf("\n");
@@ -294,6 +295,12 @@ restart:
                 break;
             }
             break;
+        case 12:
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > EXPORTAR A EXCEL");
+            exportarClientesCSV();
+            printf("clientes.csv exportado\n");
+
+            break;
 
 
         case 0:
@@ -312,6 +319,34 @@ restart:
         limpiarPantalla();
     }
     return 0;
+}
+
+void exportarClientesCSV()
+{
+    FILE * file = fopen(ARCHIVO_PLANES, "rb");
+    stArchivo archi;
+    if(file)
+    {
+        FILE * file2 = fopen("clientes.csv", "wt");
+        if(file2)
+        {
+            fprintf(file2, "Nombre,Apellido,DNI,Edad,Domicilio,Peso,Estatura,Baja Pasiva,Dias Concurridos Esta Semana,ID del Plan,Plan,Dias del Plan\n");
+            while(fread(&archi, sizeof(stArchivo), 1, file) > 0)
+            {
+                fprintf(file2, "%s,%s,%d,%d,%s,%.2f,%.2f,%d,%d,%d,%s,%d\n", archi.nombre, archi.apellido, archi.DNI, archi.edad, archi.domicilio, archi.peso, archi.estatura, archi.bajaPasiva, archi.diasConcurridosEstaSemana, archi.idDePlan, archi.plan, archi.diasDelPlan);
+            }
+            fclose(file2);
+        }
+        else
+        {
+            printf("El archivo no pudo abrirse");
+        }
+        fclose(file);
+    }
+    else
+    {
+        printf("El archivo no pudo abrirse");
+    }
 }
 
 stArchivo buscarPorDNIretornarTodaLaInformacion(int dni)
@@ -788,7 +823,7 @@ elegirOpcionModificacion:
         scanf("%d", &nodoTmp->cliente.diasConcurridosEstaSemana);
         break;
     case 0:
-        printf("Operac  ion cancelada por el usuario.\n");
+        printf("Operacion cancelada por el usuario.\n");
         break;
     default:
         printf("Opcion invalida, introduzca de nuevo la opcion: ");
@@ -825,7 +860,6 @@ stArchivo formatoADA2Archi(int idPlan, char nombrePlan[], int diasDelPlan, stCli
 
     return archi;
 }
-
 
 void modificarClienteEnElArchivo(stArchivo archi)
 {
@@ -1063,7 +1097,169 @@ nodoArbol * buscarArbolCliente(nodoArbol * arbol, int dni)
     return rta;
 }
 
-void controlCliente()
+
+void obtenerNombreUsuario(char * nombre[])
+{
+    printf("Ingrese su nombre: ");
+    fflush(stdin);
+    gets(nombre);
+}
+
+void imprimirListaAlimentos(struct Alimento alimentos[], int numAlimentos)
+{
+    printf("Lista de alimentos disponibles:\n");
+    for (int i = 0; i < numAlimentos; i++)
+    {
+        printf("%d. %s\n", i + 1, alimentos[i].nombre);
+    }
+}
+
+
+void crearDietaYExportar()
+{
+    struct Alimento alimentos[] =
+    {
+        {"Mate", 10.0, 0.5, 1.0, 2.0, 0},
+        {"Cafe", 5.0, 0.2, 0.1, 1.0, 0},
+        {"Harina", 120.0, 3.0, 0.5, 25.0, 0},
+        {"Palmitos", 20.0, 1.0, 0.5, 4.0, 0},
+        {"Yerba", 0.0, 0.0, 0.0, 0.0, 0},
+        {"Mermelada", 50.0, 0.5, 0.1, 12.0, 0},
+        {"Cacao", 30.0, 2.0, 1.0, 5.0, 0},
+        {"Picadillo", 70.0, 5.0, 3.0, 0.0, 0},
+        {"Pate", 45.0, 3.0, 2.0, 1.0, 0},
+        {"Caballa", 90.0, 20.0, 5.0, 0.0, 0},
+        {"Arroz", 200.0, 5.0, 1.0, 45.0, 0},
+        {"Arbejas", 50.0, 3.0, 0.5, 10.0, 0},
+        {"Sardinas", 80.0, 15.0, 3.0, 0.0, 0},
+        {"Atun", 120.0, 26.0, 1.0, 0.0, 0},
+        {"Choclo", 60.0, 2.0, 0.5, 12.0, 0},
+        {"Lenteja", 230.0, 18.0, 0.8, 40.0, 0},
+        {"Marolio le da sabor a tu vida", 0.0, 0.0, 0.0, 0.0, 0},
+        {"Pollo", 150.0, 25.0, 5.0, 0.0},
+        {"Arroz", 200.0, 5.0, 1.0, 45.0},
+        {"Brocoli", 55.0, 3.0, 0.5, 11.0},
+        {"Huevo", 70.0, 6.0, 5.0, 1.0},
+        {"Atun", 120.0, 26.0, 1.0, 0.0},
+        {"Salmon", 206.0, 22.0, 13.0, 0.0},
+        {"Avena", 68.0, 4.0, 1.5, 12.0},
+        {"Leche", 80.0, 8.0, 4.5, 6.0},
+        {"Yogurt", 150.0, 12.0, 8.0, 10.0},
+        {"Manzana", 95.0, 0.5, 0.3, 25.0},
+        {"Banana", 105.0, 1.3, 0.4, 27.0},
+        {"Naranja", 62.0, 1.2, 0.2, 15.0},
+        {"Frutillas", 32.0, 1.0, 0.3, 7.0},
+        {"Almendras", 207.0, 7.6, 18.0, 4.0},
+        {"Pavo", 135.0, 30.0, 3.6, 0.0},
+        {"Queso Cottage", 206.0, 28.0, 10.0, 3.0},
+        {"Quinoa", 120.0, 4.0, 1.9, 21.0},
+        {"Lentejas", 230.0, 18.0, 0.8, 40.0},
+        {"Aceite de Oliva", 120.0, 0.0, 14.0, 0.0},
+        {"Aguacate", 240.0, 3.0, 22.0, 12.0},
+        {"Brocoli", 55.0, 3.7, 0.6, 11.0},
+        {"Zanahorias", 41.0, 0.9, 0.2, 10.0},
+        {"Tomate", 22.0, 1.0, 0.2, 5.0},
+        {"Pepino", 16.0, 0.7, 0.2, 4.0},
+        {"Garbanzos", 269.0, 14.5, 4.2, 45.0},
+        {"Chocolate Negro (70%)", 600.0, 7.8, 42.0, 50.0},
+        {"Tofu", 144.0, 15.0, 8.0, 3.9},
+        {"Espinacas", 23.0, 2.9, 0.4, 3.6},
+        {"Granola", 113.0, 2.5, 5.5, 14.0},
+        {"Camarones", 84.0, 18.0, 1.0, 0.0}
+    };
+
+    int numAlimentos = sizeof(alimentos) / sizeof(alimentos[0]);
+
+    char nombreUsuario[50];
+    obtenerNombreUsuario(&nombreUsuario);
+
+    imprimirListaAlimentos(alimentos, numAlimentos);
+
+    int eleccion;
+    float caloriasTotales = 0.0, proteinasTotales = 0.0, grasasTotales = 0.0, carbohidratosTotales = 0.0;
+
+    do
+    {
+        printf("Elija un alimento (1-%d) o ingresa 0 para terminar de cargar: ", numAlimentos);
+        scanf("%d", &eleccion);
+
+        if (eleccion >= 1 && eleccion <= numAlimentos)
+        {
+            alimentos[eleccion - 1].elegido = 1;  // Marcar el alimento como seleccionado
+            caloriasTotales += alimentos[eleccion - 1].calorias;
+            proteinasTotales += alimentos[eleccion - 1].proteinas;
+            grasasTotales += alimentos[eleccion - 1].grasas;
+            carbohidratosTotales += alimentos[eleccion - 1].carbohidratos;
+            printf("Has elegido: %s\n", alimentos[eleccion - 1].nombre);
+        }
+        else if (eleccion != 0)
+        {
+            printf("Opcion no valida. Por favor, elige un numero entre 1 y %d o ingresa 0 para terminar.\n", numAlimentos);
+        }
+    }
+    while (eleccion != 0);
+
+    // Exportar los resultados a un archivo de texto
+    FILE * archivo;
+    char nombreConcat[100]; // Assuming a maximum length of 100 characters for the concatenated string
+
+    strcpy(nombreConcat, "dieta ");
+    strcat(nombreConcat, nombreUsuario);
+    strcat(nombreConcat, ".txt");
+    archivo = fopen(nombreConcat, "w");
+
+    printf("\nDieta Final:\n");
+    printf("Calorias totales: %.2f\n", caloriasTotales);
+    printf("Proteinas totales: %.2f\n", proteinasTotales);
+    printf("Grasas totales: %.2f\n", grasasTotales);
+    printf("Carbohidratos totales: %.2f\n", carbohidratosTotales);
+
+    if (archivo != NULL)
+    {
+        fprintf(archivo, "Nombre del usuario: %s\n", nombreUsuario);
+        fprintf(archivo, "Dieta Final:\n");
+        fprintf(archivo, "| %-20s | %-10s | %-10s | %-15s | %-15s |\n", "Nombre", "Calorías", "Proteínas", "Grasas", "Carbohidratos");
+        mostrarLinea(90);
+
+        // Imprimir solo los alimentos seleccionados en la tabla
+        for (int i = 0; i < numAlimentos; i++)
+        {
+            if (alimentos[i].elegido)
+            {
+                fprintf(archivo, "| %-20s | %-10.2f | %-10.2f | %-15.2f | %-15.2f |\n", alimentos[i].nombre, alimentos[i].calorias, alimentos[i].proteinas, alimentos[i].grasas, alimentos[i].carbohidratos);
+            }
+        }
+
+        mostrarLinea(90);
+
+        fprintf(archivo, "\nTotales:\n");
+        fprintf(archivo, "Calorias totales: %.2f\n", caloriasTotales);
+        fprintf(archivo, "Proteinas totales: %.2f\n", proteinasTotales);
+        fprintf(archivo, "Grasas totales: %.2f\n", grasasTotales);
+        fprintf(archivo, "Carbohidratos totales: %.2f\n", carbohidratosTotales);
+
+        fclose(archivo);
+        mostrarLinea(30);
+        printf("\nResultados exportados a %s\n", nombreConcat);
+    }
+    else
+    {
+        printf("\nError al abrir el archivo para exportar resultados.\n");
+    }
+}
+
+void abrirArchivo(const char *nombreArchivo)
+{
+    char comando[100];
+
+    // Construir el comando para abrir el archivo
+    sprintf(comando, "start %s", nombreArchivo);
+
+    // Ejecutar el comando
+    system(comando);
+}
+
+void controlCliente() /// ESTA ES UNA VERSION "PROTEGIDA" PARA EL PUBLICO
 {
     valADAPlanes = archi2ADA(ADAPlanes, 10, ARCHIVO_PLANES);
     char decision = 's';
@@ -1074,7 +1270,7 @@ reset:
         mostrarLinea(40);
         printf("1- Calcular IMC (indice de masa corporal)\n");
         printf("2- Contar asistencia\n");
-        printf("3- Ir al inventario\n");
+        printf("3- Crear dieta\n");
         printf("0- Salir\n");
         mostrarLinea(40);
 
@@ -1134,7 +1330,8 @@ reset:
             }
             break;
         case 3:
-            mainInventario();
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > CREAR DIETA");
+            crearDietaYExportar();
             break;
         default:
             limpiarPantalla();
@@ -1143,8 +1340,7 @@ reset:
             break;
         }
 
-        printf("Desea continuar?  ");
-        printf("S / N\n");
+        printf("Desea continuar? (s/n) ");
         fflush(stdin);
         scanf("%c",&decision);
     }

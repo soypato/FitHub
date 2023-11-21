@@ -1,0 +1,21 @@
+Nombre,Apellido,DNI,Edad,Domicilio,Peso,Estatura,Baja Pasiva,Dias Concurridos Esta Semana,ID del Plan,Plan,Dias del Plan
+enzo,guerci,46245223,21,bouchard 2314,65.00,165.00,1,0,1,basic,3
+juan manuel,ciardi,66523442,21,san martin 6346,86.00,180.00,1,0,1,basic,3
+lorena,di lorenzo,44267345,35,vertiz 6677,50.00,164.00,1,0,1,basic,3
+sergio,milei,5567375,46,la rioja 4126,80.00,178.00,1,0,1,basic,3
+gonzalo,lopez,6346378,20,gaboto 5012,70.00,180.00,1,0,2,intermedio,4
+renata,martinez,4126563,26,salta 1230,60.00,167.00,1,0,1,basic,3
+agustina,perez,3125637,29,20 de septiembre 7032,70.00,169.00,1,0,2,intermedio,4
+lucia,diaz,2355626,26,GÅemes,70.00,159.00,1,0,2,intermedio,4
+matias,herrera,2356734,30,dorrego,100.00,190.00,1,0,2,intermedio,4
+gabriel,molina,1546346,110,entre rios,90.00,180.00,1,0,2,intermedio,4
+nicolas,paredes,3134263,23,belgrano 1345,90.00,182.00,1,0,3,avanzado,5
+emilio,vega,2456234,24,las heras 5235,95.00,185.00,1,0,3,avanzado,5
+rosario,rios,4232627,19,alberti,83.00,163.00,1,0,3,avanzado,5
+celeste,ortega,4223623,36,rivadavia,81.00,172.00,1,0,3,avanzado,5
+sebastian,benitez,443638,25,jujuy 3451,79.00,177.00,1,0,3,avanzado,5
+silvia,torres,2453637,34,tucuman,80.00,172.00,1,0,4,experto,6
+belen,castro,2345262,42,corriente 3551,90.00,170.00,1,0,4,experto,6
+sergio,alvarez,5623465,18,mendoza 7234,80.00,180.00,1,0,4,experto,6
+leonardo,fernandez,2326264,34,alvear 6234,120.00,190.00,1,0,4,experto,6
+juan pablo,massa,42362344,20,peralta ramos 6247,100.00,180.00,1,0,4,experto,6
