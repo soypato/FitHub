@@ -52,6 +52,10 @@ char decisionTmpEstado2;
 int op=0;
 char decision = 's';
 
+
+/// ESTA ES UNA VERSION PRIVADA, CON TODAS LAS FUNCIONES PARA ADMINS Y EMPLEADOS
+/// MAS ABAJO ENCONTRAREMOS UN MAIN EN DONDE SOLO SE USAN LAS QUE PUEDE UN CLIENTE ACCEDER
+/// CON CLIENTE NOS REFERIMOS A UNA PERSONA QUE VA A ENTRENAR, NO EL CLIENTE QUE COMPRA FITHUB
 int mainClientes()
 {
     limpiarPantalla();
@@ -270,9 +274,7 @@ restart:
             mostrarLinea(60);
             switch(diasRutinaTmp)
             {
-
             case 3:
-
                 generarRutina3dias();
                 break;
 
@@ -301,8 +303,6 @@ restart:
             printf("clientes.csv exportado\n");
 
             break;
-
-
         case 0:
             //volverDependiendoTipoUsuario(tipoUsuario);
             return 0;
@@ -321,6 +321,137 @@ restart:
     return 0;
 }
 
+/// ESTA ES UNA VERSION "PROTEGIDA" PARA EL PUBLICO
+void controlCliente()
+{
+    valADAPlanes = archi2ADA(ADAPlanes, 10, ARCHIVO_PLANES);
+    char decision = 's';
+    while(tolower(decision) == 's')
+    {
+        marcoEsteticoSwitch("ACCIONES DE CLIENTE");
+reset:
+        mostrarLinea(40);
+        printf("1- Calcular IMC (indice de masa corporal)\n");
+        printf("2- Contar asistencia\n");
+        printf("3- Crear dieta\n");
+        printf("4- Generar rutina segun dias\n");
+        printf("0- Salir\n");
+        mostrarLinea(40);
+
+        printf("Su decision: ");
+        fflush(stdin);
+        scanf(" %d", &op);
+
+        switch (op)
+        {
+        case 0:
+            return;
+            break;
+        case 1:
+            marcoEsteticoSwitch("CLIENTES > CALCULO DE IMC");
+            printf("El IMC es un calculo hecho por la OMS para determinar si una persona\ntiene bajo peso, peso normal, sobrepeso u obesidad,\npara calcularlo necesitamos el peso y la estatura de la persona\n");
+            mostrarLinea(50);
+
+            printf("Introduzca el peso(en kg): ");
+            scanf("%f", &peso);
+
+            printf("Ahora, la altura(en cm): ");
+            scanf("%f", &estatura);
+
+            IMC = calcularIMC(peso, estatura);
+
+            printf("Tu IMC es: %f, eso quiere decir: ", IMC);
+
+            if(IMC < 18.5)
+            {
+                printf("Bajo peso\n");
+            }
+            else if(IMC >= 18.5 && IMC < 25)
+            {
+                printf("Normal\n");
+            }
+            else if(IMC >= 25 && IMC < 30)
+            {
+                printf("Sobrepeso\n");
+            }
+            else if(IMC >= 30)
+            {
+                printf("Obesidad\n");
+            }
+
+            break;
+        case 2:
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > CONTAR ASISTENCIA");
+            dniTmp = preguntarDNI();
+            nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
+            if(nodoTmp1)
+            {
+                contarAsistencia(ADAPlanes, valADAPlanes, dniTmp);
+            }
+            else
+            {
+                printf("El cliente no existe en el sistema.");
+            }
+            break;
+        case 3:
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > CREAR DIETA");
+            crearDietaYExportar();
+            break;
+        case 4:
+             printf("\n");
+            marcoEsteticoSwitch("MANEJO DE CLIENTES > MOSTRAR RUTINA SEGUN DIAS");
+            printf("Ingrese la cantidad de dias que desea para su rutina (3/4/5/6)\n");
+restart:
+            scanf("%d", &diasRutinaTmp);
+            limpiarPantalla();
+
+
+            char* rutinaMuscular = generarRutinaMuscular(diasRutinaTmp);
+            printf("%s", rutinaMuscular);
+            printf("\n");
+            mostrarLinea(60);
+            switch(diasRutinaTmp)
+            {
+            case 3:
+                generarRutina3dias();
+                break;
+
+            case 4:
+                generarRutina4dias();
+                break;
+
+            case 5:
+                generarRutina5dias();
+                break;
+
+            case 6:
+                generarRutina6dias();
+                break;
+
+            default:
+                printf("Opcion invalida. Ingrese de nuevo el dia\n");
+                goto restart;
+
+                break;
+            }
+            break;
+        default:
+            limpiarPantalla();
+            printf("Opcion invalida\n");
+            goto reset;
+            break;
+        }
+
+        printf("Desea continuar? (s/n) ");
+        fflush(stdin);
+        scanf("%c",&decision);
+    }
+}
+
+
+
+
+/// ///////// DESARROLLO DEL CODIGO
 void exportarClientesCSV()
 {
     FILE * file = fopen(ARCHIVO_PLANES, "rb");
@@ -1073,6 +1204,7 @@ nodoArbol * insertar(nodoArbol * arbol, nodoArbol * nuevoNodo)
 }
 
 
+
 nodoArbol * buscarArbolCliente(nodoArbol * arbol, int dni)
 {
     nodoArbol * rta = NULL;
@@ -1258,94 +1390,6 @@ void abrirArchivo(const char *nombreArchivo)
     // Ejecutar el comando
     system(comando);
 }
-
-void controlCliente() /// ESTA ES UNA VERSION "PROTEGIDA" PARA EL PUBLICO
-{
-    valADAPlanes = archi2ADA(ADAPlanes, 10, ARCHIVO_PLANES);
-    char decision = 's';
-    while(tolower(decision) == 's')
-    {
-        marcoEsteticoSwitch("ACCIONES DE CLIENTE");
-reset:
-        mostrarLinea(40);
-        printf("1- Calcular IMC (indice de masa corporal)\n");
-        printf("2- Contar asistencia\n");
-        printf("3- Crear dieta\n");
-        printf("0- Salir\n");
-        mostrarLinea(40);
-
-        printf("Su decision: ");
-        fflush(stdin);
-        scanf(" %d", &op);
-
-        switch (op)
-        {
-        case 0:
-            return;
-            break;
-        case 1:
-            marcoEsteticoSwitch("CLIENTES > CALCULO DE IMC");
-            printf("El IMC es un calculo hecho por la OMS para determinar si una persona\ntiene bajo peso, peso normal, sobrepeso u obesidad,\npara calcularlo necesitamos el peso y la estatura de la persona\n");
-            mostrarLinea(50);
-
-            printf("Introduzca el peso(en kg): ");
-            scanf("%f", &peso);
-
-            printf("Ahora, la altura(en cm): ");
-            scanf("%f", &estatura);
-
-            IMC = calcularIMC(peso, estatura);
-
-            printf("Tu IMC es: %f, eso quiere decir: ", IMC);
-
-            if(IMC < 18.5)
-            {
-                printf("Bajo peso\n");
-            }
-            else if(IMC >= 18.5 && IMC < 25)
-            {
-                printf("Normal\n");
-            }
-            else if(IMC >= 25 && IMC < 30)
-            {
-                printf("Sobrepeso\n");
-            }
-            else if(IMC >= 30)
-            {
-                printf("Obesidad\n");
-            }
-
-            break;
-        case 2:
-            marcoEsteticoSwitch("MANEJO DE CLIENTES > CONTAR ASISTENCIA");
-            dniTmp = preguntarDNI();
-            nodoTmp1 = buscarDNIEnADA(ADAPlanes, valADAPlanes, dniTmp);
-            if(nodoTmp1)
-            {
-                contarAsistencia(ADAPlanes, valADAPlanes, dniTmp);
-            }
-            else
-            {
-                printf("El cliente no existe en el sistema.");
-            }
-            break;
-        case 3:
-            marcoEsteticoSwitch("MANEJO DE CLIENTES > CREAR DIETA");
-            crearDietaYExportar();
-            break;
-        default:
-            limpiarPantalla();
-            printf("Opcion invalida\n");
-            goto reset;
-            break;
-        }
-
-        printf("Desea continuar? (s/n) ");
-        fflush(stdin);
-        scanf("%c",&decision);
-    }
-}
-
 void generarRutina3dias()
 {
     srand(time(NULL));
