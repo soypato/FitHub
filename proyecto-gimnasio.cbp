@@ -63,6 +63,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="manejoEmpleado.h" />
+		<Unit filename="manejoInventario.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="manejoInventario.h" />
 		<Unit filename="tipoUsuario.c">
 			<Option compilerVar="CC" />
 		</Unit>
