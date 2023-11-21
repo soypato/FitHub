@@ -36,7 +36,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="controlAdmin.h" />
-		<Unit filename="controlCliente.h" />
 		<Unit filename="controlEmpleado.c">
 			<Option compilerVar="CC" />
 		</Unit>
