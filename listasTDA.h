@@ -37,6 +37,8 @@ nodoListaPagos * agregarNodoOrdenadoPorMonto(nodoListaPagos *lista, nodoListaPag
 nodoListaPagos * agregarNodoOrdenadoPorDNI(nodoListaPagos *lista, nodoListaPagos *nuevoNodo);
 
 /// PROTOTIPADOS MANEJODEPAGOS
+void cargarNuevoPago(nodoListaPagos **listaPagos);
+void liberarListaPagos(nodoListaPagos **listaPagos);
 void imprimirMenuPagosEmpleado();
 int mainPagosEmpleado();
 nodoListaPagos * crearNuevoPagoCliente();

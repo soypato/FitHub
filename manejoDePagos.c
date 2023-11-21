@@ -36,7 +36,6 @@ int mainPagosClientes()
     nodoListaPagos * lista = inicLista();
     int opcion;
     char decision = 's';
-    char continuar = 's';
     while (tolower(decision) == 's' || tolower(decision) == 'y')
     {
         // Cada vez que se ejecute el men� refrescamos los datos de archivos
@@ -48,33 +47,27 @@ int mainPagosClientes()
         switch(opcion)
         {
         case 1:
-            marcoEsteticoSwitch("MANEJO DE PAGOS > GENERAR FACTURA CLIENTE");
-            while(tolower(continuar) == 's' || tolower(continuar) == 'y')
-            {
-                nodoTmp = crearNuevoPagoCliente();
-                lista = agregarNodoInicio(lista, nodoTmp);
-
-                printf("Desea generar otra factura de pago? (s/n): ");
-                fflush(stdin);
-                scanf("%c", &continuar);
-            }
-            guardarFacturasEnArchivo(lista);
-            continuar = 's';
+            liberarListaPagos(&lista);
+            cargarNuevoPago(&lista);
             break;
         case 2:
             marcoEsteticoSwitch("MANEJO DE PAGOS > MOSTRAR TODAS LAS FACTURAS");
+            liberarListaPagos(&lista);
             mostrarFacturasDesdeArchivo();
             break;
         case 3:
             marcoEsteticoSwitch("MANEJO DE PAGOS > MOSTRAR FACTURAS POR MONTO");
+            liberarListaPagos(&lista);
             mostrarFacturasDesdeArchivoOrdenadasPorMonto();
             break;
         case 4:
             marcoEsteticoSwitch("MANEJO DE PAGOS > MOSTRAR FACTURAS POR DNI");
+            liberarListaPagos(&lista);
             mostrarFacturasDesdeArchivoOrdenadasPorDNI();
             break;
         case 5:
             marcoEsteticoSwitch("MANEJO DE PAGOS > MOSTRAR FACTURAS DADAS DE BAJA");
+            liberarListaPagos(&lista);
             mostrarFacturasDadasDeBaja();
             break;
         case 6:
@@ -83,10 +76,12 @@ int mainPagosClientes()
             break;
         case 7:
             marcoEsteticoSwitch("MANEJO DE PAGOS > REACTIVAR UNA FACTURA");
+            liberarListaPagos(&lista);
             reactivarFactura();
             break;
         case 8:
             marcoEsteticoSwitch("MANEJO DE PAGOS > EXPORTAR A EXCEL");
+            liberarListaPagos(&lista);
             exportarPagosCSV();
             break;
         case 0:
@@ -103,11 +98,44 @@ int mainPagosClientes()
     scanf("%c", &decision);
     limpiarPantalla();
     }
+    liberarListaPagos(&lista);
     return 0;
 }
 
 
 /// FUNCIONES
+
+void cargarNuevoPago(nodoListaPagos **listaPagos)
+{
+    char continuar = 's';
+    while (tolower(continuar) == 's' || tolower(continuar) == 'y')
+    {
+        marcoEsteticoSwitch("MANEJO DE PAGOS > INGRESAR PAGO");
+        nodoListaPagos *nuevoNodo = crearNuevoPagoCliente();  // Utiliza la función crearNuevoPagoCliente para obtener un nuevo nodo
+        *listaPagos = agregarNodoInicio(*listaPagos, nuevoNodo);
+
+        printf("Desea ingresar otro pago? (s/n): ");
+        fflush(stdin);
+        scanf("%c", &continuar);  // Corregido el formato para evitar problemas con el buffer
+        //limpiarPantalla();
+    }
+    guardarFacturasEnArchivo(*listaPagos);
+}
+
+void liberarListaPagos(nodoListaPagos **listaPagos)
+{
+    nodoListaPagos *actual = *listaPagos;
+    nodoListaPagos *siguiente;
+
+    while (actual != NULL)
+    {
+        siguiente = actual->siguiente;
+        free(actual);
+        actual = siguiente;
+    }
+
+    *listaPagos = NULL; // Asigna NULL al puntero de la lista para indicar que está vacía
+}
 
 void exportarPagosCSV()
 {

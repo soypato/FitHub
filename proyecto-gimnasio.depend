@@ -1,0 +1,691 @@
+# depslib dependency file v1.0
+1700536976 source:d:\juanm\descargas\fithub-main\controladmin.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manejoEmpleado.h"
+	"controlAdmin.h"
+	"const.h"
+	"tipoUsuario.h"
+
+1700569821 d:\juanm\descargas\fithub-main\manejoempleado.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+	"ducktime.h"
+	"manejoEmpleado.h"
+
+1700570115 d:\juanm\descargas\fithub-main\listastda.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+	"ducktime.h"
+
+1700536976 d:\juanm\descargas\fithub-main\manejodepagos.h
+	"listasTDA.h"
+	"ducktime.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+
+1700536976 d:\juanm\descargas\fithub-main\ducktime.h
+	<stdio.h>
+	<stdlib.h>
+
+1700536976 d:\juanm\descargas\fithub-main\manejodeclientes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manejoDeClientes.h"
+
+1700536976 d:\juanm\descargas\fithub-main\controladmin.h
+
+1700536976 d:\juanm\descargas\fithub-main\const.h
+
+1700536976 d:\juanm\descargas\fithub-main\tipousuario.h
+
+1700536976 source:d:\juanm\descargas\fithub-main\controlempleado.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manejoDeClientes.h"
+	"controlEmpleado.h"
+	"const.h"
+	"tipoUsuario.h"
+
+1700536976 d:\juanm\descargas\fithub-main\controlempleado.h
+
+1700536976 source:d:\juanm\descargas\fithub-main\ducktime.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ducktime.h"
+
+1700536976 source:d:\juanm\descargas\fithub-main\listastda.c
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<string.h>
+	<conio.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"ducktime.h"
+
+1700536976 source:d:\juanm\descargas\fithub-main\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"windows.h"
+	"const.h"
+	"manejoDeClientes.h"
+	"controlEmpleado.h"
+	"ducktime.h"
+	"tipoUsuario.h"
+	<conio.h>
+	<stdbool.h>
+	"manejoInventario.h"
+
+1700536976 d:\juanm\descargas\fithub-main\manejoinventario.h
+	<stdlib.h>
+	<stdio.h>
+
+1700536976 source:d:\juanm\descargas\fithub-main\manejodeclientes.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ducktime.h"
+	"manejoDeClientes.h"
+	"manejoDePagos.h"
+	"const.h"
+	"tipoUsuario.h"
+	<time.h>
+
+1700571390 source:d:\juanm\descargas\fithub-main\manejoempleado.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	"ducktime.h"
+	"manejoDeClientes.h"
+	"const.h"
+	"tipoUsuario.h"
+	"manejoEmpleado.h"
+
+1700536976 source:d:\juanm\descargas\fithub-main\manejoinventario.c
+	"manejoInventario.h"
+	<stdlib.h>
+	<stdio.h>
+
+1700536976 source:d:\juanm\descargas\fithub-main\tipousuario.c
+	<stdlib.h>
+	<stdio.h>
+
+1700570911 source:d:\juanm\descargas\fithub-main\manejodepagos.c
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<conio.h>
+	<string.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+	"ducktime.h"
+	"tipoUsuario.h"
+
+1700572350 source:d:\aa entrega\nueva\fithub-main\controladmin.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manejoEmpleado.h"
+	"controlAdmin.h"
+	"const.h"
+	"tipoUsuario.h"
+
+1700572350 d:\aa entrega\nueva\fithub-main\manejoempleado.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+	"ducktime.h"
+	"manejoEmpleado.h"
+
+1700572350 d:\aa entrega\nueva\fithub-main\listastda.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+	"ducktime.h"
+
+1700572350 d:\aa entrega\nueva\fithub-main\manejodepagos.h
+	"listasTDA.h"
+	"ducktime.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+
+1700572350 d:\aa entrega\nueva\fithub-main\ducktime.h
+	<stdio.h>
+	<stdlib.h>
+
+1700572350 d:\aa entrega\nueva\fithub-main\manejodeclientes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manejoDeClientes.h"
+
+1700572350 d:\aa entrega\nueva\fithub-main\controladmin.h
+
+1700572350 d:\aa entrega\nueva\fithub-main\const.h
+
+1700572350 d:\aa entrega\nueva\fithub-main\tipousuario.h
+
+1700572350 source:d:\aa entrega\nueva\fithub-main\controlempleado.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manejoDeClientes.h"
+	"controlEmpleado.h"
+	"const.h"
+	"tipoUsuario.h"
+
+1700572350 d:\aa entrega\nueva\fithub-main\controlempleado.h
+
+1700572350 source:d:\aa entrega\nueva\fithub-main\ducktime.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ducktime.h"
+
+1700572350 source:d:\aa entrega\nueva\fithub-main\listastda.c
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<string.h>
+	<conio.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"ducktime.h"
+
+1700572350 source:d:\aa entrega\nueva\fithub-main\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"windows.h"
+	"const.h"
+	"manejoDeClientes.h"
+	"controlEmpleado.h"
+	"ducktime.h"
+	"tipoUsuario.h"
+	<conio.h>
+	<stdbool.h>
+	"manejoInventario.h"
+
+1700572350 d:\aa entrega\nueva\fithub-main\manejoinventario.h
+	<stdlib.h>
+	<stdio.h>
+
+1700572350 source:d:\aa entrega\nueva\fithub-main\manejodeclientes.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ducktime.h"
+	"manejoDeClientes.h"
+	"manejoDePagos.h"
+	"const.h"
+	"tipoUsuario.h"
+	<time.h>
+
+1700572350 source:d:\aa entrega\nueva\fithub-main\manejodepagos.c
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<conio.h>
+	<string.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+	"ducktime.h"
+	"tipoUsuario.h"
+
+1700572350 source:d:\aa entrega\nueva\fithub-main\manejoempleado.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	"ducktime.h"
+	"manejoDeClientes.h"
+	"const.h"
+	"tipoUsuario.h"
+	"manejoEmpleado.h"
+
+1700572350 source:d:\aa entrega\nueva\fithub-main\manejoinventario.c
+	"manejoInventario.h"
+	<stdlib.h>
+	<stdio.h>
+
+1700572350 source:d:\aa entrega\nueva\fithub-main\tipousuario.c
+	<stdlib.h>
+	<stdio.h>
+
+1700572350 source:d:\aa entrega\nueva - copia\fithub-main\controladmin.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manejoEmpleado.h"
+	"controlAdmin.h"
+	"const.h"
+	"tipoUsuario.h"
+
+1700572350 d:\aa entrega\nueva - copia\fithub-main\manejoempleado.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+	"ducktime.h"
+	"manejoEmpleado.h"
+
+1700572350 d:\aa entrega\nueva - copia\fithub-main\listastda.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+	"ducktime.h"
+
+1700572350 d:\aa entrega\nueva - copia\fithub-main\manejodepagos.h
+	"listasTDA.h"
+	"ducktime.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+
+1700572350 d:\aa entrega\nueva - copia\fithub-main\ducktime.h
+	<stdio.h>
+	<stdlib.h>
+
+1700572350 d:\aa entrega\nueva - copia\fithub-main\manejodeclientes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manejoDeClientes.h"
+
+1700572350 d:\aa entrega\nueva - copia\fithub-main\controladmin.h
+
+1700572350 d:\aa entrega\nueva - copia\fithub-main\const.h
+
+1700572350 d:\aa entrega\nueva - copia\fithub-main\tipousuario.h
+
+1700572350 source:d:\aa entrega\nueva - copia\fithub-main\controlempleado.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manejoDeClientes.h"
+	"controlEmpleado.h"
+	"const.h"
+	"tipoUsuario.h"
+
+1700572350 d:\aa entrega\nueva - copia\fithub-main\controlempleado.h
+
+1700572350 source:d:\aa entrega\nueva - copia\fithub-main\ducktime.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ducktime.h"
+
+1700572350 source:d:\aa entrega\nueva - copia\fithub-main\listastda.c
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<string.h>
+	<conio.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"ducktime.h"
+
+1700572350 source:d:\aa entrega\nueva - copia\fithub-main\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"windows.h"
+	"const.h"
+	"manejoDeClientes.h"
+	"controlEmpleado.h"
+	"ducktime.h"
+	"tipoUsuario.h"
+	<conio.h>
+	<stdbool.h>
+	"manejoInventario.h"
+
+1700572350 d:\aa entrega\nueva - copia\fithub-main\manejoinventario.h
+	<stdlib.h>
+	<stdio.h>
+
+1700572350 source:d:\aa entrega\nueva - copia\fithub-main\manejodeclientes.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ducktime.h"
+	"manejoDeClientes.h"
+	"manejoDePagos.h"
+	"const.h"
+	"tipoUsuario.h"
+	<time.h>
+
+1700572350 source:d:\aa entrega\nueva - copia\fithub-main\manejodepagos.c
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<conio.h>
+	<string.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+	"ducktime.h"
+	"tipoUsuario.h"
+
+1700572350 source:d:\aa entrega\nueva - copia\fithub-main\manejoempleado.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	"ducktime.h"
+	"manejoDeClientes.h"
+	"const.h"
+	"tipoUsuario.h"
+	"manejoEmpleado.h"
+
+1700572350 source:d:\aa entrega\nueva - copia\fithub-main\manejoinventario.c
+	"manejoInventario.h"
+	<stdlib.h>
+	<stdio.h>
+
+1700572350 source:d:\aa entrega\nueva - copia\fithub-main\tipousuario.c
+	<stdlib.h>
+	<stdio.h>
+
+1700572350 source:d:\aa entrega\fithub - version stable final\fithub-main\controladmin.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manejoEmpleado.h"
+	"controlAdmin.h"
+	"const.h"
+	"tipoUsuario.h"
+
+1700572350 d:\aa entrega\fithub - version stable final\fithub-main\manejoempleado.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+	"ducktime.h"
+	"manejoEmpleado.h"
+
+1700572350 d:\aa entrega\fithub - version stable final\fithub-main\listastda.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+	"ducktime.h"
+
+1700572350 d:\aa entrega\fithub - version stable final\fithub-main\manejodepagos.h
+	"listasTDA.h"
+	"ducktime.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+
+1700572350 d:\aa entrega\fithub - version stable final\fithub-main\ducktime.h
+	<stdio.h>
+	<stdlib.h>
+
+1700572350 d:\aa entrega\fithub - version stable final\fithub-main\manejodeclientes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manejoDeClientes.h"
+
+1700572350 d:\aa entrega\fithub - version stable final\fithub-main\controladmin.h
+
+1700572350 d:\aa entrega\fithub - version stable final\fithub-main\const.h
+
+1700572350 d:\aa entrega\fithub - version stable final\fithub-main\tipousuario.h
+
+1700572350 source:d:\aa entrega\fithub - version stable final\fithub-main\controlempleado.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manejoDeClientes.h"
+	"controlEmpleado.h"
+	"const.h"
+	"tipoUsuario.h"
+
+1700572350 d:\aa entrega\fithub - version stable final\fithub-main\controlempleado.h
+
+1700572350 source:d:\aa entrega\fithub - version stable final\fithub-main\ducktime.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ducktime.h"
+
+1700572350 source:d:\aa entrega\fithub - version stable final\fithub-main\listastda.c
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<string.h>
+	<conio.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"ducktime.h"
+
+1700572350 source:d:\aa entrega\fithub - version stable final\fithub-main\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"windows.h"
+	"const.h"
+	"manejoDeClientes.h"
+	"controlEmpleado.h"
+	"ducktime.h"
+	"tipoUsuario.h"
+	<conio.h>
+	<stdbool.h>
+	"manejoInventario.h"
+
+1700572350 d:\aa entrega\fithub - version stable final\fithub-main\manejoinventario.h
+	<stdlib.h>
+	<stdio.h>
+
+1700572350 source:d:\aa entrega\fithub - version stable final\fithub-main\manejodeclientes.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ducktime.h"
+	"manejoDeClientes.h"
+	"manejoDePagos.h"
+	"const.h"
+	"tipoUsuario.h"
+	<time.h>
+
+1700572350 source:d:\aa entrega\fithub - version stable final\fithub-main\manejodepagos.c
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<conio.h>
+	<string.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+	"ducktime.h"
+	"tipoUsuario.h"
+
+1700572350 source:d:\aa entrega\fithub - version stable final\fithub-main\manejoempleado.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	"ducktime.h"
+	"manejoDeClientes.h"
+	"const.h"
+	"tipoUsuario.h"
+	"manejoEmpleado.h"
+
+1700572350 source:d:\aa entrega\fithub - version stable final\fithub-main\manejoinventario.c
+	"manejoInventario.h"
+	<stdlib.h>
+	<stdio.h>
+
+1700572350 source:d:\aa entrega\fithub - version stable final\fithub-main\tipousuario.c
+	<stdlib.h>
+	<stdio.h>
+
+1700572350 source:e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\controladmin.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manejoEmpleado.h"
+	"controlAdmin.h"
+	"const.h"
+	"tipoUsuario.h"
+
+1700572350 e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\manejoempleado.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+	"ducktime.h"
+	"manejoEmpleado.h"
+
+1700572350 e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\listastda.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+	"ducktime.h"
+
+1700572350 e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\manejodepagos.h
+	"listasTDA.h"
+	"ducktime.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+
+1700572350 e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\ducktime.h
+	<stdio.h>
+	<stdlib.h>
+
+1700572350 e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\manejodeclientes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manejoDeClientes.h"
+
+1700572350 e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\controladmin.h
+
+1700572350 e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\const.h
+
+1700572350 e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\tipousuario.h
+
+1700572350 source:e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\controlempleado.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"manejoDeClientes.h"
+	"controlEmpleado.h"
+	"const.h"
+	"tipoUsuario.h"
+
+1700572350 e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\controlempleado.h
+
+1700572350 source:e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\ducktime.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ducktime.h"
+
+1700572350 source:e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\listastda.c
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<string.h>
+	<conio.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"ducktime.h"
+
+1700572350 source:e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"windows.h"
+	"const.h"
+	"manejoDeClientes.h"
+	"controlEmpleado.h"
+	"ducktime.h"
+	"tipoUsuario.h"
+	<conio.h>
+	<stdbool.h>
+	"manejoInventario.h"
+
+1700572350 e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\manejoinventario.h
+	<stdlib.h>
+	<stdio.h>
+
+1700572350 source:e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\manejodepagos.c
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<conio.h>
+	<string.h>
+	"listasTDA.h"
+	"manejoDePagos.h"
+	"manejoDeClientes.h"
+	"ducktime.h"
+	"tipoUsuario.h"
+
+1700572350 source:e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\manejoempleado.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	"ducktime.h"
+	"manejoDeClientes.h"
+	"const.h"
+	"tipoUsuario.h"
+	"manejoEmpleado.h"
+
+1700572350 source:e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\manejoinventario.c
+	"manejoInventario.h"
+	<stdlib.h>
+	<stdio.h>
+
+1700572350 source:e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\tipousuario.c
+	<stdlib.h>
+	<stdio.h>
+
+1700588158 source:e:\aa entrega\.new acuÑa ciardi guerci tubio - fithub\fithub-main\manejodeclientes.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ducktime.h"
+	"manejoDeClientes.h"
+	"manejoDePagos.h"
+	"const.h"
+	"tipoUsuario.h"
+	<time.h>
+

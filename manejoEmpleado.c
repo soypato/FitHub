@@ -31,9 +31,8 @@ void imprimirMenuManejoEmpleados()
 int mainEmpleados()
 {
     limpiarPantalla();
-    nodoListaEmpleados * nodoTmp = inicListaEmpleados();
-    nodoListaPagos * lista = inicListaEmpleados();
     int opcion;
+    nodoListaEmpleados *listaEmpleados = inicListaEmpleados();
     char decision = 's';
     char continuar = 's';
     while (tolower(decision) == 's' || tolower(decision) == 'y')
@@ -47,19 +46,8 @@ int mainEmpleados()
         switch(opcion)
         {
         case 1:
-            while(tolower(continuar) == 's' || tolower(continuar) == 'y')
-            {
-                marcoEsteticoSwitch("MANEJO DE EMPLEADOS > INGRESAR EMPLEADO");
-                nodoTmp = crearNuevoEmpleado(nodoTmp);
-                lista = agregarNodoInicioEmpleado(lista, nodoTmp);
-
-                printf("Desea ingresar otro empleado? (s/n): ");
-                fflush(stdin);
-                scanf("%c", &continuar);
-                limpiarPantalla();
-            }
-            guardarEmpleadosEnArchivo(lista);
-            continuar = 's';
+            liberarListaEmpleados(&listaEmpleados);
+            cargarNuevoEmpleado(&listaEmpleados);
             break;
         case 2:
             marcoEsteticoSwitch("MANEJO DE EMPLEADOS > MOSTRAR TODOS LOS EMPLEADOS");
@@ -281,6 +269,38 @@ nodoListaEmpleados *agregarNodoOrdenadoPorEdadEmpleado(nodoListaEmpleados *lista
 /// FIN FUNCIONES TDA stEMPLEADOS ///
 
 /// FUNCIONES MANEJO DE EMPLEADOS ///
+
+void liberarListaEmpleados(nodoListaEmpleados **lista)
+{
+    nodoListaEmpleados *actual = *lista;
+    nodoListaEmpleados *siguiente;
+
+    while (actual != NULL)
+    {
+        siguiente = actual->siguiente;
+        free(actual);
+        actual = siguiente;
+    }
+
+    *lista = NULL; // Asigna NULL al puntero de la lista para indicar que está vacía
+}
+
+void cargarNuevoEmpleado(nodoListaEmpleados **lista)
+{
+    char decision = 's';
+    while (tolower(decision) == 's' || tolower(decision) == 'y')
+    {
+        marcoEsteticoSwitch("MANEJO DE EMPLEADOS > INGRESAR EMPLEADO");
+        nodoListaEmpleados *nuevoNodo = crearNuevoEmpleado();
+        *lista = agregarNodoInicioEmpleado(*lista, nuevoNodo);
+
+        printf("Desea ingresar otro empleado? (s/n): ");
+        fflush(stdin);
+        scanf("%c", &decision);
+        limpiarPantalla();
+    }
+    guardarEmpleadosEnArchivo(*lista);
+}
 
 nodoListaEmpleados * crearNuevoEmpleado()
 {
