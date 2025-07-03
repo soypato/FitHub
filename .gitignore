@@ -1,8 +1,27 @@
-# Ignorar las carpetas generadas por compilaciones y construcciones
+# Archivos y carpetas de compilación
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.so
+*.dll
+*.lib
 bin/
 obj/
 
-# Ignorar archivos y carpetas del sistema
+# Archivos de persistencia
+*.dat
+*.csv
+
+# Archivos temporales y de respaldo
+*.swp
+*.tmp
+*.log
+*.bak
+*.old
+
+# Archivos y carpetas del sistema
 .DS_Store
 Thumbs.db
 ehthumbs.db
@@ -10,12 +29,10 @@ Desktop.ini
 $RECYCLE.BIN/
 System Volume Information/
 
-# Ignorar archivos y carpetas específicos de Code::Blocks
-*.layout
+# Configuraciones locales
+.vscode/
+
+# Archivos de Code::Blocks
+*.cbp
 *.depend
-*.layout
-*.depend
-*.layout
-*.layout
-*.layout
 *.layout
